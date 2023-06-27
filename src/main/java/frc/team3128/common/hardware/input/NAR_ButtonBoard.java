@@ -4,7 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
- *  Wrapper for the WPILib Joystick class. Works with device that can be recognized as joystick as driverstation.
+ * Wrapper for the WPILib Joystick class. Works with device that can be recognized as joystick as driverstation.
+ * @since 2023 Charged Up
  * @author Peter Ma, Arav Chadha
  */
 public class NAR_ButtonBoard {

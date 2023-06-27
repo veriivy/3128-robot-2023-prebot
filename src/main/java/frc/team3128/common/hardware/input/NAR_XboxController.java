@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 /**
  * Wrapper for the WPILib XboxController class. 
  * To adjust for specific controller, change array for button names.
+ * @since 2022 Rapid React
  * @author Arav Chadha
  */
 

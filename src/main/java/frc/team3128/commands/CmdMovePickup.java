@@ -11,6 +11,7 @@ import frc.team3128.Constants.FieldConstants;
 import frc.team3128.Constants.SwerveConstants;
 import frc.team3128.Constants.VisionConstants;
 
+@Deprecated
 public class CmdMovePickup extends CmdMove {
 
     public Pose2d position;

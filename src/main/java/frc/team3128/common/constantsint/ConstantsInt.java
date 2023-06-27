@@ -6,13 +6,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3128.Constants;
-import frc.team3128.Constants.ConversionConstants;
-import frc.team3128.Constants.SwerveConstants;
-import frc.team3128.Constants.VisionConstants;
 import frc.team3128.common.utility.Log;
 
+@Deprecated
 public class ConstantsInt extends Constants {
 
     public static HashMap<String, Class<?>> categories;

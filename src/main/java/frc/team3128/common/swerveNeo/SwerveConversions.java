@@ -1,5 +1,10 @@
 package frc.team3128.common.swerveNeo;
 
+/**
+ * Team 3128's conversion class for Swerve
+ * @since 2022 Rapid React
+ * @author Mika Okamoto, Mason Lam
+ */
 public class SwerveConversions {
     
     /**
