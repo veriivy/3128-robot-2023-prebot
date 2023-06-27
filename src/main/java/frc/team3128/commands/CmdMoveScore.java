@@ -12,6 +12,7 @@ import frc.team3128.Constants.SwerveConstants;
 import frc.team3128.Constants.VisionConstants;
 import frc.team3128.subsystems.Vision;
 
+@Deprecated
 public class CmdMoveScore extends CmdMove {
 
     private double PASS_LINE;
