@@ -4,10 +4,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3128.common.utility.NAR_Shuffleboard;
@@ -24,6 +22,7 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     private DoubleFunction<Double> kG_Function;
     private BooleanSupplier debug;
     private DoubleSupplier setpoint;
+    private double min, max;
 
     /**
      * Creates a new PIDSubsystem.
@@ -38,6 +37,8 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
         m_controller = controller;
         initShuffleboard(kS, kV, kG);
         this.kG_Function = kG_Function;
+        min = Double.NEGATIVE_INFINITY;
+        max = Double.POSITIVE_INFINITY;
     }
 
     /**
@@ -105,7 +106,7 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
      */
     public void startPID(double setpoint) {
         enable();
-        m_controller.setSetpoint(debug.getAsBoolean() ? this.setpoint.getAsDouble() : setpoint);
+        m_controller.setSetpoint(MathUtil.clamp(debug.getAsBoolean() ? this.setpoint.getAsDouble() : setpoint, min, max));
     }
 
     /**
@@ -160,5 +161,15 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
      */
     public boolean isEnabled() {
         return m_enabled;
+    }
+
+    /**
+     * Sets constraints for the setpoint of the PID subsystem.
+     * @param min The minimum setpoint for the subsystem
+     * @param max The maximum setpoint for the subsystem
+     */
+    public void setConstraints(double min, double max) {
+        this.min = min;
+        this.max = max;
     }
 }

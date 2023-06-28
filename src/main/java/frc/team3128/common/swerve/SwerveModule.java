@@ -8,11 +8,9 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.team3128.common.hardware.motorcontroller.NAR_TalonFX;
 import frc.team3128.subsystems.Swerve;
 
-import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
 import static frc.team3128.Constants.SwerveConstants.*;
@@ -130,12 +128,6 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         double position = falconToMeters(driveMotor.getSelectedSensorPosition(), wheelCircumference, driveGearRatio);
-        if (driveMotor.getLastError().value == -3 && moduleNumber == 1) {
-            Swerve.error = true;
-        }
-        // if (moduleNumber == 1) 
-        //     System.out.println(position);
-        // System.out.println(driveMotor.getLastError().value);
         Rotation2d angle = getAngle();
         return new SwerveModulePosition(position, angle);
     }
