@@ -504,6 +504,33 @@ public class Constants {
         
     }
 
+    public static class WristConstants {
+
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+
+        public static final double kS = 0;
+        public static final double kV = 0;
+        public static final double kG = 0;
+
+        public static final double GEAR_RATIO = 0.0;
+
+        public static final double ROTATION_TO_DEGREES = 360;
+        public static final double ANGLE_OFFSET = 0; 
+
+        public static final int ENCODER_DIO_ID = 8;
+
+        public static final double VELOCITY_SETPOINT = 0.5;
+        public static final double INTAKE_TOLERANCE = 7.5;
+
+        //Motor ID
+        public static final int PIVOT_ID = 0;
+
+        //Sensor IDs
+        
+    }
+
     public static class ManipulatorConstants{
         public static final int ROLLER_MOTOR_ID = 13;
         public static final double ROLLER_POWER = 0.6;
