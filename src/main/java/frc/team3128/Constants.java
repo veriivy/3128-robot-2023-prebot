@@ -521,11 +521,14 @@ public class Constants {
 
         public static final int ENCODER_DIO_ID = 8;
 
+        public static final int MIN_ANGLE = 0;
+        public static final int MAX_ANGLE = 0;
+
         public static final double VELOCITY_SETPOINT = 0.5;
         public static final double INTAKE_TOLERANCE = 7.5;
 
         //Motor ID
-        public static final int PIVOT_ID = 0;
+        public static final int WRIST_ID = 0;
 
         //Sensor IDs
         

@@ -70,9 +70,10 @@ public class Manipulator extends SubsystemBase {
         return Math.abs(getCurrent()) > ABSOLUTE_THRESHOLD;
     }
 
-    public void intake() {
+    public void intake(boolean cone) {
         outtaking = false;
-        if (CONE) reverse();
+        CONE = cone;
+        if (cone) reverse();
         else forward();
     }    
 
