@@ -1,9 +1,12 @@
 package frc.team3128.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.team3128.RobotContainer;
 import frc.team3128.common.hardware.input.NAR_XboxController;
 import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
@@ -21,16 +24,23 @@ public class CmdManager {
 
     private CmdManager() {}
 
-    public static CommandBase CMDWrist() {
-        return new InstantCommand(()-> wrist.);
+    public static CommandBase CmdWrist(double setpoint) {
+        return Commands.sequence(
+            new InstantCommand(()-> wrist.startPID(setpoint), wrist),
+            new WaitUntilCommand(()-> wrist.atSetpoint())
+        );
     }
 
-    public static CommandBase ManipIntake(Boolean cone) {
-        return new InstantCommand(()-> manipulator.intake(cone));
+    public static CommandBase CmdManipIntake(Boolean cone) {
+        return new InstantCommand(()-> manipulator.intake(cone), manipulator);
     }
 
-    public static CommandBase ManipOuttake() {
-        return new InstantCommand(()-> manipulator.outtake());
+    public static CommandBase CmdManipOuttake() {
+        return new InstantCommand(()-> manipulator.outtake(), manipulator);
+    }
+
+    public static CommandBase CmdStopManip() {
+        return new InstantCommand(()-> manipulator.stopRoller(), manipulator);
     }
 
     public static CommandBase vibrateController() {
