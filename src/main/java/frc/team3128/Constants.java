@@ -507,12 +507,23 @@ public class Constants {
     public static class ManipulatorConstants{
         public static final int ROLLER_MOTOR_ID = 13;
         public static final double ROLLER_POWER = 0.6;
+        public static final double SHOOT_POWER = 1; //tbd
         public static final double STALL_POWER = 0.25;
 
         public static final double CURRENT_THRESHOLD = 5;
         public static final double ABSOLUTE_THRESHOLD = 20;
 
         public static final double ROLLER_VOLTAGE = 8;
+    }
+
+    public static class WristConstants{
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+
+        public static final int WRIST_MOTOR_ID = 0;
+        public static final int WRIST_CURRENT_LIMIT = 40;
+        public static final int ENC_DIO_ID = 0;
     }
 
     public static class BalanceConstants{
