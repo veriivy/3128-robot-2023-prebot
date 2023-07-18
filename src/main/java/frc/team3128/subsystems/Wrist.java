@@ -1,8 +1,8 @@
 package frc.team3128.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.team3128.common.hardware.motorcontroller.NAR_CANSparkMax;
 
 import static frc.team3128.Constants.WristConstants.*;
@@ -10,7 +10,7 @@ import static frc.team3128.Constants.WristConstants.*;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class Wrist extends PIDSubsystem {
+public class Wrist extends NAR_PIDSubsystem {
 
     private static Wrist instance;
     private NAR_CANSparkMax m_rotate;
@@ -18,6 +18,7 @@ public class Wrist extends PIDSubsystem {
 
 	private Wrist() {
         super(new PIDController(kP, kI, kD));
+        getController().enableContinuousInput(-180, 180);
     }
 
     public static synchronized Wrist getInstance() {
@@ -31,7 +32,6 @@ public class Wrist extends PIDSubsystem {
         m_rotate = new NAR_CANSparkMax(WRIST_MOTOR_ID);
         m_rotate.setSmartCurrentLimit(WRIST_CURRENT_LIMIT);
         m_rotate.setInverted(false);
-        m_rotate.enableVoltageCompensation(12.0);
         m_rotate.setIdleMode(IdleMode.kBrake);
     }
 
@@ -41,14 +41,12 @@ public class Wrist extends PIDSubsystem {
     
 	@Override
 	protected void useOutput(double output, double setpoint) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'useOutput'");
+		
 	}
 
 	@Override
 	protected double getMeasurement() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getMeasurement'");
+        return MathUtil.inputModulus(m_encoder.get() * 360 - ANGLE_OFFSET, -180, 180);
 	}
     
 }

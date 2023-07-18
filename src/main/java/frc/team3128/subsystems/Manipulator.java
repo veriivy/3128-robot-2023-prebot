@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3128.common.hardware.motorcontroller.NAR_TalonSRX;
 import static frc.team3128.Constants.ManipulatorConstants.*;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class Manipulator extends SubsystemBase {
@@ -34,6 +35,7 @@ public class Manipulator extends SubsystemBase {
     public void configMotor() {
         m_roller = new NAR_TalonSRX(ROLLER_MOTOR_ID);
         m_roller.setNeutralMode(NeutralMode.Brake);
+        m_roller.setInverted(false);
     }
 
     public void intake() {
