@@ -31,26 +31,13 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
      * @param kS The static gain.
      * @param kV The velocity gain.
      * @param kG The gravity gain.
-     * @param kG_Function function in which kG is passed through
-     */
-    public NAR_PIDSubsystem(PIDController controller, double kS, double kV, double kG, DoubleFunction<Double> kG_Function) {
-        m_controller = controller;
-        initShuffleboard(kS, kV, kG);
-        this.kG_Function = kG_Function;
-        min = Double.NEGATIVE_INFINITY;
-        max = Double.POSITIVE_INFINITY;
-    }
-
-    /**
-     * Creates a new PIDSubsystem.
-     *
-     * @param controller the PIDController to use
-     * @param kS The static gain.
-     * @param kV The velocity gain.
-     * @param kG The gravity gain.
      */
     public NAR_PIDSubsystem(PIDController controller, double kS, double kV, double kG) {
-        this(controller, kS, kG, kV, KG -> KG);
+        m_controller = controller;
+        this.kG_Function = KG -> KG;
+        initShuffleboard(kS, kV, kG);
+        min = Double.NEGATIVE_INFINITY;
+        max = Double.POSITIVE_INFINITY;
     }
 
     /**
@@ -97,6 +84,16 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
      */
     public PIDController getController() {
         return m_controller;
+    }
+
+    /**
+     * Sets constraints for the setpoint of the PID subsystem.
+     * @param min The minimum setpoint for the subsystem
+     * @param max The maximum setpoint for the subsystem
+     */
+    public void setConstraints(double min, double max) {
+        this.min = min;
+        this.max = max;
     }
 
     /**
@@ -161,15 +158,5 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
      */
     public boolean isEnabled() {
         return m_enabled;
-    }
-
-    /**
-     * Sets constraints for the setpoint of the PID subsystem.
-     * @param min The minimum setpoint for the subsystem
-     * @param max The maximum setpoint for the subsystem
-     */
-    public void setConstraints(double min, double max) {
-        this.min = min;
-        this.max = max;
     }
 }
