@@ -11,7 +11,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,25 +22,19 @@ import frc.team3128.common.utility.NAR_Shuffleboard;
 import static frc.team3128.Constants.SwerveConstants.*;
 import static frc.team3128.Constants.VisionConstants.*;
 
-import java.io.FileWriter;
-
 public class Swerve extends SubsystemBase {
 
-    private volatile FileWriter txtFile;
-    public static double throttle = 0.8;
-    private String poseLogger = "";
-    public static boolean error = false;
-    private Pose2d prevPose;
-    private double prevTime = 0; 
-    public SwerveDrivePoseEstimator odometry;
-    public SwerveModule[] modules;
-    public WPI_Pigeon2 gyro;
+    private static Swerve instance;
+
+    private SwerveDrivePoseEstimator odometry;
+    private SwerveModule[] modules;
+    private WPI_Pigeon2 gyro;
     private Pose2d estimatedPose;
 
-    private static Swerve instance;
-    public boolean fieldRelative;
-
     private Field2d field;
+
+    public boolean fieldRelative;
+    public double throttle = 0.8;
 
     public static synchronized Swerve getInstance() {
         if (instance == null) {
@@ -53,15 +46,8 @@ public class Swerve extends SubsystemBase {
     public Swerve() {
         gyro = new WPI_Pigeon2(pigeonID);
         gyro.configFactoryDefault();
-        //zeroGyro();
         fieldRelative = true;
         estimatedPose = new Pose2d();
-
-        // try {
-        //     txtFile = new FileWriter(new File(Filesystem.getDeployDirectory(),"pose.txt"));
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
 
         modules = new SwerveModule[] {
             new SwerveModule(0, Mod0.constants),
@@ -163,13 +149,8 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // error = false;
         odometry.update(getGyroRotation2d(), getPositions());
-        // if(error) {
-        //     resetOdometry(new Pose2d(estimatedPose.getTranslation(), getGyroRotation2d()));
-        // }
         estimatedPose = odometry.getEstimatedPosition();
-        logPose();
         for (SwerveModule module : modules) {
             SmartDashboard.putNumber("module " + module.moduleNumber, module.getCanCoder().getDegrees());
         }
@@ -183,24 +164,6 @@ public class Swerve extends SubsystemBase {
     //DON't USE RELIES ON APRIL TAG BAD ANGLE MEASUREMENT
     public Rotation2d getRotation2d() {
         return estimatedPose.getRotation();
-    }
-
-    public void logPose() {
-        double currTime = Math.floor(Timer.getFPGATimestamp());
-        if (prevTime + 1 <= currTime && DriverStation.isEnabled()) {
-            poseLogger += estimatedPose.getX() + "," + estimatedPose.getY() + "," + estimatedPose.getRotation().getDegrees() + "," + currTime + "]";
-            // try {
-            //     txtFile.write(estimatedPose.getX() + "," + estimatedPose.getY() + "," + estimatedPose.getRotation().getDegrees() + "," + currTime + "\n");
-            // } catch (Exception e) {
-            //     e.printStackTrace();
-            // }
-            // try {
-            //     txtFile.flush();
-            // } catch (IOException e) {}
-            
-            prevTime = currTime;
-            NAR_Shuffleboard.addData("Logger","Positions",poseLogger,0,0);
-        }
     }
 
     public void xlock() {

@@ -13,6 +13,7 @@ import frc.team3128.Constants.VisionConstants;
 import frc.team3128.subsystems.Vision;
 
 //Can't be bothered with this mess - Mason
+@Deprecated
 public class CmdMoveLoading extends CmdMove {
 
     public Pose2d[][] positions;
