@@ -89,8 +89,8 @@ public abstract class NAR_ProfiledPIDSubsystem extends SubsystemBase {
     }
 
     /**
-     * Sets constraints for the setpoint of the PID subsystem.
-     * @param kG_Function the function applied to kG
+     * Sets the function returning the value multiplied against kG
+     * @param kG_Function the function multiplied to kG
      */
     public void setkG_Function(DoubleSupplier kG_Function) {
         this.kG_Function = kG_Function;
