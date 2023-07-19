@@ -19,7 +19,7 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     protected final PIDController m_controller;
     protected boolean m_enabled;
     private DoubleSupplier kS, kV, kG;
-    private DoubleFunction<Double> kG_Function;
+    private DoubleSupplier kG_Function;
     private BooleanSupplier debug;
     private DoubleSupplier setpoint;
     private double min, max;
@@ -34,7 +34,7 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
      */
     public NAR_PIDSubsystem(PIDController controller, double kS, double kV, double kG) {
         m_controller = controller;
-        this.kG_Function = KG -> KG;
+        this.kG_Function = () -> 1;
         initShuffleboard(kS, kV, kG);
         min = Double.NEGATIVE_INFINITY;
         max = Double.POSITIVE_INFINITY;
@@ -55,7 +55,7 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
             double output = m_controller.calculate(getMeasurement());
             output += Math.copySign(kS.getAsDouble(), output);
             output += kV.getAsDouble() * getSetpoint();
-            output += kG_Function.apply(kG.getAsDouble());
+            output += kG_Function.getAsDouble() * kG.getAsDouble();
             useOutput(output, getSetpoint());
         }
     }
@@ -94,6 +94,14 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     public void setConstraints(double min, double max) {
         this.min = min;
         this.max = max;
+    }
+
+    /**
+     * Sets the function returning the value multiplied against kG
+     * @param kG_Function the function multiplied to kG
+     */
+    public void setkG_Function(DoubleSupplier kG_Function) {
+        this.kG_Function = kG_Function;
     }
 
     /**
