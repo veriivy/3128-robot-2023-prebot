@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,21 +22,7 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     private DoubleFunction<Double> kG_Function;
     private BooleanSupplier debug;
     private DoubleSupplier setpoint;
-
-    /**
-     * Creates a new PIDSubsystem.
-     *
-     * @param controller the PIDController to use
-     * @param kS The static gain.
-     * @param kV The velocity gain.
-     * @param kG The gravity gain.
-     * @param kG_Function function in which kG is passed through
-     */
-    public NAR_PIDSubsystem(PIDController controller, double kS, double kV, double kG, DoubleFunction<Double> kG_Function) {
-        m_controller = controller;
-        initShuffleboard(kS, kV, kG);
-        this.kG_Function = kG_Function;
-    }
+    private double min, max;
 
     /**
      * Creates a new PIDSubsystem.
@@ -46,7 +33,11 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
      * @param kG The gravity gain.
      */
     public NAR_PIDSubsystem(PIDController controller, double kS, double kV, double kG) {
-        this(controller, kS, kG, kV, KG -> KG);
+        m_controller = controller;
+        this.kG_Function = KG -> KG;
+        initShuffleboard(kS, kV, kG);
+        min = Double.NEGATIVE_INFINITY;
+        max = Double.POSITIVE_INFINITY;
     }
 
     /**
@@ -96,13 +87,23 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     }
 
     /**
+     * Sets constraints for the setpoint of the PID subsystem.
+     * @param min The minimum setpoint for the subsystem
+     * @param max The maximum setpoint for the subsystem
+     */
+    public void setConstraints(double min, double max) {
+        this.min = min;
+        this.max = max;
+    }
+
+    /**
      * Sets the setpoint for the subsystem.
      *
      * @param setpoint the setpoint for the subsystem
      */
     public void startPID(double setpoint) {
         enable();
-        m_controller.setSetpoint(debug.getAsBoolean() ? this.setpoint.getAsDouble() : setpoint);
+        m_controller.setSetpoint(MathUtil.clamp(debug.getAsBoolean() ? this.setpoint.getAsDouble() : setpoint, min, max));
     }
 
     /**

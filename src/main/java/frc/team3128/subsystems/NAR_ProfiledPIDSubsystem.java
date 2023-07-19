@@ -1,13 +1,13 @@
 package frc.team3128.subsystems;
 
-import static edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3128.common.utility.NAR_Shuffleboard;
@@ -21,24 +21,10 @@ public abstract class NAR_ProfiledPIDSubsystem extends SubsystemBase {
     protected final ProfiledPIDController m_controller;
     protected boolean m_enabled;
     private DoubleSupplier kS, kV, kG;
-    private DoubleFunction<Double> kG_Function;
+    private DoubleSupplier kG_Function;
     private BooleanSupplier debug;
     private DoubleSupplier setpoint;
-
-    /**
-     * Creates a new ProfiledPIDSubsystem.
-     *
-     * @param controller the ProfiledPIDController to use
-     * @param kS The static gain.
-     * @param kV The velocity gain.
-     * @param kG The gravity gain.
-     * @param kG_Function function in which kG is passed through
-     */
-    public NAR_ProfiledPIDSubsystem(ProfiledPIDController controller, double kS, double kV, double kG, DoubleFunction<Double> kG_Function) {
-        m_controller = controller;
-        this.kG_Function = kG_Function;
-        initShuffleboard(kS, kV, kG);
-    }
+    private double min, max;
 
     /**
      * Creates a new ProfiledPIDSubsystem.
@@ -49,7 +35,11 @@ public abstract class NAR_ProfiledPIDSubsystem extends SubsystemBase {
      * @param kG The gravity gain.
      */
     public NAR_ProfiledPIDSubsystem(ProfiledPIDController controller, double kS, double kV, double kG) {
-        this(controller, kS, kV, kG, KG -> KG);
+        m_controller = controller;
+        this.kG_Function = () -> 1;
+        initShuffleboard(kS, kV, kG);
+        min = Double.NEGATIVE_INFINITY;
+        max = Double.POSITIVE_INFINITY;
     }
 
     /**
@@ -67,7 +57,7 @@ public abstract class NAR_ProfiledPIDSubsystem extends SubsystemBase {
           double output = m_controller.calculate(getMeasurement());
           output += kS.getAsDouble() * Math.signum(getSetpoint().velocity);
           output += kV.getAsDouble() * getSetpoint().velocity;
-          output += kG_Function.apply(kG.getAsDouble());
+          output += kG_Function.getAsDouble() * kG.getAsDouble();
           useOutput(output, m_controller.getSetpoint());
         }
     }
@@ -87,10 +77,33 @@ public abstract class NAR_ProfiledPIDSubsystem extends SubsystemBase {
         this.kS = NAR_Shuffleboard.debug(getName(), "kS", kS, 3, 0);
         this.kV = NAR_Shuffleboard.debug(getName(), "kV", kV, 3, 1);
         this.kG = NAR_Shuffleboard.debug(getName(), "kG", kG, 3, 2);
-  }
+    }
 
+    /**
+     * Returns the ProfiledPIDController object controlling the subsystem
+     *
+     * @return The ProfiledPIDController
+     */
     public ProfiledPIDController getController() {
         return m_controller;
+    }
+
+    /**
+     * Sets constraints for the setpoint of the PID subsystem.
+     * @param kG_Function the function applied to kG
+     */
+    public void setkG_Function(DoubleSupplier kG_Function) {
+        this.kG_Function = kG_Function;
+    }
+
+    /**
+     * Sets constraints for the setpoint of the PID subsystem.
+     * @param min The minimum setpoint for the subsystem
+     * @param max The maximum setpoint for the subsystem
+     */
+    public void setConstraints(double min, double max) {
+        this.min = min;
+        this.max = max;
     }
 
     /**
@@ -109,7 +122,7 @@ public abstract class NAR_ProfiledPIDSubsystem extends SubsystemBase {
      * @param goal The goal position for the subsystem's motion profile.
      */
     public void startPID(double goal) {
-        startPID(new TrapezoidProfile.State(debug.getAsBoolean() ? setpoint.getAsDouble() : goal, 0));
+        startPID(new TrapezoidProfile.State(MathUtil.clamp(debug.getAsBoolean() ? this.setpoint.getAsDouble() : goal, min, max), 0));
     }
 
     /**
