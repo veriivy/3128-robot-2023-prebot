@@ -1,6 +1,5 @@
 package frc.team3128.subsystems;
 
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3128.common.hardware.motorcontroller.NAR_TalonSRX;
 import frc.team3128.common.utility.NAR_Shuffleboard;
@@ -13,13 +12,9 @@ public class Manipulator extends SubsystemBase {
 
     private static Manipulator instance;
 
-    public static boolean CONE = true;
+    public static boolean isCone = true;
 
-    public boolean outtaking = false;
-
-    public Manipulator(){
-        configMotor();
-    }
+    public boolean isOuttaking = false;
 
     public static Manipulator getInstance() {
         if (instance == null){
@@ -29,17 +24,39 @@ public class Manipulator extends SubsystemBase {
         return instance;
     }
 
+    public Manipulator(){
+        configMotor();
+        initShuffleboard();
+    }
+
+    //Move this to a trigger in robot container
     @Override
     public void periodic() {
-        if (Math.abs(getCurrent()) > ABSOLUTE_THRESHOLD + 40 && !outtaking)
+        if (Math.abs(getCurrent()) > ABSOLUTE_THRESHOLD + 40 && !isOuttaking)
             stallPower();
     }
 
-    public void configMotor(){
+    private void configMotor(){
         m_roller = new NAR_TalonSRX(ROLLER_MOTOR_ID);
         m_roller.setInverted(false);
         m_roller.setNeutralMode(NeutralMode.Brake);
-        m_roller.enableVoltageCompensation(true);
+    }
+
+    public void intake(boolean cone) {
+        isOuttaking = false;
+        isCone = cone;
+        if (cone) reverse();
+        else forward();
+    }    
+
+    public void outtake(){
+        isOuttaking = true;
+        if (!isCone) reverse();
+        else forward();
+    }
+
+    public void stallPower() {
+        set(isCone ? -STALL_POWER : STALL_POWER);
     }
 
     public void set(double power){
@@ -58,33 +75,16 @@ public class Manipulator extends SubsystemBase {
         m_roller.set(0);
     }
 
+    public boolean hasObjectPresent(){
+        return Math.abs(getCurrent()) > ABSOLUTE_THRESHOLD;
+    }
+
     public double getCurrent(){
         return m_roller.getStatorCurrent();
     }
 
     public double getVoltage() {
         return m_roller.getMotorOutputVoltage();
-    }
-
-    public boolean hasObjectPresent(){
-        return Math.abs(getCurrent()) > ABSOLUTE_THRESHOLD;
-    }
-
-    public void intake(boolean cone) {
-        outtaking = false;
-        CONE = cone;
-        if (cone) reverse();
-        else forward();
-    }    
-
-    public void outtake(){
-        outtaking = true;
-        if (!CONE) reverse();
-        else forward();
-    }
-
-    public void stallPower() {
-        set(CONE ? -STALL_POWER : STALL_POWER);
     }
 
     public void initShuffleboard() {
