@@ -517,8 +517,10 @@ public class Constants {
         public static final double GEAR_RATIO = 1.0;
 
         public static final double ROTATION_TO_DEGREES = 360;
-        public static final double ANGLE_OFFSET = 0; 
 
+        public static final double ENCODER_CONVERSION_FACTOR_TO_DEGREES = 360;
+        
+        public static final double ANGLE_OFFSET = 0; 
         public static final int ENCODER_DIO_ID = 8;
 
         public static final int MIN_ANGLE = -45;

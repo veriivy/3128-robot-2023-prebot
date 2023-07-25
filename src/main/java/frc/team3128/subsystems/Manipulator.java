@@ -29,7 +29,7 @@ public class Manipulator extends SubsystemBase {
         initShuffleboard();
     }
 
-    //Move this to a trigger in robot container
+    //TODO Move this to a trigger in robot container
     @Override
     public void periodic() {
         if (Math.abs(getCurrent()) > ABSOLUTE_THRESHOLD + 40 && !isOuttaking)
@@ -45,7 +45,7 @@ public class Manipulator extends SubsystemBase {
     public void intake(boolean cone) {
         isOuttaking = false;
         isCone = cone;
-        if (cone) reverse();
+        if (isCone) reverse();
         else forward();
     }    
 
