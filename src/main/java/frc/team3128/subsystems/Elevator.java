@@ -5,11 +5,9 @@ import edu.wpi.first.math.controller.PIDController;
 import frc.team3128.common.hardware.motorcontroller.NAR_CANSparkMax;
 import static frc.team3128.Constants.ElevatorConstants.*;
 
-import com.ctre.phoenix.motorcontrol.InvertType;
+public class Elevator extends NAR_PIDSubsystem {
 
-public class Elevator extends NAR_PIDSubsystem{
-
-    public NAR_CANSparkMax m_elv1, m_elv2;
+    private NAR_CANSparkMax m_elv1, m_elv2;
 
     private static Elevator instance;
 
@@ -27,25 +25,36 @@ public class Elevator extends NAR_PIDSubsystem{
     }
 
     private void configMotors() {
-        m_elv1 = new NAR_CANSparkMax(0);
-        m_elv2 = new NAR_CANSparkMax(1);
+        m_elv1 = new NAR_CANSparkMax(ELV1_ID);
+        m_elv2 = new NAR_CANSparkMax(ELV2_ID);
 
+        m_elv1.setInverted(false);
         m_elv2.setInverted(true);
+
+        m_elv1.setSmartCurrentLimit(CURRENT_LIMIT); 
+        m_elv2.setSmartCurrentLimit(CURRENT_LIMIT);
     }
 
     @Override
     protected void useOutput(double output, double setpoint) {
-        m_elv1.set(MathUtil.clamp(output, -1, 1));
-        m_elv2.set(MathUtil.clamp(output, -1, 1));
-        
+        set(MathUtil.clamp(output, -1, 1));
     }
 
-    @Override
-    protected double getMeasurement() {
-        return m_elv1.getSelectedSensorPosition() * GEAR_RATIO * SPOOL_CIRCUMFERENCE;
+    public void set(double power) {
+        m_elv1.set(power);
+        m_elv2.set(power);
+    }
+
+    public void stop() {
+        set(0);
     }
 
     public void resetEncoder() {
         m_elv1.setSelectedSensorPosition(0);
+    }
+
+    @Override
+    public double getMeasurement() {
+        return m_elv1.getSelectedSensorPosition() * GEAR_RATIO * SPOOL_CIRCUMFERENCE;
     }
 }

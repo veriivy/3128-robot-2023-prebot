@@ -516,7 +516,10 @@ public class Constants {
     }
 
     public static class ElevatorConstants {
-        public static final double kP = 0.4;
+        public static final int ELV1_ID = 11;
+        public static final int ELV2_ID = 12;
+
+        public static final double kP = 0.1;
         public static final double kI = 0;
         public static final double kD = 0;
 
@@ -524,11 +527,13 @@ public class Constants {
         public static final double kV = 0;
         public static final double kG = 0;
 
-        public static final double MIN_DIST = 1;
-        public static final double MAX_DIST = 20;
+        public static final double MIN_DIST = 0; //Ask Charlie
+        public static final double MAX_DIST = 20; //Ask Charlie
 
         public static final double GEAR_RATIO = 3;
-        public static final double SPOOL_CIRCUMFERENCE = 0; //ask charlie
+        public static final double SPOOL_CIRCUMFERENCE = 1.5 * Math.PI;
+        
+        public static final int CURRENT_LIMIT = 40;
     }
 
     public static class BalanceConstants{
