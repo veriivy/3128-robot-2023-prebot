@@ -46,6 +46,11 @@ public class Constants {
         public static final Pose2d ClimbSetupOutsideBot = new Pose2d(5.6, 2.9, Rotation2d.fromDegrees(180));
         public static final Pose2d ClimbSetupOutsideTop = new Pose2d(5.6, 3.3, Rotation2d.fromDegrees(180));
 
+        public static final double ANGLE_THRESHOLD = 3;
+        public static final double VELOCITY_THRESHOLD = 8;
+        public static final double RAMP_THRESHOLD = 8;
+        public static final double DRIVE_SPEED = Units.inchesToMeters(15);
+
         public static final Pose2d[] STARTING_POINTS = new Pose2d[] {
             new Pose2d(1.85 ,0.5, Rotation2d.fromDegrees(180)),
             new Pose2d(1.85 ,1.05, Rotation2d.fromDegrees(180)),
