@@ -521,6 +521,10 @@ public class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
 
+        public static final double kS = 0;
+        public static final double kG = 0;
+        public static final double kV = 0;
+
         public static final int WRIST_MOTOR_ID = 0;
         public static final int WRIST_CURRENT_LIMIT = 40;
         public static final int ENC_DIO_ID = 0;
