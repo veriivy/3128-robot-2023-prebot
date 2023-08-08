@@ -18,6 +18,22 @@ public class Elevator extends NAR_PIDSubsystem {
         return instance;
     }
 
+    public enum States {
+        LOW(0),
+        MID(0),
+        HIGH(0),
+        GROUD(0),
+        SHELF(0),
+        DROP(0);
+
+        public double height;
+        private States(double height) {
+            this.height = height;
+        }
+
+
+    }
+
     public Elevator() {
         super(new PIDController(kP, kI, kD), kS, kV, kG);
         setConstraints(MIN_DIST, MAX_DIST);
@@ -57,4 +73,6 @@ public class Elevator extends NAR_PIDSubsystem {
     public double getMeasurement() {
         return m_elv1.getSelectedSensorPosition() * GEAR_RATIO * SPOOL_CIRCUMFERENCE;
     }
+
+
 }
