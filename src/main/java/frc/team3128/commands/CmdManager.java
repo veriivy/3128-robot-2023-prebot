@@ -24,13 +24,18 @@ public class CmdManager {
     }
 
     public static CommandBase moveElevator(double setpoint) {
-        return run(() -> elevator.startPID(setpoint), elevator);
-        
+        return sequence(
+            runOnce(() -> elevator.startPID(setpoint), elevator),
+            waitUntil(() -> elevator.atSetpoint())
+        );
+        // return run(() -> elevator.startPID(setpoint), elevator);
     }
 
     public static CommandBase moveElevator(Elevator.States setpoint) {
-        return run(() -> elevator.startPID(setpoint.height), elevator);
-        
+        return sequence(
+            runOnce(() -> elevator.startPID(setpoint.height), elevator),
+            waitUntil(() -> elevator.atSetpoint())
+        );
     }
    
 

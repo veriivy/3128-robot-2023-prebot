@@ -22,7 +22,7 @@ public class Elevator extends NAR_PIDSubsystem {
         LOW(0),
         MID(0),
         HIGH(0),
-        GROUD(0),
+        GROUND(0),
         SHELF(0),
         DROP(0);
 
@@ -30,8 +30,6 @@ public class Elevator extends NAR_PIDSubsystem {
         private States(double height) {
             this.height = height;
         }
-
-
     }
 
     public Elevator() {
