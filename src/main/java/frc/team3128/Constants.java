@@ -128,8 +128,8 @@ public class Constants {
 
         /* Drivetrain Constants */
         public static final double bumperLength = Units.inchesToMeters(5);
-        public static final double trackWidth = Units.inchesToMeters(26); //Hand measure later
-        public static final double wheelBase = Units.inchesToMeters(26); //Hand measure later
+        public static final double trackWidth = Units.inchesToMeters(20.75); //Hand measure later
+        public static final double wheelBase = Units.inchesToMeters(20.75); //Hand measure later
         public static final double robotLength = bumperLength + trackWidth;
         public static final double wheelDiameter = Units.inchesToMeters(4);
         public static final double wheelCircumference = wheelDiameter * Math.PI;
@@ -236,7 +236,7 @@ public class Constants {
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 20;
-            public static final double angleOffset = -162.25;//-157.763671875+180; // -156.357421875;//-46.5 + 90; //104.5;//19.599609375; // 19.51171875;//-51.85546875; // 37.35; // degrees
+            public static final double angleOffset = 172.617;//-157.763671875+180; // -156.357421875;//-46.5 + 90; //104.5;//19.599609375; // 19.51171875;//-51.85546875; // 37.35; // degrees
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -246,7 +246,7 @@ public class Constants {
             public static final int driveMotorID = 3;
             public static final int angleMotorID = 4;
             public static final int canCoderID = 21;
-            public static final double angleOffset = -50.36;//129.375; //126.38671875000001; //23.466 + 90;//-132.25;//311.66015625 - 360; //132.5390625; //311.8359375; //10.45; // degrees
+            public static final double angleOffset = 116.719;//129.375; //126.38671875000001; //23.466 + 90;//-132.25;//311.66015625 - 360; //132.5390625; //311.8359375; //10.45; // degrees
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -256,7 +256,7 @@ public class Constants {
             public static final int driveMotorID = 5;
             public static final int angleMotorID = 6;
             public static final int canCoderID = 22;
-            public static final double angleOffset = -65.74;//-69.697265625+180; //-72.0703125;//-70.751953125; //-70.75; //109.51171875; //38.75; // degrees
+            public static final double angleOffset = 109.424;//-69.697265625+180; //-72.0703125;//-70.751953125; //-70.75; //109.51171875; //38.75; // degrees
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -266,7 +266,7 @@ public class Constants {
             public static final int driveMotorID = 7;
             public static final int angleMotorID = 8;
             public static final int canCoderID = 23;
-            public static final double angleOffset = 124.27;//-54.31640625; //-52.91015625; //-52.9; //306.2109375; //307.6171875; // 58.88; // degrees
+            public static final double angleOffset = 69.697;//-54.31640625; //-52.91015625; //-52.9; //306.2109375; //307.6171875; // 58.88; // degrees
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
