@@ -39,6 +39,8 @@ public class Constants {
     }
 
     public static class TrajectoryConstants {
+        public static final Rotation2d HEADING_0 = Rotation2d.fromDegrees(180);
+        
         public static final Translation2d POINT_1 = new Translation2d(12.7, 6.75);
         public static final Rotation2d HEADING_1 = Rotation2d.fromDegrees(180);
         public static final double CONDITION_1 = 12.7;
@@ -67,6 +69,18 @@ public class Constants {
 
         public static final Rotation2d HEADING_4A = Rotation2d.fromDegrees(135);
         public static final Rotation2d HEADING_4B = Rotation2d.fromDegrees(-135);
+
+        public static final Pose2d[] END_POINTS = new Pose2d[]{
+            new Pose2d(1.90,0.5,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.90,1.05,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.90,1.65,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.90,2.15,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.90,2.75,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.90,3.3,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.90,3.85,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.90,4.45,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.90,4.89,Rotation2d.fromDegrees(180))
+        };
     }
 
     public static class AutoConstants {
