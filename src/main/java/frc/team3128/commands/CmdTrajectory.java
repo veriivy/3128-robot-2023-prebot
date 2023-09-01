@@ -56,15 +56,16 @@ public class CmdTrajectory extends CommandBase {
 
     private ArrayList<PathPoint> generatePoints() {
         final ArrayList<PathPoint> points = new ArrayList<PathPoint>();
-        final ArrayList<Pose2d> positions = generatePoses();
+        //final ArrayList<Pose2d> positions = generatePoses();
 
-        final Rotation2d heading = Rotation2d.fromDegrees(180);
-        for (int i = 0; i < positions.size(); i++) {
-            final Pose2d pose = positions.get(i);
-            final PathPoint point = new PathPoint(pose.getTranslation(), heading, pose.getRotation());
-            points.add(point);
-        }
+        // final Rotation2d heading = Rotation2d.fromDegrees(180);
+        // for (int i = 0; i < positions.size(); i++) {
+        //     final Pose2d pose = positions.get(i);
+        //     final PathPoint point = new PathPoint(pose.getTranslation(), heading, pose.getRotation());
+        //     points.add(point);
+        // }
 
+        // return points;
         return points;
     }
 
