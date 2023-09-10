@@ -17,6 +17,26 @@ public class Wrist extends NAR_PIDSubsystem {
     private DutyCycleEncoder m_encoder;
 
     private static Wrist instance;
+    
+    public enum WristPosition {
+        SCORE_CONE(0),
+        SCORE_CUBE(0),
+
+        NEUTRAL(0),
+
+        SINGLE_SHELF_CONE(0),
+        SINGLE_SHELF_CUBE(0),
+        DOUBLE_SHELF_CONE(0),
+        DOUBLE_SHELF_CUBE(0),
+        GROUND_PICKUP_CONE(0),
+        GROUND_PICKUP_CUBE(0);
+        
+        public final double wristAngle;
+
+        private WristPosition(double wristAngle) {
+            this.wristAngle = wristAngle;
+        }
+    }
 
     public static Wrist getInstance() {
         if (instance == null){
