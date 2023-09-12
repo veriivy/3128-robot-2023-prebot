@@ -29,7 +29,7 @@ public class Manipulator extends SubsystemBase {
         initShuffleboard();
     }
 
-    //Move this to a trigger in robot container
+    //TODO Move this to a trigger in robot container
     @Override
     public void periodic() {
         if (Math.abs(getCurrent()) > ABSOLUTE_THRESHOLD + 40 && !isOuttaking)
@@ -38,14 +38,14 @@ public class Manipulator extends SubsystemBase {
 
     private void configMotor(){
         m_roller = new NAR_TalonSRX(ROLLER_MOTOR_ID);
-        m_roller.setInverted(false);
+        m_roller.setInverted(true);
         m_roller.setNeutralMode(NeutralMode.Brake);
     }
 
     public void intake(boolean cone) {
         isOuttaking = false;
         isCone = cone;
-        if (cone) reverse();
+        if (isCone) reverse();
         else forward();
     }    
 
@@ -56,7 +56,7 @@ public class Manipulator extends SubsystemBase {
     }
 
     public void stallPower() {
-        set(isCone ? -STALL_POWER : STALL_POWER);
+        set(isCone ? -STALL_POWER_CONE : STALL_POWER_CUBE);
     }
 
     public void set(double power){
@@ -76,7 +76,7 @@ public class Manipulator extends SubsystemBase {
     }
 
     public boolean hasObjectPresent(){
-        return Math.abs(getCurrent()) > ABSOLUTE_THRESHOLD;
+        return isCone ? Math.abs(getCurrent()) > CURRENT_THRESHOLD_CONE : Math.abs(getCurrent()) > CURRENT_THRESHOLD_CUBE;
     }
 
     public double getCurrent(){
