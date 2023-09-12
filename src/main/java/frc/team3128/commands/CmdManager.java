@@ -19,29 +19,35 @@ import frc.team3128.subsystems.Vision;
 
 public class CmdManager {
     private static Led led = Led.getInstance();
-    private static Wrist wrist = Wrist.getInstance();
+    // private static Wrist wrist = Wrist.getInstance();
     private static Manipulator manipulator = Manipulator.getInstance();
     private static NAR_XboxController controller = RobotContainer.controller;
 
 
     private CmdManager() {}
 
-    public static CommandBase CmdWrist(double setpoint) {
-        return sequence(
-            runOnce(()-> wrist.startPID(setpoint), wrist),
-            waitUntil(()-> wrist.atSetpoint())
-        );
-    }
+    // public static CommandBase CmdWrist(double setpoint) {
+    //     return sequence(
+    //         runOnce(()-> wrist.startPID(setpoint), wrist),
+    //         waitUntil(()-> wrist.atSetpoint())
+    //     );
+    // }
 
-    public static CommandBase CmdWrist(WristPosition position) {
-        return sequence(
-            runOnce(()-> wrist.startPID(position.wristAngle), wrist),
-            waitUntil(()-> wrist.atSetpoint())
-        );
-    }
+    // public static CommandBase CmdWrist(WristPosition position) {
+    //     return sequence(
+    //         runOnce(()-> wrist.startPID(position.wristAngle), wrist),
+    //         waitUntil(()-> wrist.atSetpoint())
+    //     );
+    // }
 
     public static CommandBase CmdManipIntake(Boolean cone) {
-        return new InstantCommand(()-> manipulator.intake(cone), manipulator);
+        return sequence(
+            runOnce(()-> manipulator.intake(cone), manipulator),
+            waitSeconds(0.4),
+            waitUntil(()-> manipulator.hasObjectPresent()),
+            waitSeconds(cone ? 0.15 : 0),
+            runOnce(()-> manipulator.stallPower())
+        );
     }
 
     public static CommandBase CmdManipOuttake() {
