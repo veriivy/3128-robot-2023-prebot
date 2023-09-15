@@ -2,6 +2,7 @@ package frc.team3128.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.team3128.common.hardware.motorcontroller.NAR_CANSparkMax;
 
@@ -45,8 +46,11 @@ public class Wrist extends NAR_PIDSubsystem {
 
 	private Wrist() {
         super(new PIDController(kP, kI, kD), kS, kV, kG);
+        
+        setkG_Function(()-> Math.cos(Units.degreesToRadians(getMeasurement())));
         getController().enableContinuousInput(-180, 180);
     }
+
 
     public static synchronized Wrist getInstance() {
         if (instance == null) {
