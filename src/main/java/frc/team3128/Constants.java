@@ -234,7 +234,7 @@ public class Constants {
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(maxSpeed, maxAcceleration);
 
         /* Motor Inverts */
-        public static final boolean driveMotorInvert = false;
+        public static final boolean driveMotorInvert = true;
         public static final boolean angleMotorInvert = true;
 
         /* Angle Encoder Invert */

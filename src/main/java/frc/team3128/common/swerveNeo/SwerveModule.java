@@ -66,6 +66,7 @@ public class SwerveModule {
         angleMotor.setInverted(angleMotorInvert);
         angleMotor.setIdleMode(IdleMode.kCoast);
         angleMotor.enableContinuousInput(-180, 180, degreesToRotations(1, angleGearRatio));
+        angleMotor.setDefaultStatusFrames();
         resetToAbsolute();
     }
 
@@ -77,6 +78,7 @@ public class SwerveModule {
         driveMotor.setInverted(driveMotorInvert);
         driveMotor.setIdleMode(IdleMode.kCoast); 
         driveMotor.setSelectedSensorPosition(0);
+        driveMotor.setDefaultStatusFrames();
     }
 
     /**
