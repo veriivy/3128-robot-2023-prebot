@@ -514,7 +514,7 @@ public class Constants {
         public static final double kV = 0;
         public static final double kG = 0;
 
-        public static final double GEAR_RATIO = 1.0;
+        public static final double GEAR_RATIO = 108.0;
 
         public static final double ROTATION_TO_DEGREES = 360;
 
@@ -530,14 +530,14 @@ public class Constants {
         public static final double INTAKE_TOLERANCE = 7.5;
 
         //Motor ID
-        public static final int WRIST_ID = 10;
+        public static final int WRIST_ID = 25;
 
         //Sensor IDs
         
     }
 
     public static class ManipulatorConstants{
-        public static final int ROLLER_MOTOR_ID = 4;
+        public static final int ROLLER_MOTOR_ID = 0;
         public static final double ROLLER_POWER = 0.9;
         public static final double STALL_POWER_CONE = 0.2;
         public static final double STALL_POWER_CUBE = 0.0;
