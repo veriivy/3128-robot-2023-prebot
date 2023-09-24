@@ -519,25 +519,25 @@ public class Constants {
         public static final int ELV1_ID = 11;
         public static final int ELV2_ID = 12;
 
-        public static final double kP = 0.1;
+        public static final double kP = 6;
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0;
+        public static final double kS = 0.475;
         public static final double kV = 0;
-        public static final double kG = 0;
+        public static final double kG = 0.625;
 
         public static final double MIN_DIST = 0; //Ask Charlie
-        public static final double MAX_DIST = 20; //Ask Charlie
+        public static final double MAX_DIST = 64; //Ask Charlie
 
-        public static final double GEAR_RATIO = 3;
-        public static final double SPOOL_CIRCUMFERENCE = 1.5 * Math.PI;
+        public static final double GEAR_RATIO = 12.5;
+        public static final double SPOOL_CIRCUMFERENCE = 3 * Math.PI;
         
         public static final int CURRENT_LIMIT = 40;
     }
 
     public static class BalanceConstants{
-        public static final double turnKP = 0.05;
+        public static final double turnKP = 6;
         public static final double turnKI = 0;
         public static final double turnKD = .005;
         public static final double TURN_TOLERANCE = 1.5;

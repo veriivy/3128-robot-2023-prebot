@@ -36,6 +36,8 @@ public class Elevator extends NAR_PIDSubsystem {
         super(new PIDController(kP, kI, kD), kS, kV, kG);
         setConstraints(MIN_DIST, MAX_DIST);
         configMotors();
+        initShuffleboard(kS, kV, kG);
+        resetEncoder();
     }
 
     private void configMotors() {
@@ -51,10 +53,13 @@ public class Elevator extends NAR_PIDSubsystem {
 
     @Override
     protected void useOutput(double output, double setpoint) {
-        set(MathUtil.clamp(output, -1, 1));
+        final double power = MathUtil.clamp(output / 12.0, -1, 1);
+        m_elv1.set(power);
+        m_elv2.set(power);
     }
 
     public void set(double power) {
+        disable();
         m_elv1.set(power);
         m_elv2.set(power);
     }
@@ -69,7 +74,7 @@ public class Elevator extends NAR_PIDSubsystem {
 
     @Override
     public double getMeasurement() {
-        return m_elv1.getSelectedSensorPosition() * GEAR_RATIO * SPOOL_CIRCUMFERENCE;
+        return m_elv1.getSelectedSensorPosition() / GEAR_RATIO * SPOOL_CIRCUMFERENCE;
     }
 
 
