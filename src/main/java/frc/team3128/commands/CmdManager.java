@@ -37,6 +37,10 @@ public class CmdManager {
             waitUntil(() -> elevator.atSetpoint())
         );
     }
+
+    public static CommandBase moveElv(double speed) {
+        return runOnce(()-> elevator.set(speed), elevator);
+    }
    
 
     
