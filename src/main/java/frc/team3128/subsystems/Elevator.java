@@ -36,6 +36,7 @@ public class Elevator extends NAR_PIDSubsystem {
         super(new PIDController(kP, kI, kD), kS, kV, kG);
         setConstraints(MIN_DIST, MAX_DIST);
         configMotors();
+        initShuffleboard(kS, kV, kG);
     }
 
     private void configMotors() {

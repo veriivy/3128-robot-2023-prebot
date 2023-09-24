@@ -99,7 +99,10 @@ public class RobotContainer {
         controller.getButton("B").onTrue(new InstantCommand(()-> swerve.resetEncoders()));
         
         rightStick.getButton(1).onTrue(new InstantCommand(()->swerve.zeroGyro()));
-        
+        rightStick.getButton(3).onTrue(moveElv(.3)).onFalse(moveElv(0));
+        //onFalse if ran for long enough does not work
+        //after a while it just stops
+        //have to redeploy every time
         rightStick.getButton(7).onTrue(Commands.sequence(
                                             Commands.deadline(Commands.sequence(new WaitUntilCommand(()-> Math.abs(swerve.getPitch()) > 6), new CmdBangBangBalance()), new CmdBalance()), 
                                             //new RunCommand(()-> swerve.drive(new Translation2d(CmdBalance.DIRECTION ? -0.25 : 0.25,0),0,true)).withTimeout(0.5), 
