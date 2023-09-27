@@ -16,17 +16,9 @@ public class CmdManager {
 
     private CmdManager() {}
 
-    public static CommandBase CmdManipIntakeCone() {
+    public static CommandBase CmdManipIntake(boolean cone) {
         return sequence(
-            runOnce(() -> manipulator.intakeCone(), manipulator),
-            waitUntil(() -> manipulator.hasObjectPresent()),
-            runOnce(() -> manipulator.stopRoller())
-        );
-    }
-
-    public static CommandBase CmdManipIntakeCube() {
-        return sequence(
-            runOnce(() -> manipulator.intakeCube(), manipulator),
+            runOnce(() -> manipulator.intake(cone), manipulator),
             waitUntil(() -> manipulator.hasObjectPresent()),
             runOnce(() -> manipulator.stopRoller())
         );

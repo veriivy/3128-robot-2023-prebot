@@ -14,7 +14,7 @@ public class Manipulator extends SubsystemBase {
 
     private boolean outtaking = false;
 
-    private boolean cone = false;
+    private boolean CONE = false;
 
     private Manipulator() {
         configMotor();
@@ -40,16 +40,10 @@ public class Manipulator extends SubsystemBase {
         m_roller.setInverted(true);
     }
 
-    public void intakeCone() {
-        cone = true;
+    public void intake(boolean cone) {
+        CONE = cone;
         outtaking = false;
-        m_roller.set(CONE_ROLLER_POWER);
-    }
-
-    public void intakeCube() {
-        cone = false;
-        outtaking = false;
-        m_roller.set(CUBE_ROLLER_POWER);
+        m_roller.set(cone ? CONE_ROLLER_POWER : CUBE_ROLLER_POWER);
     }
 
     public void outtake() {
@@ -67,6 +61,6 @@ public class Manipulator extends SubsystemBase {
     }
 
     public boolean hasObjectPresent() {
-        return Math.abs(m_roller.getStatorCurrent()) > CURRENT_THRESHOLD;
+        return (CONE ? Math.abs(m_roller.getStatorCurrent()) > CONE_CURRENT_THRESHOLD : Math.abs(m_roller.getStatorCurrent()) > CUBE_CURRENT_THRESHOLD);
     }
 }

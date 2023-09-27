@@ -104,11 +104,11 @@ public class RobotContainer {
                                             //new RunCommand(()-> swerve.drive(new Translation2d(CmdBalance.DIRECTION ? -0.25 : 0.25,0),0,true)).withTimeout(0.5), 
                                             new RunCommand(()->Swerve.getInstance().xlock(), Swerve.getInstance())));
 
-        rightStick.getButton(3).onTrue(CmdManipIntakeCone()).onFalse(CmdManipStop());
-        rightStick.getButton(4).onTrue(CmdManipIntakeCube()).onFalse(CmdManipStop());
+        rightStick.getButton(3).onTrue(CmdManipIntake(true)).onFalse(CmdManipStop());
+        rightStick.getButton(4).onTrue(CmdManipIntake(false)).onFalse(CmdManipStop());
 
-        rightStick.getButton(3).onTrue(CmdManipOutake()).onFalse(CmdManipStop());
-        rightStick.getButton(4).onTrue(CmdManipShoot()).onFalse(CmdManipStop());
+        rightStick.getButton(8).onTrue(CmdManipOutake()).onFalse(CmdManipStop());
+        rightStick.getButton(14).onTrue(CmdManipShoot()).onFalse(CmdManipStop());
 
         buttonPad.getButton(1).onTrue(new InstantCommand(()-> {
             Vision.SELECTED_GRID = DriverStation.getAlliance() == Alliance.Red ? 0 : 2;
