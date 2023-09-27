@@ -527,13 +527,13 @@ public class Constants {
         public static final double kV = 0;
         public static final double kG = 0.625;
 
-        public static final double MIN_DIST = 0; //Ask Charlie
-        public static final double MAX_DIST = 64; //Ask Charlie
+        public static final double MIN_DIST = 5; //Ask Charlie
+        public static final double MAX_DIST = 55; //Ask Charlie
 
         public static final double GEAR_RATIO = 12.5;
         public static final double SPOOL_CIRCUMFERENCE = 3 * Math.PI;
         
-        public static final int CURRENT_LIMIT = 40;
+        public static final int CURRENT_LIMIT = 80;
     }
 
     public static class BalanceConstants{
