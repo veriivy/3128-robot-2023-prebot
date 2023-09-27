@@ -506,8 +506,10 @@ public class Constants {
 
     public static class ManipulatorConstants{
         public static final int ROLLER_MOTOR_ID = 13;
-        public static final double ROLLER_POWER = 0.6;
-        public static final double SHOOT_POWER = -1; //tbd
+        public static final double CONE_ROLLER_POWER = 0.4;
+        public static final double CUBE_ROLLER_POWER = 0.5;
+        public static final double OUTTAKE_POWER = -0.4;
+        public static final double SHOOT_POWER = -0.6; //tbd
         public static final double STALL_POWER = 0.25;
 
         public static final double CURRENT_THRESHOLD = 5;

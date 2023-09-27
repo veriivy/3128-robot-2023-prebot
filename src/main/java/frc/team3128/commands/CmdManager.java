@@ -9,28 +9,31 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.team3128.RobotContainer;
 import frc.team3128.common.hardware.input.NAR_XboxController;
 import frc.team3128.subsystems.Manipulator;
-import frc.team3128.subsystems.Wrist;
 
 public class CmdManager {
     private static NAR_XboxController controller = RobotContainer.controller;
-    private static Wrist wrist = Wrist.getInstance();
     private static Manipulator manipulator = Manipulator.getInstance();
 
     private CmdManager() {}
 
-    public static CommandBase CmdWrist(double angle) {
+    public static CommandBase CmdManipIntakeCone() {
         return sequence(
-            runOnce(() -> wrist.startPID(angle), wrist),
-            waitUntil(()-> wrist.atSetpoint())
-        );
-    }
-
-    public static CommandBase CmdManipIntake() {
-        return sequence(
-            runOnce(() -> manipulator.intake(), manipulator),
+            runOnce(() -> manipulator.intakeCone(), manipulator),
             waitUntil(() -> manipulator.hasObjectPresent()),
             runOnce(() -> manipulator.stopRoller())
         );
+    }
+
+    public static CommandBase CmdManipIntakeCube() {
+        return sequence(
+            runOnce(() -> manipulator.intakeCube(), manipulator),
+            waitUntil(() -> manipulator.hasObjectPresent()),
+            runOnce(() -> manipulator.stopRoller())
+        );
+    }
+
+    public static CommandBase CmdManipStop() {
+        return run(()-> manipulator.stopRoller());
     }
 
     public static CommandBase CmdManipOutake() {
