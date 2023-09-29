@@ -2,53 +2,88 @@ package frc.team3128.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.team3128.RobotContainer;
-import frc.team3128.Constants.WristConstants;
+import frc.team3128.PositionConstants.Position;
 import frc.team3128.common.hardware.input.NAR_XboxController;
 
-import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
 import frc.team3128.subsystems.Led;
 import frc.team3128.subsystems.Wrist;
-import frc.team3128.subsystems.Wrist.WristPosition;
 import frc.team3128.subsystems.Manipulator;
-import frc.team3128.subsystems.Vision;
+import frc.team3128.subsystems.Swerve;
 import frc.team3128.subsystems.Elevator;
 
 public class CmdManager {
     private static Led led = Led.getInstance();
     private static Wrist wrist = Wrist.getInstance();
     private static Manipulator manipulator = Manipulator.getInstance();
+    private static Swerve swerve = Swerve.getInstance();
     private static NAR_XboxController controller = RobotContainer.controller;
     private static Elevator elevator = Elevator.getInstance();
 
-
+    public static boolean ENABLE = false;
+    public static boolean SINGLE_STATION = true;
 
     private CmdManager() {}
 
-    public static CommandBase CmdWrist(double setpoint) {
+    public static CommandBase score(Position position, int xPos) {
+        return sequence(
+            runOnce(()-> ENABLE = false),
+            waitUntil(()-> ENABLE),
+            extend(position),
+            waitUntil(()-> !ENABLE),
+            outtake(),
+            waitSeconds(0.5),
+            stopManip(),
+            retract(Position.NEUTRAL)
+        );
+    }
+
+    public static CommandBase HPpickup(Position position1, Position position2) {
+        return either(pickup(position1), pickup(position2), ()-> SINGLE_STATION);
+    }
+
+    public static CommandBase pickup(Position position) {
+        return sequence(
+            runOnce(()-> ENABLE = false),
+            waitUntil(()-> ENABLE),
+            extend(position),
+            intake(position.cone),
+            retract(Position.NEUTRAL)
+        );
+    }
+
+    public static CommandBase extend(Position position) {
+        return sequence (
+            moveElevator(position),
+            moveWrist(position)
+        );
+    }
+
+    public static CommandBase retract(Position position) {
+        return sequence (
+            moveWrist(position),
+            moveElevator(position)
+        );
+    }
+
+    public static CommandBase moveWrist(double setpoint) {
         return sequence(
             runOnce(()-> wrist.startPID(setpoint), wrist),
             waitUntil(()-> wrist.atSetpoint())
         );
     }
 
-    public static CommandBase CmdWrist(WristPosition position) {
+    public static CommandBase moveWrist(Position position) {
         return sequence(
             runOnce(()-> wrist.startPID(position.wristAngle), wrist),
             waitUntil(()-> wrist.atSetpoint())
         );
     }
 
-    public static CommandBase CmdMoveWrist(double power) {
-        return new InstantCommand(() -> wrist.set(power), wrist);
-    }
-
-    public static CommandBase CmdManipIntake(Boolean cone) {
+    public static CommandBase intake(Boolean cone) {
         return sequence(
             runOnce(()-> manipulator.intake(cone), manipulator),
             waitSeconds(0.4),
@@ -58,12 +93,12 @@ public class CmdManager {
         );
     }
 
-    public static CommandBase CmdManipOuttake() {
-        return new InstantCommand(()-> manipulator.outtake(), manipulator);
+    public static CommandBase outtake() {
+        return runOnce(()-> manipulator.outtake(), manipulator);
     }
 
-    public static CommandBase CmdStopManip() {
-        return new InstantCommand(()-> manipulator.stopRoller(), manipulator);
+    public static CommandBase stopManip() {
+        return runOnce(()-> manipulator.stopRoller(), manipulator);
     }
 
     public static CommandBase vibrateController() {
@@ -75,12 +110,11 @@ public class CmdManager {
             runOnce(() -> elevator.startPID(setpoint), elevator),
             waitUntil(() -> elevator.atSetpoint())
         );
-        // return run(() -> elevator.startPID(setpoint), elevator);
     }
 
-    public static CommandBase moveElevator(Elevator.States setpoint) {
+    public static CommandBase moveElevator(Position setpoint) {
         return sequence(
-            runOnce(() -> elevator.startPID(setpoint.height), elevator),
+            runOnce(() -> elevator.startPID(setpoint.elvDist), elevator),
             waitUntil(() -> elevator.atSetpoint())
         );
     }
@@ -88,10 +122,20 @@ public class CmdManager {
     public static CommandBase moveElv(double speed) {
         return runOnce(()-> elevator.set(speed), elevator);
     }
-   
 
-    
+    public static CommandBase moveWri(double speed) {
+        return runOnce(()-> wrist.set(speed), wrist);
+    }
 
+    public static CommandBase resetElevator() {
+        return runOnce(()-> elevator.resetEncoder());
+    }
 
-    
+    public static CommandBase resetWrist() {
+        return runOnce(()-> wrist.resetEncoder());
+    }
+
+    public static CommandBase resetSwerve() {
+        return runOnce(()-> swerve.zeroGyro());
+    }
 }

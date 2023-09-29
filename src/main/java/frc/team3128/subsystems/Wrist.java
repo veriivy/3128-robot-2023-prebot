@@ -9,36 +9,16 @@ import edu.wpi.first.math.util.Units;
 
 import static frc.team3128.Constants.WristConstants.*;
 
+import static frc.team3128.PositionConstants.Position;
 import frc.team3128.common.hardware.motorcontroller.NAR_CANSparkMax;
 import frc.team3128.common.hardware.motorcontroller.NAR_CANSparkMax.EncoderType;
-import frc.team3128.common.utility.NAR_Shuffleboard;
 
 public class Wrist extends NAR_PIDSubsystem {
     public NAR_CANSparkMax m_wrist;
 
     private static Wrist instance;
-    
-    public enum WristPosition {
-        SCORE_CONE(0),
-        SCORE_CUBE(0),
 
-        NEUTRAL(0),
-
-        SINGLE_SHELF_CONE(0),
-        SINGLE_SHELF_CUBE(0),
-        DOUBLE_SHELF_CONE(0),
-        DOUBLE_SHELF_CUBE(0),
-        GROUND_PICKUP_CONE(0),
-        GROUND_PICKUP_CUBE(0);
-        
-        public final double wristAngle;
-
-        private WristPosition(double wristAngle) {
-            this.wristAngle = wristAngle;
-        }
-    }
-
-    public static Wrist getInstance() {
+    public static synchronized Wrist getInstance() {
         if (instance == null){
             instance = new Wrist();  
         }
@@ -50,10 +30,16 @@ public class Wrist extends NAR_PIDSubsystem {
         setkG_Function(()-> Math.cos(Units.degreesToRadians(getMeasurement())));
         setConstraints(MIN_ANGLE, MAX_ANGLE);
         configMotor();
+        initShuffleboard(kS, kV, kG);
+        m_controller.setTolerance(WRIST_TOLERANCE);
+    }
+
+    public void startPID(Position position) {
+        startPID(position.wristAngle);
     }
 
     private void configMotor() {
-        m_wrist = new NAR_CANSparkMax(WRIST_ID, EncoderType.Absolute, MotorType.kBrushless);
+        m_wrist = new NAR_CANSparkMax(WRIST_ID, EncoderType.Relative, MotorType.kBrushless);
         m_wrist.setInverted(false);
         m_wrist.setIdleMode(IdleMode.kBrake);
         m_wrist.setSmartCurrentLimit(40);
@@ -67,9 +53,7 @@ public class Wrist extends NAR_PIDSubsystem {
 
     @Override
     public double getMeasurement() {
-        // return m_wrist.getSelectedSensorPosition() * ROTATION_TO_DEGREES / GEAR_RATIO + ANGLE_OFFSET;
-        return 12.3;
-        // return MathUtil.inputModulus(-m_encoder.get() * ENCODER_CONVERSION_FACTOR_TO_DEGREES - ANGLE_OFFSET,-180, 180);
+        return m_wrist.getSelectedSensorPosition() * ROTATION_TO_DEGREES / GEAR_RATIO;
     }
 
     public void resetEncoder() {
@@ -78,12 +62,6 @@ public class Wrist extends NAR_PIDSubsystem {
 
     public void set(double power) {
         m_wrist.set(power);
-    }
-
-    public void initShuffleboard() {
-        // NAR_Shuffleboard.addData("Manipulator", "Manip current", () -> getCurrent(), 0, 1);
-        // NAR_Shuffleboard.addData("Manipulator", "get", () -> m_roller.getMotorOutputPercent(), 0, 3);
-        NAR_Shuffleboard.addData("Wrist", "angle", ()-> m_wrist.getSelectedSensorPosition(), 1, 1);
     }
 
 }

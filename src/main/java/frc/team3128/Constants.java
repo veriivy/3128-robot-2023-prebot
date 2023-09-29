@@ -415,81 +415,6 @@ public class Constants {
             RAMP_AVOID_SCORE.add(new Pose2d(2.1, 0.4, Rotation2d.fromDegrees(180)));
         } 
     }
-
-    public static class PivotConstants {
-        public static final double kP = 0.425;
-        public static final double kI = 0;
-        public static final double kD = 0;
-        public static final double kF = 15;
-        public static final double kG = 0.25;
-        public static final int PIVOT_MOTOR_ID = 9;
-        public static final double ENC_CONV = 360.0/(42.0/16.0*60.0);
-        public static final double PIVOT_TOLERANCE = 5.0;
-        public static final int PIVOT_CURRENT_LIMIT = 40;
-        // public static final int CANCODER_ID = 24;
-        public static final int ENC_DIO_ID = 7;
-        public static final double ANGLE_OFFSET = 2.5; //get from new encoder
-        public static final double GEAR_RATIO = 180.0;
-        public static final double PIVOT_HEIGHT = 123; //TBD Above ground (inches)
-        public static final double ARM_LENGTH = 56.75; // inches
-        
-    }
-
-    public static class TelescopeConstants {
-        public static final double kP = 2.3;
-        public static final double kI = 0;
-        public static final double kD = 0;
-        public static final double kF = 0.1;
-        public static final double kG = 0.5;
-        public static final int TELE_MOTOR_ID = 10;
-        public static final double TELE_MOTOR_POWER = 0.5;
-        public static final double ENC_CONV = (1/5.0) * 2 * Math.PI * 0.4; //55.0 /35.0
-        public static final double MIN_DIST = 11.5;
-        public static final double MAX_DIST = 40;
-        public static final double TELE_OFFSET = 0;
-        public static final double TELE_TOLERANCE = 1;
-        public static final int TELE_CURRENT_LIMIT = 40;
-        public static final boolean isReversed = true;
-
-        public static final double ARM_LENGTH = 40; // inches
-        public static final int SOLENOID_FORWARD_CHANNEL_ID = 5; 
-        public static final int SOLENOID_BACKWARD_CHANNEL_ID = 2; 
-    }
-
-    public static class ArmConstants {
-
-        public enum ArmPosition {
-            TOP_CONE(112, 38.5, 0, true), // 112,44 
-            TOP_CUBE(105, 38.5, 0, false), //98,35
-            MID_CONE(105, 20.5, 1, true), //98,22.5
-            MID_CUBE(90, 22, 1, false), //87,15
-            LOW_FLOOR(45, 11.5, 2, false), 
-
-            NEUTRAL(5, 11.5, null, null), //pivot should be 0
-
-            HP_SHELF_CONE(110, 17.5, null, null), //105
-            HP_SHELF_CUBE(108, 17.5, null, null), //105
-            GROUND_PICKUP(37, 26.5, null, null),
-            GROUND_PICKUP_CONE(37, 26.5, null, null), 
-            GROUND_PICKUP_CUBE(37.5, 26, null, null), 
-            CONE_POLE(-40, 11.5, null, null),
-            AVOID_INTAKE(90, 11.5, null, null);
-    
-            
-            public final double pivotAngle;
-            public final double teleDist;
-            public final Integer height;
-            public final Boolean cone;
-    
-            private ArmPosition(double pivotAngle, double teleDist, Integer height, Boolean cone) {
-                this.pivotAngle = pivotAngle;
-                this.teleDist = teleDist;
-                this.height = height;
-                this.cone = cone;
-            }
-        }
-    
-    }
     
     public static class FieldConstants{
         public static final double FIELD_X_LENGTH = Units.inchesToMeters(651.25); // meters
@@ -565,89 +490,40 @@ public class Constants {
         }
     }
 
-    public static class IntakeConstants {
-
-        public static final double INTAKE_DEPLOYED_POSITION_BOUNDRY = 0;
-
-        public static final double CURRENT_THRESHOLD = 5;
-        public static final double ABSOLUTE_THRESHOLD = 30;
-
-        public static final double ROLLER_POWER = 0.75;
-        public static final double OUTTAKE_POWER = 0.3;
-
-        public static final double STALL_POWER = 0.1;
-
-        public static final double kP = 0.065;
-        public static final double kI = 0;
-        public static final double kD = 0; // 0.001
-
-        public static final double kF = 0.2;
-
-        public static final double ROTATOR_GEAR_RATIO = 1.0 / 30.0;
-
-        public static final double ENCODER_CONVERSION_FACTOR_TO_DEGREES = 360;
-        public static final double ANGLE_OFFSET = 138+35; 
-
-        public static final int ENCODER_DIO_ID = 8;
-
-        public static final double VELOCITY_SETPOINT = 0.5;
-        public static final double INTAKE_TOLERANCE = 7.5;
-
-        //Motor IDs
-        public static final int INTAKE_PIVOT_ID = 12;
-        public static final int INTAKE_ROLLERS_ID = 11;
-
-        //Sensor IDs
-        public static final int INTAKE_SENSOR_ID = 1;
-        // public static final int CONE_SENSOR_ID = 0;
-        // public static final int INTAKE_SENSOR_LEFT_ID = 1;
-        // public static final int INTAKE_SENSOR_RIGHT_ID = 2;
-        
-    }
-
     public static class WristConstants {
 
-        public static final double kP = 0.4;
+        public static final double kP = 0.6;
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0;
+        public static final double kS = 0.12;
         public static final double kV = 0;
-        public static final double kG = 0;
+        public static final double kG = 0.22;
 
-        public static final double GEAR_RATIO = 108.0;
+        public static final double GEAR_RATIO = 3.0;
 
         public static final double ROTATION_TO_DEGREES = 360;
-
-        public static final double ENCODER_CONVERSION_FACTOR_TO_DEGREES = 360;
         
         public static final double ANGLE_OFFSET = 0; 
-        public static final int ENCODER_DIO_ID = 8;
 
-        public static final int MIN_ANGLE = -45;
-        public static final int MAX_ANGLE = 90;
+        public static final int MIN_ANGLE = -90;
+        public static final int MAX_ANGLE = 70;
 
-        public static final double VELOCITY_SETPOINT = 0.5;
-        public static final double INTAKE_TOLERANCE = 7.5;
+        public static final double WRIST_TOLERANCE = 0.5;
 
-        //Motor ID
-        public static final int WRIST_ID = 25;
-
-        //Sensor IDs
+        public static final int WRIST_ID = 21;
         
     }
 
     public static class ManipulatorConstants{
-        public static final int ROLLER_MOTOR_ID = 0;
+        public static final int ROLLER_MOTOR_ID = 31;
         public static final double ROLLER_POWER = 0.9;
-        public static final double STALL_POWER_CONE = 0.2;
+        public static final double STALL_POWER_CONE = 0.15;
         public static final double STALL_POWER_CUBE = 0.0;
 
 
-        public static final double CURRENT_THRESHOLD_CONE = 20;
-        public static final double CURRENT_THRESHOLD_CUBE = 15;
-
-        public static final double ABSOLUTE_THRESHOLD = 20;
+        public static final double CURRENT_THRESHOLD_CONE = 13;
+        public static final double CURRENT_THRESHOLD_CUBE = 9;
     }
 
     public static class ElevatorConstants {
@@ -667,6 +543,9 @@ public class Constants {
 
         public static final double GEAR_RATIO = 12.5;
         public static final double SPOOL_CIRCUMFERENCE = 3 * Math.PI;
+        public static final double FRAME_LENGTH = 15;
+
+        public static final double ELV_TOLERANCE = 0.25;
         
         public static final int CURRENT_LIMIT = 80;
     }

@@ -2,6 +2,7 @@ package frc.team3128.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import static frc.team3128.PositionConstants.Position;
 import frc.team3128.common.hardware.motorcontroller.NAR_CANSparkMax;
 import static frc.team3128.Constants.ElevatorConstants.*;
 
@@ -11,25 +12,11 @@ public class Elevator extends NAR_PIDSubsystem {
 
     private static Elevator instance;
 
-    public static Elevator getInstance() {
+    public static synchronized Elevator getInstance() {
         if (instance == null){
             instance = new Elevator();  
         }
         return instance;
-    }
-
-    public enum States {
-        LOW(0),
-        MID(0),
-        HIGH(0),
-        GROUND(0),
-        SHELF(0),
-        DROP(0);
-
-        public double height;
-        private States(double height) {
-            this.height = height;
-        }
     }
 
     public Elevator() {
@@ -37,7 +24,11 @@ public class Elevator extends NAR_PIDSubsystem {
         setConstraints(MIN_DIST, MAX_DIST);
         configMotors();
         initShuffleboard(kS, kV, kG);
-        resetEncoder();
+        m_controller.setTolerance(ELV_TOLERANCE);
+    }
+
+    public void startPID(Position position) {
+        startPID(position.elvDist);
     }
 
     private void configMotors() {
@@ -77,5 +68,7 @@ public class Elevator extends NAR_PIDSubsystem {
         return m_elv1.getSelectedSensorPosition() / GEAR_RATIO * SPOOL_CIRCUMFERENCE;
     }
 
-
+    public boolean pastFramePerimiter() {
+        return getMeasurement() >= FRAME_LENGTH;
+    }
 }

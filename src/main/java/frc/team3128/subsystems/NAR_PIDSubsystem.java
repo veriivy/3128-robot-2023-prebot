@@ -1,7 +1,6 @@
 package frc.team3128.subsystems;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
@@ -35,7 +34,6 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     public NAR_PIDSubsystem(PIDController controller, double kS, double kV, double kG) {
         m_controller = controller;
         this.kG_Function = () -> 1;
-        // initShuffleboard(kS, kV, kG);
         min = Double.NEGATIVE_INFINITY;
         max = Double.POSITIVE_INFINITY;
     }
@@ -53,7 +51,7 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     public void periodic() {
         if (m_enabled) {
             double output = m_controller.calculate(getMeasurement());
-            output += Math.copySign(kS.getAsDouble(), output);
+            output += !atSetpoint() ? Math.copySign(kS.getAsDouble(), output) : 0;
             output += kV.getAsDouble() * getSetpoint();
             output += kG_Function.getAsDouble() * kG.getAsDouble();
             useOutput(output, getSetpoint());

@@ -16,7 +16,7 @@ public class Manipulator extends SubsystemBase {
 
     public boolean isOuttaking = false;
 
-    public static Manipulator getInstance() {
+    public static synchronized Manipulator getInstance() {
         if (instance == null){
             instance = new Manipulator();  
         }
@@ -27,13 +27,6 @@ public class Manipulator extends SubsystemBase {
     public Manipulator(){
         configMotor();
         initShuffleboard();
-    }
-
-    //TODO Move this to a trigger in robot container
-    @Override
-    public void periodic() {
-        if (Math.abs(getCurrent()) > ABSOLUTE_THRESHOLD + 40 && !isOuttaking)
-            stallPower();
     }
 
     private void configMotor(){
@@ -82,11 +75,7 @@ public class Manipulator extends SubsystemBase {
     public double getCurrent(){
         return m_roller.getStatorCurrent();
     }
-
-    public double getVoltage() {
-        return m_roller.getMotorOutputVoltage();
-    }
-
+    
     public void initShuffleboard() {
         NAR_Shuffleboard.addData("Manipulator", "Manip current", () -> getCurrent(), 0, 1);
         NAR_Shuffleboard.addData("Manipulator", "get", () -> m_roller.getMotorOutputPercent(), 0, 3);
