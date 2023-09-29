@@ -54,7 +54,7 @@ public class Trajectories {
 
     private static HashMap<String, List<PathPlannerTrajectory>> trajectories = new HashMap<String, List<PathPlannerTrajectory>>();
 
-    private static SwerveAutoBuilder builder;
+    public static SwerveAutoBuilder builder;
 
     private static HashMap<String, Command> CommandEventMap = new HashMap<String, Command>();
 
@@ -93,6 +93,10 @@ public class Trajectories {
 
     public static CommandBase get(String name) {
         return builder.fullAuto(trajectories.get(name));
+    }
+
+    public static CommandBase generateAuto(PathPlannerTrajectory trajectory) {
+        return builder.fullAuto(trajectory);
     }
 
     public static PathPlannerTrajectory line(Pose2d start, Pose2d end) {

@@ -62,10 +62,11 @@ public class SwerveModule {
      * Initializes the angle motor
      */
     private void configAngleMotor(){
-        angleMotor.setSmartCurrentLimit(currentLimit);
+        angleMotor.setSmartCurrentLimit(angleLimit);
         angleMotor.setInverted(angleMotorInvert);
         angleMotor.setIdleMode(IdleMode.kCoast);
-        //angleMotor.enableContinuousInput(-180, 180, degreesToRotations(1, angleGearRatio));
+        angleMotor.enableContinuousInput(-180, 180, degreesToRotations(1, angleGearRatio));
+        angleMotor.setDefaultStatusFrames();
         resetToAbsolute();
     }
 
@@ -73,10 +74,11 @@ public class SwerveModule {
      * Intializes the drive motor
      */
     private void configDriveMotor(){        
-        driveMotor.setSmartCurrentLimit(currentLimit);
+        driveMotor.setSmartCurrentLimit(driveLimit);
         driveMotor.setInverted(driveMotorInvert);
         driveMotor.setIdleMode(IdleMode.kCoast); 
         driveMotor.setSelectedSensorPosition(0);
+        driveMotor.setDefaultStatusFrames();
     }
 
     /**

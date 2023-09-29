@@ -10,18 +10,22 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.team3128.RobotContainer;
 import frc.team3128.Constants.WristConstants;
 import frc.team3128.common.hardware.input.NAR_XboxController;
+
 import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
 import frc.team3128.subsystems.Led;
 import frc.team3128.subsystems.Wrist;
 import frc.team3128.subsystems.Wrist.WristPosition;
 import frc.team3128.subsystems.Manipulator;
 import frc.team3128.subsystems.Vision;
+import frc.team3128.subsystems.Elevator;
 
 public class CmdManager {
     private static Led led = Led.getInstance();
     private static Wrist wrist = Wrist.getInstance();
     private static Manipulator manipulator = Manipulator.getInstance();
     private static NAR_XboxController controller = RobotContainer.controller;
+    private static Elevator elevator = Elevator.getInstance();
+
 
 
     private CmdManager() {}
@@ -65,4 +69,29 @@ public class CmdManager {
     public static CommandBase vibrateController() {
         return new ScheduleCommand(new WaitCommand(0.5).deadlineWith(new StartEndCommand(() -> controller.startVibrate(), () -> RobotContainer.controller.stopVibrate())));
     }
+
+    public static CommandBase moveElevator(double setpoint) {
+        return sequence(
+            runOnce(() -> elevator.startPID(setpoint), elevator),
+            waitUntil(() -> elevator.atSetpoint())
+        );
+        // return run(() -> elevator.startPID(setpoint), elevator);
+    }
+
+    public static CommandBase moveElevator(Elevator.States setpoint) {
+        return sequence(
+            runOnce(() -> elevator.startPID(setpoint.height), elevator),
+            waitUntil(() -> elevator.atSetpoint())
+        );
+    }
+
+    public static CommandBase moveElv(double speed) {
+        return runOnce(()-> elevator.set(speed), elevator);
+    }
+   
+
+    
+
+
+    
 }
