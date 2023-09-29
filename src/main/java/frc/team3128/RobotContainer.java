@@ -27,6 +27,7 @@ import frc.team3128.common.hardware.input.NAR_Joystick;
 import frc.team3128.common.hardware.input.NAR_XboxController;
 import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
 import frc.team3128.common.utility.Log;
+import frc.team3128.subsystems.Elevator;
 import frc.team3128.subsystems.Led;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 import frc.team3128.subsystems.Swerve;
@@ -99,7 +100,11 @@ public class RobotContainer {
         controller.getButton("Start").onTrue(new InstantCommand(()-> swerve.zeroGyro()));
         
         rightStick.getButton(1).onTrue(new InstantCommand(()->swerve.zeroGyro()));
-        
+        rightStick.getButton(2).onTrue(new InstantCommand(()-> Elevator.getInstance().set(0.4))).onFalse(new InstantCommand(()-> Elevator.getInstance().set(0)));
+        rightStick.getButton(3).onTrue(new InstantCommand(()-> Elevator.getInstance().set(-0.4))).onFalse(new InstantCommand(()-> Elevator.getInstance().set(0)));
+        rightStick.getButton(4).onTrue(moveElevator(30));
+        rightStick.getButton(5).onTrue(new InstantCommand(()-> Elevator.getInstance().resetEncoder()));
+
         rightStick.getButton(7).onTrue(Commands.sequence(
                                             Commands.deadline(Commands.sequence(new WaitUntilCommand(()-> Math.abs(swerve.getPitch()) > 6), new CmdBangBangBalance()), new CmdBalance()), 
                                             //new RunCommand(()-> swerve.drive(new Translation2d(CmdBalance.DIRECTION ? -0.25 : 0.25,0),0,true)).withTimeout(0.5), 
