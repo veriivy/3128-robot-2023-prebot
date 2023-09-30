@@ -500,14 +500,14 @@ public class Constants {
         public static final double kV = 0;
         public static final double kG = 0.22;
 
-        public static final double GEAR_RATIO = 3.0;
+        public static final double GEAR_RATIO = 90;
 
         public static final double ROTATION_TO_DEGREES = 360;
         
         public static final double ANGLE_OFFSET = 0; 
 
         public static final int MIN_ANGLE = -90;
-        public static final int MAX_ANGLE = 70;
+        public static final int MAX_ANGLE = 90;
 
         public static final double WRIST_TOLERANCE = 0.5;
 
@@ -519,11 +519,11 @@ public class Constants {
         public static final int ROLLER_MOTOR_ID = 31;
         public static final double ROLLER_POWER = 0.9;
         public static final double STALL_POWER_CONE = 0.15;
-        public static final double STALL_POWER_CUBE = 0.0;
+        public static final double STALL_POWER_CUBE = 0.90;
 
 
-        public static final double CURRENT_THRESHOLD_CONE = 13;
-        public static final double CURRENT_THRESHOLD_CUBE = 9;
+        public static final double CURRENT_THRESHOLD_CONE = 15;
+        public static final double CURRENT_THRESHOLD_CUBE = 12;
     }
 
     public static class ElevatorConstants {
@@ -538,7 +538,7 @@ public class Constants {
         public static final double kV = 0;
         public static final double kG = 0.625;
 
-        public static final double MIN_DIST = 5; //Ask Charlie
+        public static final double MIN_DIST = 2; //Ask Charlie
         public static final double MAX_DIST = 55; //Ask Charlie
 
         public static final double GEAR_RATIO = 12.5;

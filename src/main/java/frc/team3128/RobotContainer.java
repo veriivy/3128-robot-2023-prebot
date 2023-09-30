@@ -110,6 +110,14 @@ public class RobotContainer {
         rightStick.getButton(3).onTrue(moveElv(-0.4)).onFalse(moveElv(0));
         rightStick.getButton(4).onTrue(moveElevator(30));
         rightStick.getButton(5).onTrue(resetElevator());
+        rightStick.getButton(6).onTrue(moveWri(0.4)).onFalse(moveWri(0));
+        rightStick.getButton(7).onTrue(moveWri(-0.4)).onFalse(moveWri(0));
+        rightStick.getButton(8).onTrue(moveWrist(30));
+        rightStick.getButton(9).onTrue(resetWrist());
+        rightStick.getButton(10).onTrue(intake(true));
+        rightStick.getButton(11).onTrue(intake(false));
+        rightStick.getButton(12).onTrue(outtake());
+        rightStick.getButton(13).onTrue(stopManip());
 
 
         buttonPad.getButton(5).onTrue(

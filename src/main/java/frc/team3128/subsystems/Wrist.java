@@ -43,7 +43,7 @@ public class Wrist extends NAR_PIDSubsystem {
         m_wrist.setInverted(false);
         m_wrist.setIdleMode(IdleMode.kBrake);
         m_wrist.setSmartCurrentLimit(40);
-        resetEncoder();
+        // resetEncoder();
     }
 
     @Override
@@ -61,6 +61,7 @@ public class Wrist extends NAR_PIDSubsystem {
     }
 
     public void set(double power) {
+        disable();
         m_wrist.set(power);
     }
 
