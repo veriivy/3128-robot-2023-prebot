@@ -1,13 +1,10 @@
 package frc.team3128.subsystems;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3128.common.utility.NAR_Shuffleboard;
@@ -21,24 +18,10 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     protected final PIDController m_controller;
     protected boolean m_enabled;
     private DoubleSupplier kS, kV, kG;
-    private DoubleFunction<Double> kG_Function;
+    private DoubleSupplier kG_Function;
     private BooleanSupplier debug;
     private DoubleSupplier setpoint;
-
-    /**
-     * Creates a new PIDSubsystem.
-     *
-     * @param controller the PIDController to use
-     * @param kS The static gain.
-     * @param kV The velocity gain.
-     * @param kG The gravity gain.
-     * @param kG_Function function in which kG is passed through
-     */
-    public NAR_PIDSubsystem(PIDController controller, double kS, double kV, double kG, DoubleFunction<Double> kG_Function) {
-        m_controller = controller;
-        initShuffleboard(kS, kV, kG);
-        this.kG_Function = kG_Function;
-    }
+    private double min, max;
 
     /**
      * Creates a new PIDSubsystem.
@@ -49,7 +32,10 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
      * @param kG The gravity gain.
      */
     public NAR_PIDSubsystem(PIDController controller, double kS, double kV, double kG) {
-        this(controller, kS, kG, kV, KG -> KG);
+        m_controller = controller;
+        this.kG_Function = () -> 1;
+        min = Double.NEGATIVE_INFINITY;
+        max = Double.POSITIVE_INFINITY;
     }
 
     /**
@@ -65,14 +51,14 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     public void periodic() {
         if (m_enabled) {
             double output = m_controller.calculate(getMeasurement());
-            output += Math.copySign(kS.getAsDouble(), output);
+            output += !atSetpoint() ? Math.copySign(kS.getAsDouble(), output) : 0;
             output += kV.getAsDouble() * getSetpoint();
-            output += kG_Function.apply(kG.getAsDouble());
+            output += kG_Function.getAsDouble() * kG.getAsDouble();
             useOutput(output, getSetpoint());
         }
     }
 
-    private void initShuffleboard(double kS, double kV, double kG) {
+    public void initShuffleboard(double kS, double kV, double kG) {
         NAR_Shuffleboard.addComplex(getName(), "PID_Controller", m_controller, 0, 0);
 
         NAR_Shuffleboard.addData(getName(), "Enabled", ()-> isEnabled(), 1, 0);
@@ -87,6 +73,9 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
         this.kS = NAR_Shuffleboard.debug(getName(), "kS", kS, 3, 0);
         this.kV = NAR_Shuffleboard.debug(getName(), "kV", kV, 3, 1);
         this.kG = NAR_Shuffleboard.debug(getName(), "kG", kG, 3, 2);
+
+        NAR_Shuffleboard.addData(getName(), "atSetpoint", ()-> atSetpoint(), 0, 2);
+        NAR_Shuffleboard.addComplex(getName(), getName(), this, 4, 0);
     }
 
     /**
@@ -99,13 +88,31 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
     }
 
     /**
+     * Sets constraints for the setpoint of the PID subsystem.
+     * @param min The minimum setpoint for the subsystem
+     * @param max The maximum setpoint for the subsystem
+     */
+    public void setConstraints(double min, double max) {
+        this.min = min;
+        this.max = max;
+    }
+
+    /**
+     * Sets the function returning the value multiplied against kG
+     * @param kG_Function the function multiplied to kG
+     */
+    public void setkG_Function(DoubleSupplier kG_Function) {
+        this.kG_Function = kG_Function;
+    }
+
+    /**
      * Sets the setpoint for the subsystem.
      *
      * @param setpoint the setpoint for the subsystem
      */
     public void startPID(double setpoint) {
         enable();
-        m_controller.setSetpoint(debug.getAsBoolean() ? this.setpoint.getAsDouble() : setpoint);
+        m_controller.setSetpoint(MathUtil.clamp(debug.getAsBoolean() ? this.setpoint.getAsDouble() : setpoint, min, max));
     }
 
     /**

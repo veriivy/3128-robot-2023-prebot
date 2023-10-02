@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import frc.team3128.Constants;
 import frc.team3128.common.utility.Log;
 
 /**
@@ -32,9 +33,9 @@ public class ConstantsInt2 {
 
         categories = new Hashtable<String, Class<?>>();
         //Add each class to the HashMap
-        categories.put("ConversionConstants", ConstantsInt.ConversionConstants.class);
-        categories.put("SwerveConstants", ConstantsInt.SwerveConstants.class);
-        categories.put("VisionConstants", ConstantsInt.VisionConstants.class);
+        categories.put("ConversionConstants", Constants.ConversionConstants.class);
+        categories.put("SwerveConstants", Constants.SwerveConstants.class);
+        categories.put("VisionConstants", Constants.VisionConstants.class);
 
         editConstants = new Hashtable<String, ArrayList<Field>>();
 

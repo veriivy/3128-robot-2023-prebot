@@ -14,11 +14,11 @@ import java.util.function.DoubleSupplier;
 import static frc.team3128.Constants.FieldConstants.*;
 
 import frc.team3128.Constants.SwerveConstants;
-import frc.team3128.Constants.VisionConstants;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 import frc.team3128.subsystems.Swerve;
 import frc.team3128.subsystems.Vision;
 
+@Deprecated
 public class CmdMove extends CommandBase {
     
     public enum Type {

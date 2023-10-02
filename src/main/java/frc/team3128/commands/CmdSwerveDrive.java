@@ -40,7 +40,7 @@ public class CmdSwerveDrive extends CommandBase {
     public void execute() {
         // deadbands are taken care of in NAR_Joystick
         // TODO: add in slewratelimiter here
-        translation = new Translation2d(xAxis.getAsDouble(), yAxis.getAsDouble()).times(Swerve.throttle).times(maxSpeed);
+        translation = new Translation2d(xAxis.getAsDouble(), yAxis.getAsDouble()).times(swerve.throttle).times(maxSpeed);
         if (DriverStation.getAlliance() == Alliance.Red || !swerve.fieldRelative) {
             translation = translation.rotateBy(Rotation2d.fromDegrees(90));
         }
@@ -48,7 +48,7 @@ public class CmdSwerveDrive extends CommandBase {
             translation = translation.rotateBy(Rotation2d.fromDegrees(-90));
         }
         
-        rotation = -zAxis.getAsDouble() * maxAngularVelocity * Swerve.throttle; 
+        rotation = -zAxis.getAsDouble() * maxAngularVelocity * swerve.throttle; 
 
         Rotation2d driveAngle = translation.getAngle();
         double slowedDist = accelLimiter.calculate(translation.getNorm());
