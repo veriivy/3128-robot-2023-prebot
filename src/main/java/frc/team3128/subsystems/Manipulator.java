@@ -2,6 +2,8 @@ package frc.team3128.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3128.common.hardware.motorcontroller.NAR_TalonSRX;
+import frc.team3128.common.utility.NAR_Shuffleboard;
+
 import static frc.team3128.Constants.ManipulatorConstants.*;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -62,5 +64,10 @@ public class Manipulator extends SubsystemBase {
 
     public boolean hasObjectPresent() {
         return (CONE ? Math.abs(m_roller.getStatorCurrent()) > CONE_CURRENT_THRESHOLD : Math.abs(m_roller.getStatorCurrent()) > CUBE_CURRENT_THRESHOLD);
+    }
+    public void initShuffleboard() {
+        NAR_Shuffleboard.addData("Manipulator", "manip current", () -> m_roller.getStatorCurrent(), 0, 1);
+        NAR_Shuffleboard.addData("Manipulator", "get", () -> m_roller.getMotorOutputPercent(), 0, 3);
+        NAR_Shuffleboard.addData("Manipulator", "ObjectPresent", () -> hasObjectPresent(), 1, 1);
     }
 }

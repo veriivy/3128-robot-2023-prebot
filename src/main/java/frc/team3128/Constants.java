@@ -505,19 +505,17 @@ public class Constants {
     }
 
     public static class ManipulatorConstants{
-        public static final int ROLLER_MOTOR_ID = 13;
-        public static final double CONE_ROLLER_POWER = 0.4;
-        public static final double CUBE_ROLLER_POWER = 0.5;
-        public static final double OUTTAKE_POWER = -0.4;
-        public static final double SHOOT_POWER = -0.6; //tbd
+        public static final int ROLLER_MOTOR_ID = 52;
+        public static final double CONE_ROLLER_POWER = -0.2;
+        public static final double CUBE_ROLLER_POWER = -0.3;
+        public static final double OUTTAKE_POWER = 0.3;
+        public static final double SHOOT_POWER = 0.5; //tbd
         public static final double STALL_POWER = 0.25;
 
         // TODO: find current thresholds
-        public static final double CONE_CURRENT_THRESHOLD = 5;
-        public static final double CUBE_CURRENT_THRESHOLD = 5;
+        public static final double CONE_CURRENT_THRESHOLD = 1000;
+        public static final double CUBE_CURRENT_THRESHOLD = 1000;
         public static final double ABSOLUTE_THRESHOLD = 20;
-
-        public static final double ROLLER_VOLTAGE = 8;
     }
 
     public static class WristConstants{

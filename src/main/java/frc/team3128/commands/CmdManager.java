@@ -19,20 +19,22 @@ public class CmdManager {
     public static CommandBase CmdManipIntake(boolean cone) {
         return sequence(
             runOnce(() -> manipulator.intake(cone), manipulator),
+            waitSeconds(0.4),
             waitUntil(() -> manipulator.hasObjectPresent()),
-            runOnce(() -> manipulator.stopRoller())
+            runOnce(() -> manipulator.stopRoller(), manipulator)
         );
     }
 
     public static CommandBase CmdManipStop() {
-        return run(()-> manipulator.stopRoller());
+        return runOnce(()-> manipulator.stopRoller(), manipulator);
     }
 
     public static CommandBase CmdManipOutake() {
         return sequence(
             runOnce(() -> manipulator.outtake(), manipulator),
+            waitSeconds(0.4),
             waitUntil(() -> !manipulator.hasObjectPresent()),
-            runOnce(() -> manipulator.stopRoller())
+            runOnce(() -> manipulator.stopRoller(), manipulator)
         );
     }
 
@@ -40,7 +42,7 @@ public class CmdManager {
         return sequence(
             runOnce(() -> manipulator.shoot(), manipulator),
             waitUntil(() -> !manipulator.hasObjectPresent()),
-            runOnce(() -> manipulator.stopRoller())
+            runOnce(() -> manipulator.stopRoller(), manipulator)
         );
     }
     public static CommandBase vibrateController() {

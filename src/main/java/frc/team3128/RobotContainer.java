@@ -28,6 +28,7 @@ import frc.team3128.common.hardware.input.NAR_XboxController;
 import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
 import frc.team3128.common.utility.Log;
 import frc.team3128.subsystems.Led;
+import frc.team3128.subsystems.Manipulator;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 import frc.team3128.subsystems.Swerve;
 import frc.team3128.subsystems.Vision;
@@ -108,7 +109,7 @@ public class RobotContainer {
         rightStick.getButton(4).onTrue(CmdManipIntake(false)).onFalse(CmdManipStop());
 
         rightStick.getButton(8).onTrue(CmdManipOutake()).onFalse(CmdManipStop());
-        rightStick.getButton(14).onTrue(CmdManipShoot()).onFalse(CmdManipStop());
+        rightStick.getButton(11).onTrue(CmdManipShoot()).onFalse(CmdManipStop());
 
         buttonPad.getButton(1).onTrue(new InstantCommand(()-> {
             Vision.SELECTED_GRID = DriverStation.getAlliance() == Alliance.Red ? 0 : 2;
@@ -148,6 +149,7 @@ public class RobotContainer {
 
         swerve.initShuffleboard();
         vision.initShuffleboard();
+        Manipulator.getInstance().initShuffleboard();
 
         NarwhalDashboard.startServer();
         
