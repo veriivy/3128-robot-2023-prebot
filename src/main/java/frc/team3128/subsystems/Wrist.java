@@ -27,7 +27,7 @@ public class Wrist extends NAR_PIDSubsystem {
 
     public Wrist() {
         super(new PIDController(kP, kI, kD), kS, kV, kG);
-        setkG_Function(()-> Math.cos(Units.degreesToRadians(getMeasurement())));
+        setkG_Function(()-> Math.cos(Units.degreesToRadians(getSetpoint())));
         setConstraints(MIN_ANGLE, MAX_ANGLE);
         configMotor();
         initShuffleboard(kS, kV, kG);
@@ -41,7 +41,7 @@ public class Wrist extends NAR_PIDSubsystem {
     private void configMotor() {
         m_wrist = new NAR_CANSparkMax(WRIST_ID, EncoderType.Relative, MotorType.kBrushless);
         m_wrist.setInverted(false);
-        m_wrist.setIdleMode(IdleMode.kBrake);
+        m_wrist.setIdleMode(IdleMode.kCoast);
         m_wrist.setSmartCurrentLimit(40);
         // resetEncoder();
     }

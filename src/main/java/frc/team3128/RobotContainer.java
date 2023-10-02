@@ -102,8 +102,10 @@ public class RobotContainer {
         controller.getButton("LeftTrigger").onTrue(new InstantCommand(()-> swerve.throttle = .25)).onFalse(new InstantCommand(()-> swerve.throttle = 0.8));
         controller.getButton("X").onTrue(new RunCommand(()-> swerve.xlock(), swerve)).onFalse(new InstantCommand(()-> swerve.stop(),swerve));
         controller.getButton("B").onTrue(new InstantCommand(()-> swerve.resetEncoders()));
-        controller.getButton("Y").onTrue(run(()-> ENABLE = true)).onFalse(run(()-> ENABLE = false));
+        controller.getButton("Y").onTrue(runOnce(()-> ENABLE = true)).onFalse(runOnce(()-> ENABLE = false));
         controller.getButton("Start").onTrue(resetSwerve());
+        controller.getButton("RightBumper").onTrue(pickup(Position.GROUND_CONE, true));
+        controller.getButton("LeftBumper").onTrue(pickup(Position.GROUND_CUBE, true));
         
         rightStick.getButton(1).onTrue(resetSwerve());
         rightStick.getButton(2).onTrue(moveElv(0.4)).onFalse(moveElv(0));
@@ -111,6 +113,8 @@ public class RobotContainer {
         rightStick.getButton(4).onTrue(moveElevator(30));
         rightStick.getButton(5).onTrue(resetElevator());
         rightStick.getButton(6).onTrue(moveWri(0.4)).onFalse(moveWri(0));
+   
+   
         rightStick.getButton(7).onTrue(moveWri(-0.4)).onFalse(moveWri(0));
         rightStick.getButton(8).onTrue(moveWrist(30));
         rightStick.getButton(9).onTrue(resetWrist());
@@ -184,7 +188,7 @@ public class RobotContainer {
                 score(Position.MID_CONE, 2)
             );
             buttonPad.getButton(10).onTrue(
-                score(Position.MID_CONE, 0)
+                score(Position.HIGH_CONE, 0)
             );
             buttonPad.getButton(12).onTrue(
                 score(Position.HIGH_CONE, 2)

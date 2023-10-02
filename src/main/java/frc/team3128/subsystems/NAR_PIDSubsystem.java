@@ -73,6 +73,9 @@ public abstract class NAR_PIDSubsystem extends SubsystemBase {
         this.kS = NAR_Shuffleboard.debug(getName(), "kS", kS, 3, 0);
         this.kV = NAR_Shuffleboard.debug(getName(), "kV", kV, 3, 1);
         this.kG = NAR_Shuffleboard.debug(getName(), "kG", kG, 3, 2);
+
+        NAR_Shuffleboard.addData(getName(), "atSetpoint", ()-> atSetpoint(), 0, 2);
+        NAR_Shuffleboard.addComplex(getName(), getName(), this, 4, 0);
     }
 
     /**

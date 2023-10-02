@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team3128.Constants.VisionConstants;
+import frc.team3128.commands.CmdManager;
 import frc.team3128.common.swerveNeo.SwerveModule;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 
@@ -95,6 +96,8 @@ public class Swerve extends SubsystemBase {
         NAR_Shuffleboard.addData("Drivetrain", "Roll", this::getRoll, 0, 2);
         NAR_Shuffleboard.addData("Drivetrain","Heading/Angle",this::getHeading,6,1);
         NAR_Shuffleboard.addComplex("Drivetrain","Drivetrain", this,0,0);
+        NAR_Shuffleboard.addData("Drivetrain", "ENABLE", ()-> CmdManager.ENABLE, 0, 1);
+        NAR_Shuffleboard.addData("Drivetrain", "Single Station", ()-> CmdManager.SINGLE_STATION, 0, 3);
     }
 
     public Pose2d getPose() {

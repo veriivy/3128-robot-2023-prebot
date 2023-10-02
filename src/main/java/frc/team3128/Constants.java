@@ -160,8 +160,8 @@ public class Constants {
                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0)); 
 
         /* Swerve Current Limiting */
-        public static final int angleLimit = 15; //30
-        public static final int driveLimit = 25; //40;
+        public static final int angleLimit = 30; //30
+        public static final int driveLimit = 40; //40;
 
         public static final int angleContinuousCurrentLimit = 25;
         public static final int anglePeakCurrentLimit = 40;
@@ -492,15 +492,15 @@ public class Constants {
 
     public static class WristConstants {
 
-        public static final double kP = 0.6;
+        public static final double kP = 0.4;
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.12;
+        public static final double kS = 0.19;
         public static final double kV = 0;
-        public static final double kG = 0.22;
+        public static final double kG = 0.2;
 
-        public static final double GEAR_RATIO = 90;
+        public static final double GEAR_RATIO = 76.235; //72,3
 
         public static final double ROTATION_TO_DEGREES = 360;
         
@@ -518,19 +518,19 @@ public class Constants {
     public static class ManipulatorConstants{
         public static final int ROLLER_MOTOR_ID = 31;
         public static final double ROLLER_POWER = 0.9;
-        public static final double STALL_POWER_CONE = 0.15;
-        public static final double STALL_POWER_CUBE = 0.90;
+        public static final double STALL_POWER_CONE = 0.05;
+        public static final double STALL_POWER_CUBE = 0;
 
 
-        public static final double CURRENT_THRESHOLD_CONE = 15;
-        public static final double CURRENT_THRESHOLD_CUBE = 12;
+        public static final double CURRENT_THRESHOLD_CONE = 25;
+        public static final double CURRENT_THRESHOLD_CUBE = 15;
     }
 
     public static class ElevatorConstants {
         public static final int ELV1_ID = 11;
         public static final int ELV2_ID = 12;
 
-        public static final double kP = 6;
+        public static final double kP = 3;
         public static final double kI = 0;
         public static final double kD = 0;
 

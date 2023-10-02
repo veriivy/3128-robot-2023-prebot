@@ -3,6 +3,9 @@ package frc.team3128.subsystems;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import static frc.team3128.PositionConstants.Position;
+
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import frc.team3128.common.hardware.motorcontroller.NAR_CANSparkMax;
 import static frc.team3128.Constants.ElevatorConstants.*;
 
@@ -37,6 +40,9 @@ public class Elevator extends NAR_PIDSubsystem {
 
         m_elv1.setInverted(false);
         m_elv2.setInverted(true);
+
+        m_elv1.setIdleMode(IdleMode.kCoast);
+        m_elv2.setIdleMode(IdleMode.kCoast);
 
         m_elv1.setSmartCurrentLimit(CURRENT_LIMIT); 
         m_elv2.setSmartCurrentLimit(CURRENT_LIMIT);

@@ -28,9 +28,9 @@ public class CmdManager {
 
     private CmdManager() {}
 
-    public static CommandBase score(Position position, int xPos) {
+    public static CommandBase score(Position position, int xPos, boolean runImmediately) {
         return sequence(
-            runOnce(()-> ENABLE = false),
+            runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
             extend(position),
             waitUntil(()-> !ENABLE),
@@ -41,18 +41,27 @@ public class CmdManager {
         );
     }
 
+    public static CommandBase score(Position position, int xPos) {
+        return score(position, xPos, false);
+    }
+
     public static CommandBase HPpickup(Position position1, Position position2) {
         return either(pickup(position1), pickup(position2), ()-> SINGLE_STATION);
     }
 
-    public static CommandBase pickup(Position position) {
+    public static CommandBase pickup(Position position, boolean runImmediately) {
         return sequence(
-            runOnce(()-> ENABLE = false),
+            runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
             extend(position),
+            waitSeconds(0.2),
             intake(position.cone),
             retract(Position.NEUTRAL)
         );
+    }
+
+    public static CommandBase pickup(Position position) {
+        return pickup(position, false);
     }
 
     public static CommandBase extend(Position position) {
@@ -89,7 +98,7 @@ public class CmdManager {
             waitSeconds(0.4),
             waitUntil(()-> manipulator.hasObjectPresent()),
             waitSeconds(cone ? 0.15 : 0),
-            runOnce(()-> manipulator.stallPower())
+            runOnce(()-> manipulator.stallPower(), manipulator)
         );
     }
 
