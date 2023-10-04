@@ -32,6 +32,7 @@ import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
 import frc.team3128.common.utility.Log;
 import frc.team3128.subsystems.Elevator;
 import frc.team3128.subsystems.Led;
+import frc.team3128.subsystems.ManipCRX;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 import frc.team3128.subsystems.Swerve;
 import frc.team3128.subsystems.Vision;
@@ -50,6 +51,7 @@ public class RobotContainer {
     private Vision vision;
     private Led led;
     private Elevator elevator;
+    private ManipCRX manip;
 
     private NAR_Joystick leftStick;
     private NAR_Joystick rightStick;
@@ -73,6 +75,7 @@ public class RobotContainer {
         vision = Vision.getInstance();
         led = Led.getInstance();
         elevator = Elevator.getInstance();
+        manip = ManipCRX.getInstance();
 
         //TODO: Enable all PIDSubsystems so that useOutput runs here
         // pivot.enable();
@@ -114,14 +117,23 @@ public class RobotContainer {
         rightStick.getButton(5).onTrue(resetElevator());
         rightStick.getButton(6).onTrue(moveWri(0.4)).onFalse(moveWri(0));
    
-   
-        rightStick.getButton(7).onTrue(moveWri(-0.4)).onFalse(moveWri(0));
-        rightStick.getButton(8).onTrue(moveWrist(30));
-        rightStick.getButton(9).onTrue(resetWrist());
-        rightStick.getButton(10).onTrue(intake(true));
-        rightStick.getButton(11).onTrue(intake(false));
-        rightStick.getButton(12).onTrue(outtake());
-        rightStick.getButton(13).onTrue(stopManip());
+        rightStick.getButton(3).onTrue(new InstantCommand(()-> manip.intake(true))).onFalse(new InstantCommand(()->manip.stopRoller()));
+        rightStick.getButton(4).onTrue(new InstantCommand(()-> manip.intake(false))).onFalse(new InstantCommand(()->manip.stopRoller()));
+        rightStick.getButton(8).onTrue(new InstantCommand(()-> manip.stopRoller()));
+        // rightStick.getButton(3).onTrue(CmdManipIntake(true));
+        // rightStick.getButton(4).onTrue(CmdManipIntake(false));
+
+        // rightStick.getButton(8).onTrue(CmdManipOutake()).onFalse(CmdManipStop());
+        // rightStick.getButton(11).onTrue(CmdManipShoot()).onFalse(CmdManipStop());
+
+
+        // rightStick.getButton(7).onTrue(moveWri(-0.4)).onFalse(moveWri(0));
+        // rightStick.getButton(8).onTrue(moveWrist(30));
+        // rightStick.getButton(9).onTrue(resetWrist());
+        // rightStick.getButton(10).onTrue(intake(true));
+        // rightStick.getButton(11).onTrue(intake(false));
+        // rightStick.getButton(12).onTrue(outtake());
+        // rightStick.getButton(13).onTrue(stopManip());
 
 
         buttonPad.getButton(5).onTrue(

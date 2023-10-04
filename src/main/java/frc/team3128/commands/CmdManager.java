@@ -10,6 +10,7 @@ import frc.team3128.PositionConstants.Position;
 import frc.team3128.common.hardware.input.NAR_XboxController;
 
 import frc.team3128.subsystems.Led;
+import frc.team3128.subsystems.ManipCRX;
 import frc.team3128.subsystems.Wrist;
 import frc.team3128.subsystems.Manipulator;
 import frc.team3128.subsystems.Swerve;
@@ -18,7 +19,8 @@ import frc.team3128.subsystems.Elevator;
 public class CmdManager {
     private static Led led = Led.getInstance();
     private static Wrist wrist = Wrist.getInstance();
-    private static Manipulator manipulator = Manipulator.getInstance();
+    // private static Manipulator manipulator = Manipulator.getInstance();
+    private static ManipCRX manipulator = ManipCRX.getInstance();
     private static Swerve swerve = Swerve.getInstance();
     private static NAR_XboxController controller = RobotContainer.controller;
     private static Elevator elevator = Elevator.getInstance();
@@ -34,9 +36,9 @@ public class CmdManager {
             waitUntil(()-> ENABLE),
             extend(position),
             waitUntil(()-> !ENABLE),
-            outtake(),
+            CmdManipOutake(),
             waitSeconds(0.5),
-            stopManip(),
+            CmdManipStop(),
             retract(Position.NEUTRAL)
         );
     }
@@ -55,7 +57,7 @@ public class CmdManager {
             waitUntil(()-> ENABLE),
             extend(position),
             waitSeconds(0.2),
-            intake(position.cone),
+            CmdManipIntake(position.cone),
             retract(Position.NEUTRAL)
         );
     }
@@ -92,23 +94,53 @@ public class CmdManager {
         );
     }
 
-    public static CommandBase intake(Boolean cone) {
+    public static CommandBase CmdManipIntake(boolean cone) {
         return sequence(
-            runOnce(()-> manipulator.intake(cone), manipulator),
+            runOnce(() -> manipulator.intake(cone), manipulator),
             waitSeconds(0.4),
-            waitUntil(()-> manipulator.hasObjectPresent()),
-            waitSeconds(cone ? 0.15 : 0),
-            runOnce(()-> manipulator.stallPower(), manipulator)
+            waitUntil(() -> manipulator.hasObjectPresent()),
+            runOnce(() -> manipulator.stopRoller(), manipulator)
         );
     }
 
-    public static CommandBase outtake() {
-        return runOnce(()-> manipulator.outtake(), manipulator);
-    }
-
-    public static CommandBase stopManip() {
+    public static CommandBase CmdManipStop() {
         return runOnce(()-> manipulator.stopRoller(), manipulator);
     }
+
+    public static CommandBase CmdManipOutake() {
+        return sequence(
+            runOnce(() -> manipulator.outtake(), manipulator),
+            waitSeconds(0.4),
+            waitUntil(() -> !manipulator.hasObjectPresent()),
+            runOnce(() -> manipulator.stopRoller(), manipulator)
+        );
+    }
+
+    public static CommandBase CmdManipShoot() {
+        return sequence(
+            runOnce(() -> manipulator.shoot(), manipulator),
+            waitUntil(() -> !manipulator.hasObjectPresent()),
+            runOnce(() -> manipulator.stopRoller(), manipulator)
+        );
+    }
+
+    // public static CommandBase intake(Boolean cone) {
+    //     return sequence(
+    //         runOnce(()-> manipulator.intake(cone), manipulator),
+    //         waitSeconds(0.4),
+    //         waitUntil(()-> manipulator.hasObjectPresent()),
+    //         waitSeconds(cone ? 0.15 : 0),
+    //         runOnce(()-> manipulator.stallPower(), manipulator)
+    //     );
+    // }
+
+    // public static CommandBase outtake() {
+    //     return runOnce(()-> manipulator.outtake(), manipulator);
+    // }
+
+    // public static CommandBase stopManip() {
+    //     return runOnce(()-> manipulator.stopRoller(), manipulator);
+    // }
 
     public static CommandBase vibrateController() {
         return new ScheduleCommand(new WaitCommand(0.5).deadlineWith(new StartEndCommand(() -> controller.startVibrate(), () -> RobotContainer.controller.stopVibrate())));
