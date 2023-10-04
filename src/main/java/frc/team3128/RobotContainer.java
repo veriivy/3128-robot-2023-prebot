@@ -46,6 +46,7 @@ public class RobotContainer {
     private Swerve swerve;
     private Vision vision;
     private Led led;
+    private Manipulator manip;
 
     private NAR_Joystick leftStick;
     private NAR_Joystick rightStick;
@@ -68,6 +69,7 @@ public class RobotContainer {
         swerve = Swerve.getInstance();
         vision = Vision.getInstance();
         led = Led.getInstance();
+        manip = Manipulator.getInstance();
 
         //TODO: Enable all PIDSubsystems so that useOutput runs here
         // pivot.enable();
@@ -105,11 +107,14 @@ public class RobotContainer {
                                             //new RunCommand(()-> swerve.drive(new Translation2d(CmdBalance.DIRECTION ? -0.25 : 0.25,0),0,true)).withTimeout(0.5), 
                                             new RunCommand(()->Swerve.getInstance().xlock(), Swerve.getInstance())));
 
-        rightStick.getButton(3).onTrue(CmdManipIntake(true)).onFalse(CmdManipStop());
-        rightStick.getButton(4).onTrue(CmdManipIntake(false)).onFalse(CmdManipStop());
+        rightStick.getButton(3).onTrue(new InstantCommand(()-> manip.intake(true))).onFalse(new InstantCommand(()->manip.stopRoller()));
+        rightStick.getButton(4).onTrue(new InstantCommand(()-> manip.intake(false))).onFalse(new InstantCommand(()->manip.stopRoller()));
+        rightStick.getButton(8).onTrue(new InstantCommand(()-> manip.stopRoller()));
+        // rightStick.getButton(3).onTrue(CmdManipIntake(true));
+        // rightStick.getButton(4).onTrue(CmdManipIntake(false));
 
-        rightStick.getButton(8).onTrue(CmdManipOutake()).onFalse(CmdManipStop());
-        rightStick.getButton(11).onTrue(CmdManipShoot()).onFalse(CmdManipStop());
+        // rightStick.getButton(8).onTrue(CmdManipOutake()).onFalse(CmdManipStop());
+        // rightStick.getButton(11).onTrue(CmdManipShoot()).onFalse(CmdManipStop());
 
         buttonPad.getButton(1).onTrue(new InstantCommand(()-> {
             Vision.SELECTED_GRID = DriverStation.getAlliance() == Alliance.Red ? 0 : 2;
