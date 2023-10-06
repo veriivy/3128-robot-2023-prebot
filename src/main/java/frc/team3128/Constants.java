@@ -39,47 +39,29 @@ public class Constants {
     }
 
     public static class TrajectoryConstants {
-        public static final Rotation2d HEADING_0 = Rotation2d.fromDegrees(180);
+        public static final Rotation2d HEADING = Rotation2d.fromDegrees(180);
         
         public static final Translation2d POINT_1 = new Translation2d(12.7, 6.75);
-        public static final Rotation2d HEADING_1 = Rotation2d.fromDegrees(180);
         public static final double CONDITION_1 = 12.7;
 
-        public static final List<Translation2d>POINT_2 = new ArrayList<Translation2d>() { 
-            {
-                add(POINT_2A);
-                add(POINT_2B);
-            }
-        };
-        public static final Translation2d POINT_2A = new Translation2d(5.6, 4.6);
-        public static final Translation2d POINT_2B = new Translation2d(5.6, 0.8);
-        public static final Rotation2d HEADING_2 = Rotation2d.fromDegrees(180);
-        public static final double CONDITION_2 = 5.6;
+        public static final Translation2d POINT_2A = new Translation2d(4.85, 0.8);
+        public static final Translation2d POINT_2B = new Translation2d(4.85, 4.7);
+        public static final double CONDITION_2 = 4.85;
 
-        public static final List<Translation2d>POINT_3 = new ArrayList<Translation2d>() { 
-            {
-                add(POINT_3A);
-                add(POINT_3B);
-            }
-        };
-        public static final Translation2d POINT_3A = new Translation2d(2.8, 0.8);
-        public static final Translation2d POINT_3B = new Translation2d(2.8, 4.6);
-        public static final Rotation2d HEADING_3 = Rotation2d.fromDegrees(180);
-        public static final double CONDITION_3 = 2.25;
-
-        public static final Rotation2d HEADING_4A = Rotation2d.fromDegrees(135);
-        public static final Rotation2d HEADING_4B = Rotation2d.fromDegrees(-135);
+        public static final Translation2d POINT_3A = new Translation2d(2.5, 0.8);
+        public static final Translation2d POINT_3B = new Translation2d(2.5, 4.7);
+        public static final double CONDITION_3 = 2.5;
 
         public static final Pose2d[] END_POINTS = new Pose2d[]{
-            new Pose2d(1.90,0.5,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.05,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.65,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.15,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.75,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.3,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.85,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.45,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.89,Rotation2d.fromDegrees(180))
+            new Pose2d(1.75,0.5,Rotation2d.fromDegrees(0)),
+            new Pose2d(1.75,0.95,Rotation2d.fromDegrees(0)),
+            new Pose2d(1.75,1.55,Rotation2d.fromDegrees(0)),
+            new Pose2d(1.75,2.05,Rotation2d.fromDegrees(0)),
+            new Pose2d(1.75,2.65,Rotation2d.fromDegrees(0)),
+            new Pose2d(1.75,3.2,Rotation2d.fromDegrees(0)),
+            new Pose2d(1.75,3.75,Rotation2d.fromDegrees(0)),
+            new Pose2d(1.75,4.35,Rotation2d.fromDegrees(0)),
+            new Pose2d(1.75,4.79,Rotation2d.fromDegrees(0))
         };
     }
 
@@ -98,10 +80,13 @@ public class Constants {
         public static final Pose2d ClimbSetupOutsideBot = new Pose2d(5.6, 2.9, Rotation2d.fromDegrees(180));
         public static final Pose2d ClimbSetupOutsideTop = new Pose2d(5.6, 3.3, Rotation2d.fromDegrees(180));
 
-        public static final double ANGLE_THRESHOLD = 3;
-        public static final double VELOCITY_THRESHOLD = 8;
-        public static final double RAMP_THRESHOLD = 8;
-        public static final double DRIVE_SPEED = Units.inchesToMeters(15);
+        public static final double ANGLE_THRESHOLD = 9; //7, 9
+        public static final double VELOCITY_THRESHOLD = 3; //6, 3
+        public static final double RAMP_THRESHOLD = 10; //8, 10
+        public static final double DRIVE_SPEED = Units.inchesToMeters(40); //30, 40
+        public static final double kP = 0.000000001;
+        public static final double kI = 0.0;
+        public static final double kD = 0;
 
         public static final Pose2d[] STARTING_POINTS = new Pose2d[] {
             new Pose2d(1.85 ,0.5, Rotation2d.fromDegrees(180)),
@@ -134,6 +119,9 @@ public class Constants {
         };
 
         public static final double BALANCE_FF = 0.3;
+
+        public static final double slowSpeed = 1.5;
+        public static final double slowAcceleration = 2;
     }
 
     public static class SwerveConstants {
@@ -197,6 +185,7 @@ public class Constants {
         public static final double rotationKP = 2;
         public static final double rotationKI = 0;
         public static final double rotationKD = 0;
+        public static final double rotationKS = 0;
 
         /* Turning PID Values */
         public static final double turnKP = 0.1;
@@ -291,12 +280,15 @@ public class Constants {
 
     public static class VisionConstants {
 
-        public static final Camera FRONT = new Camera("Frog", true, 0, 0, 0, 
-                                                        new Transform2d(new Translation2d(Units.inchesToMeters(-5.75), 
-                                                        Units.inchesToMeters(-11.5)), Rotation2d.fromDegrees(0)));
-        public static final Camera BACK = new Camera("Blog", true, 0, 0, 0, 
-                                                        new Transform2d(new Translation2d(Units.inchesToMeters(-5.75), 
-                                                        Units.inchesToMeters(11.5)), Rotation2d.fromDegrees(180)));
+        public static final Camera FRONT_LEFT = new Camera("FRONT_LEFT", true, 0, 0, 0, 
+                                                        new Transform2d(
+                                                            new Translation2d(Units.inchesToMeters(-5.75), Units.inchesToMeters(-11.5)), 
+                                                                Rotation2d.fromDegrees(0)));
+
+        public static final Camera FRONT_RIGHT = new Camera("FRONT_RIGHT", true, 0, 0, 0, 
+                                                        new Transform2d(
+                                                            new Translation2d(Units.inchesToMeters(-5.75), Units.inchesToMeters(11.5)), 
+                                                                Rotation2d.fromDegrees(180)));
 
         public static final PIDController xController = new PIDController(1, 0, 0);
         public static final PIDController yController = new PIDController(1, 0, 0);

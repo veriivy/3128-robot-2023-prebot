@@ -13,6 +13,7 @@ import frc.team3128.subsystems.Led;
 import frc.team3128.subsystems.Wrist;
 import frc.team3128.subsystems.Manipulator;
 import frc.team3128.subsystems.Swerve;
+import frc.team3128.subsystems.Vision;
 import frc.team3128.subsystems.Elevator;
 
 public class CmdManager {
@@ -28,10 +29,11 @@ public class CmdManager {
 
     private CmdManager() {}
 
-    public static CommandBase score(Position position, int xPos, boolean runImmediately) {
+    private static CommandBase score(Position position, int xPos, boolean runImmediately) {
         return sequence(
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
+            either(none(), new CmdTrajectory(xPos + Vision.SELECTED_GRID * 3), ()-> runImmediately),
             extend(position),
             waitUntil(()-> !ENABLE),
             outtake(),
@@ -39,6 +41,10 @@ public class CmdManager {
             stopManip(),
             retract(Position.NEUTRAL)
         );
+    }
+
+    public static CommandBase score(Position position, boolean runImmediately) {
+        return score(position, 0, runImmediately);
     }
 
     public static CommandBase score(Position position, int xPos) {

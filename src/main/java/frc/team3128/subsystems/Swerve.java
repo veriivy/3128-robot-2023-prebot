@@ -15,6 +15,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.team3128.Constants.SwerveConstants.Mod0;
+import frc.team3128.Constants.SwerveConstants.Mod1;
+import frc.team3128.Constants.SwerveConstants.Mod2;
+import frc.team3128.Constants.SwerveConstants.Mod3;
 import frc.team3128.Constants.VisionConstants;
 import frc.team3128.commands.CmdManager;
 import frc.team3128.common.swerveNeo.SwerveModule;
@@ -37,6 +41,8 @@ public class Swerve extends SubsystemBase {
     public boolean fieldRelative;
     public double throttle = 0.8;
 
+    private double initialRoll, initialPitch;
+
     public static synchronized Swerve getInstance() {
         if (instance == null) {
             instance = new Swerve();
@@ -49,6 +55,7 @@ public class Swerve extends SubsystemBase {
         gyro.configFactoryDefault();
         fieldRelative = true;
         estimatedPose = new Pose2d();
+        zeroAxis();
 
         modules = new SwerveModule[] {
             new SwerveModule(0, Mod0.constants),
@@ -190,15 +197,21 @@ public class Swerve extends SubsystemBase {
     }
 
     public double getPitch() {
-        return gyro.getPitch();
+        return gyro.getRoll() - initialRoll;
     }
 
     public double getRoll() {
-        return gyro.getRoll();
+        return gyro.getPitch() - initialPitch;
     }
 
     public void zeroGyro() {
         gyro.reset();
+        zeroAxis();
+    }
+
+    public void zeroAxis() {
+        initialRoll = gyro.getRoll();
+        initialPitch = gyro.getPitch();
     }
 
     public void zeroGyro(double reset) {

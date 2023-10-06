@@ -14,7 +14,7 @@ import frc.team3128.common.utility.NAR_Shuffleboard;
 
 public class Vision extends SubsystemBase{
     public static int SELECTED_GRID = 0;
-    public static boolean AUTO_ENABLED = false;
+    public static boolean AUTO_ENABLED = true;
     public static boolean MANUAL = false;
 
     private HashMap<String,NAR_Camera> cameras;
@@ -35,8 +35,8 @@ public class Vision extends SubsystemBase{
         NAR_Camera.setAprilTags(APRIL_TAG_POS);
         NAR_Camera.multipleTargets = false;
         cameras = new HashMap<String,NAR_Camera>();
-        cameras.put(FRONT.hostname, new NAR_Camera(FRONT));
-        cameras.put(BACK.hostname, new NAR_Camera(BACK));
+        cameras.put(FRONT_LEFT.hostname, new NAR_Camera(FRONT_LEFT));
+        cameras.put(FRONT_RIGHT.hostname, new NAR_Camera(FRONT_RIGHT));
     }
 
     public Pose2d targetPos(String name, Pose2d robotPos) {
@@ -123,8 +123,8 @@ public class Vision extends SubsystemBase{
     }
     
     public void initShuffleboard() {
-        NAR_Camera cam = cameras.get(FRONT.hostname);
-        NAR_Camera cam2 = cameras.get(BACK.hostname);
+        NAR_Camera cam = cameras.get(FRONT_LEFT.hostname);
+        NAR_Camera cam2 = cameras.get(FRONT_RIGHT.hostname);
         NAR_Shuffleboard.addData("VisionComp", "HasTarget", ()->cam.hasValidTarget() || cam2.hasValidTarget(), 0, 0);
 
         NAR_Shuffleboard.addData("Vision","HasTarget", ()->cam.hasValidTarget(), 0, 0);
@@ -148,14 +148,14 @@ public class Vision extends SubsystemBase{
     }
 
     public void logCameraAll() {
-        NAR_Shuffleboard.addData("Vision Urgent", "HasTarget", cameras.get(FRONT.hostname).hasValidTarget(),0,0);
-        NAR_Shuffleboard.addData("Vision Urgent", "Distance", calculateDistance(FRONT.hostname),1,0);
-        NAR_Shuffleboard.addData("Vision Urgent", "EstimatedPose",cameras.get(FRONT.hostname).getPos().toString(),0,1);
-        NAR_Shuffleboard.addData("Vision Urgent", "GEICO",cameras.get(FRONT.hostname).targetYaw(),2,0);
-        NAR_Shuffleboard.addData("Vision Urgent", "TARGETPOS",cameras.get(FRONT.hostname).getTargetPos(Swerve.getInstance().getPose()).toString(),0,2);
-        NAR_Shuffleboard.addData("Vision Urgent", "RAWTARGET",cameras.get(FRONT.hostname).getTarget().toString(),0,3);
-        NAR_Shuffleboard.addData("Vision Urgent", "TARGETGUITY",cameras.get(FRONT.hostname).targetAmbiguity(),3,0);
-        NAR_Shuffleboard.addData("Vision Urgent", "PROCESSED TARGET", cameras.get(FRONT.hostname).getProcessedTarget().toString(),0,4);
-        NAR_Shuffleboard.addData("Vision Urgent", "SUNSHINE", cameras.get(FRONT.hostname).getRawTarget().toString(),0,5);
+        NAR_Shuffleboard.addData("Vision Urgent", "HasTarget", cameras.get(FRONT_LEFT.hostname).hasValidTarget(),0,0);
+        NAR_Shuffleboard.addData("Vision Urgent", "Distance", calculateDistance(FRONT_LEFT.hostname),1,0);
+        NAR_Shuffleboard.addData("Vision Urgent", "EstimatedPose",cameras.get(FRONT_LEFT.hostname).getPos().toString(),0,1);
+        NAR_Shuffleboard.addData("Vision Urgent", "GEICO",cameras.get(FRONT_LEFT.hostname).targetYaw(),2,0);
+        NAR_Shuffleboard.addData("Vision Urgent", "TARGETPOS",cameras.get(FRONT_LEFT.hostname).getTargetPos(Swerve.getInstance().getPose()).toString(),0,2);
+        NAR_Shuffleboard.addData("Vision Urgent", "RAWTARGET",cameras.get(FRONT_LEFT.hostname).getTarget().toString(),0,3);
+        NAR_Shuffleboard.addData("Vision Urgent", "TARGETGUITY",cameras.get(FRONT_LEFT.hostname).targetAmbiguity(),3,0);
+        NAR_Shuffleboard.addData("Vision Urgent", "PROCESSED TARGET", cameras.get(FRONT_LEFT.hostname).getProcessedTarget().toString(),0,4);
+        NAR_Shuffleboard.addData("Vision Urgent", "SUNSHINE", cameras.get(FRONT_LEFT.hostname).getRawTarget().toString(),0,5);
     }
 }
