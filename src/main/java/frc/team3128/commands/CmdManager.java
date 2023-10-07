@@ -32,8 +32,9 @@ public class CmdManager {
     private static CommandBase score(Position position, int xPos, boolean runImmediately) {
         return sequence(
             runOnce(()-> ENABLE = runImmediately),
+            // waitUntil(()-> ENABLE),
+            // either(none(), new CmdTrajectory(xPos + Vision.SELECTED_GRID * 3), ()-> runImmediately),
             waitUntil(()-> ENABLE),
-            either(none(), new CmdTrajectory(xPos + Vision.SELECTED_GRID * 3), ()-> runImmediately),
             extend(position),
             waitUntil(()-> !ENABLE),
             outtake(),

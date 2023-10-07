@@ -282,13 +282,13 @@ public class Constants {
 
         public static final Camera FRONT_LEFT = new Camera("FRONT_LEFT", true, 0, 0, 0, 
                                                         new Transform2d(
-                                                            new Translation2d(Units.inchesToMeters(-5.75), Units.inchesToMeters(-11.5)), 
+                                                            new Translation2d(Units.inchesToMeters(5.43), Units.inchesToMeters(-11.9)), 
                                                                 Rotation2d.fromDegrees(0)));
 
         public static final Camera FRONT_RIGHT = new Camera("FRONT_RIGHT", true, 0, 0, 0, 
                                                         new Transform2d(
-                                                            new Translation2d(Units.inchesToMeters(-5.75), Units.inchesToMeters(11.5)), 
-                                                                Rotation2d.fromDegrees(180)));
+                                                            new Translation2d(Units.inchesToMeters(5.43), Units.inchesToMeters(11.7)), 
+                                                                Rotation2d.fromDegrees(0)));
 
         public static final PIDController xController = new PIDController(1, 0, 0);
         public static final PIDController yController = new PIDController(1, 0, 0);
