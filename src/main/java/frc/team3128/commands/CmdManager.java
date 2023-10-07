@@ -9,7 +9,7 @@ import frc.team3128.RobotContainer;
 import frc.team3128.PositionConstants.Position;
 import frc.team3128.common.hardware.input.NAR_XboxController;
 
-import frc.team3128.subsystems.Led;
+import frc.team3128.subsystems.Leds;
 import frc.team3128.subsystems.Wrist;
 import frc.team3128.subsystems.Manipulator;
 import frc.team3128.subsystems.Swerve;
@@ -17,7 +17,7 @@ import frc.team3128.subsystems.Vision;
 import frc.team3128.subsystems.Elevator;
 
 public class CmdManager {
-    private static Led led = Led.getInstance();
+    private static Leds leds = Leds.getInstance();
     private static Wrist wrist = Wrist.getInstance();
     private static Manipulator manipulator = Manipulator.getInstance();
     private static Swerve swerve = Swerve.getInstance();

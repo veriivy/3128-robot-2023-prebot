@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team3128.commands.CmdSwerveDrive;
-
+import frc.team3128.Constants.LedConstants.Colors;
 import frc.team3128.PositionConstants.Position;
 import static frc.team3128.commands.CmdManager.*;
 import frc.team3128.common.hardware.input.NAR_ButtonBoard;
@@ -21,7 +21,7 @@ import frc.team3128.common.hardware.input.NAR_XboxController;
 import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
 import frc.team3128.common.utility.Log;
 import frc.team3128.subsystems.Elevator;
-import frc.team3128.subsystems.Led;
+import frc.team3128.subsystems.Leds;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 import frc.team3128.subsystems.Swerve;
 import frc.team3128.subsystems.Vision;
@@ -38,7 +38,7 @@ public class RobotContainer {
 
     private Swerve swerve;
     private Vision vision;
-    private Led led;
+    private Leds leds;
     private Elevator elevator;
 
     private NAR_Joystick leftStick;
@@ -61,7 +61,7 @@ public class RobotContainer {
 
         swerve = Swerve.getInstance();
         vision = Vision.getInstance();
-        led = Led.getInstance();
+        leds = Leds.getInstance();
         elevator = Elevator.getInstance();
 
         //TODO: Enable all PIDSubsystems so that useOutput runs here
@@ -168,6 +168,7 @@ public class RobotContainer {
     }
 
     public void init() {
+        leds.setElevatorLeds(Colors.DEFAULT);
         Vision.AUTO_ENABLED = false;
         if (DriverStation.getAlliance() == Alliance.Red) {
             buttonPad.getButton(4).onTrue(
