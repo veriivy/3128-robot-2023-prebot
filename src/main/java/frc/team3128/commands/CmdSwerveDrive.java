@@ -28,7 +28,6 @@ public class CmdSwerveDrive extends CommandBase {
     private final SlewRateLimiter accelLimiter;
 
     private final PIDController rController;
-    private final DoubleSupplier kS;
     public static boolean enabled = false;
     public static double rSetpoint;
     
@@ -41,10 +40,10 @@ public class CmdSwerveDrive extends CommandBase {
         this.zAxis = zAxis;
 
         accelLimiter = new SlewRateLimiter(maxAcceleration);
-        rController = new PIDController(rotationKP, 0, 0);
+        rController = new PIDController(turnKP, 0, 0);
         rController.enableContinuousInput(0, 360);
         rController.setTolerance(0.5);
-        kS = NAR_Shuffleboard.debug("Drivetrain", "kS", rotationKS, 5, 4);
+
         swerve.fieldRelative = fieldRelative;
     }
 
@@ -67,7 +66,6 @@ public class CmdSwerveDrive extends CommandBase {
         }
         if (enabled) {
             rotation = Units.degreesToRadians(rController.calculate(swerve.getGyroRotation2d().getDegrees(), rSetpoint));
-            rotation += Math.copySign(kS.getAsDouble(), rotation);
             if (rController.atSetpoint()) {
                 rotation = 0;
             }

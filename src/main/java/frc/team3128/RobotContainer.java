@@ -98,21 +98,21 @@ public class RobotContainer {
         controller.getButton("LeftBumper").onTrue(pickup(Position.GROUND_CONE, true));
 
         controller.getUpPOVButton().onTrue(runOnce(()-> {
-            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 0 : 180;
+            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 180 : 0;
             CmdSwerveDrive.enabled = true;
         }));
         controller.getDownPOVButton().onTrue(runOnce(()-> {
-            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 180 : 0;
+            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 0 : 180;
             CmdSwerveDrive.enabled = true;
         }));
 
         controller.getRightPOVButton().onTrue(runOnce(()-> {
-            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 270 : 90;
+            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 90 : 270;
             CmdSwerveDrive.enabled = true;
         }));
 
         controller.getLeftPOVButton().onTrue(runOnce(()-> {
-            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 90 : 270;
+            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 270 : 90;
             CmdSwerveDrive.enabled = true;
         }));
         

@@ -53,15 +53,15 @@ public class Constants {
         public static final double CONDITION_3 = 2.5;
 
         public static final Pose2d[] END_POINTS = new Pose2d[]{
-            new Pose2d(1.75,0.5,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,0.95,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,1.55,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,2.05,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,2.65,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,3.2,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,3.75,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,4.35,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,4.79,Rotation2d.fromDegrees(0))
+            new Pose2d(1.75,0.5,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,0.95,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,1.55,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,2.05,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,2.65,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,3.2,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,3.75,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,4.35,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,4.79,Rotation2d.fromDegrees(180))
         };
     }
 
@@ -185,13 +185,11 @@ public class Constants {
         public static final double rotationKP = 2;
         public static final double rotationKI = 0;
         public static final double rotationKD = 0;
-        public static final double rotationKS = 0;
 
         /* Turning PID Values */
-        public static final double turnKP = 0.1;
+        public static final double turnKP = 5;
         public static final double turnKI = 0;
         public static final double turnKD = 0;
-        public static final double turnKF = 0.1;
 
         /* Angle Motor PID Values */
         // switched 364 pid values to SDS pid values
@@ -522,18 +520,18 @@ public class Constants {
         public static final int ELV1_ID = 11;
         public static final int ELV2_ID = 12;
 
-        public static final double kP = 3;
+        public static final double kP = 1;
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.475;
+        public static final double kS = 0.975;
         public static final double kV = 0;
-        public static final double kG = 0.625;
+        public static final double kG = 1.05;
 
         public static final double MIN_DIST = 2; //Ask Charlie
         public static final double MAX_DIST = 55; //Ask Charlie
 
-        public static final double GEAR_RATIO = 12.5;
+        public static final double GEAR_RATIO = 10;
         public static final double SPOOL_CIRCUMFERENCE = 3 * Math.PI;
         public static final double FRAME_LENGTH = 15;
 
@@ -552,12 +550,12 @@ public class Constants {
     }
 
     public static class LedConstants{
-        public static final int CANDLE_ID = 37;
+        public static final int CANDLE_ID = 52;
         
         public static final int WHITE_VALUE = 0; //leds used don't have a white value
         
         public static final int STARTING_ID = 8;
-        public static final int PIVOT_COUNT = 100;
+        public static final int PIVOT_COUNT = 200;
         public static final int PIVOT_COUNT_FRONT = 50; //change
         public static final int PIVOT_COUNT_BACK = 50; //change
 
