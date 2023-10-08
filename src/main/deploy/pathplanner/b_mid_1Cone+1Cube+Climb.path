@@ -7,8 +7,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9852335746338157,
-        "y": 2.4664020387068555
+        "x": 2.0685018644342845,
+        "y": 2.412705184785369
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -26,6 +26,31 @@
     },
     {
       "anchorPoint": {
+        "x": 2.407499497290661,
+        "y": 2.7256082342025794
+      },
+      "prevControl": {
+        "x": 2.1337963109954,
+        "y": 2.6430913625716137
+      },
+      "nextControl": {
+        "x": 2.665994993099602,
+        "y": 2.803540244909385
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
         "x": 3.8659547596872974,
         "y": 2.7413229722292773
       },
@@ -37,7 +62,7 @@
         "x": 4.45150006934901,
         "y": 2.743187935905513
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": 4.0,
       "isLocked": false,
@@ -102,9 +127,15 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 1.4062500000000004,
+      "position": 2.4062500000000004,
       "names": [
         "PickupCube"
+      ]
+    },
+    {
+      "position": 3.614488636363634,
+      "names": [
+        "Neutral"
       ]
     }
   ]
