@@ -40,6 +40,10 @@ public class Swerve extends SubsystemBase {
 
     public boolean fieldRelative;
     public double throttle = 0.8;
+    public double speed = 0;
+    private Translation2d prevTrans = new Translation2d();
+    public double acceleration = 0;
+    private double prevSpeed = 0;
 
     private double initialRoll, initialPitch;
 
@@ -56,6 +60,7 @@ public class Swerve extends SubsystemBase {
         fieldRelative = true;
         estimatedPose = new Pose2d();
         zeroAxis();
+        prevTrans = new Translation2d();
 
         modules = new SwerveModule[] {
             new SwerveModule(0, Mod0.constants),
@@ -105,6 +110,8 @@ public class Swerve extends SubsystemBase {
         NAR_Shuffleboard.addComplex("Drivetrain","Drivetrain", this,0,0);
         NAR_Shuffleboard.addData("Drivetrain", "ENABLE", ()-> CmdManager.ENABLE, 0, 1);
         NAR_Shuffleboard.addData("Drivetrain", "Single Station", ()-> CmdManager.SINGLE_STATION, 0, 3);
+        NAR_Shuffleboard.addData("Drivetrain", "Speed", ()-> speed, 2, 1);
+        NAR_Shuffleboard.addData("Drivetrain", "Acceleration", ()-> acceleration, 3, 1);
     }
 
     public Pose2d getPose() {
@@ -164,6 +171,19 @@ public class Swerve extends SubsystemBase {
         for (SwerveModule module : modules) {
             SmartDashboard.putNumber("module " + module.moduleNumber, module.getCanCoder().getDegrees());
         }
+        updateSpeed();
+        updateAcceleration();
+    }
+
+    public void updateSpeed() {
+        Translation2d translation = getPose().getTranslation();
+        speed = translation.getDistance(prevTrans) / 0.02;
+        prevTrans = translation;
+    }
+
+    public void updateAcceleration(){
+        acceleration = speed - prevSpeed / 0.02;
+        prevSpeed = speed;
     }
 
     public void resetAll() {

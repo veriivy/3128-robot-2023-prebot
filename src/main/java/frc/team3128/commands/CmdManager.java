@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.team3128.RobotContainer;
+import frc.team3128.Constants.LedConstants.Colors;
 import frc.team3128.PositionConstants.Position;
 import frc.team3128.common.hardware.input.NAR_XboxController;
 
@@ -58,6 +59,7 @@ public class CmdManager {
 
     public static CommandBase pickup(Position position, boolean runImmediately) {
         return sequence(
+            runOnce(()->leds.setElevatorLeds(position.cone ? Colors.CONE : Colors.CUBE)),
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
             extend(position),
@@ -104,7 +106,7 @@ public class CmdManager {
             runOnce(()-> manipulator.intake(cone), manipulator),
             waitSeconds(0.4),
             waitUntil(()-> manipulator.hasObjectPresent()),
-            waitSeconds(cone ? 0.15 : 0),
+            waitSeconds(cone ? 0.15 : 0.15),
             runOnce(()-> manipulator.stallPower(), manipulator)
         );
     }

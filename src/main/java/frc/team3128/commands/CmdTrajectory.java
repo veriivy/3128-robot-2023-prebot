@@ -29,6 +29,7 @@ public class CmdTrajectory extends CommandBase {
 
     private final Swerve swerve;
     private final int xPos;
+    private Pose2d endPoint;
     private int index;
     private CommandBase trajCommand;
 
@@ -88,6 +89,7 @@ public class CmdTrajectory extends CommandBase {
         trajCommand = generateAuto();
         trajCommand.schedule();
         CmdSwerveDrive.enabled = false;
+        endPoint = flip(END_POINTS[index]);
     }
 
     @Override
@@ -105,6 +107,6 @@ public class CmdTrajectory extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return swerve.getPose().minus(END_POINTS[index]).getTranslation().getNorm() < 0.5;
+        return swerve.getPose().minus(endPoint).getTranslation().getNorm() < 0.5;
     }
 }

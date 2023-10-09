@@ -216,7 +216,7 @@ public class Constants {
         // For safety, use less than theoretical and real values
         public static final double maxSpeed = 4.5; //meters per second - 16.3 ft/sec
         public static final double bumpSpeed = 2.5;
-        public static final double maxAcceleration = 2.3;
+        public static final double maxAcceleration = 2.5;
         public static final double maxAngularVelocity = 5; //3; //11.5; // citrus: 10
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(maxSpeed, maxAcceleration);
 
@@ -313,15 +313,15 @@ public class Constants {
         public static final Matrix<N3,N1> SVR_VISION_MEASUREMENT_STD = VecBuilder.fill(1,1,Units.degreesToRadians(10));
 
         public static final Pose2d[] SCORES = new Pose2d[]{
-            new Pose2d(1.90,0.5,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.05,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.65,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.15,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.75,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.3,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.85,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.45,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.89,Rotation2d.fromDegrees(180))
+            new Pose2d(1.90,0.55,Rotation2d.fromDegrees(180)), //0.5
+            new Pose2d(1.90,1.1,Rotation2d.fromDegrees(180)), //1.05
+            new Pose2d(1.90,1.7,Rotation2d.fromDegrees(180)), //1.65
+            new Pose2d(1.90,2.2,Rotation2d.fromDegrees(180)), //2.15
+            new Pose2d(1.90,2.8,Rotation2d.fromDegrees(180)), //2.75
+            new Pose2d(1.90,3.35,Rotation2d.fromDegrees(180)), //3.3
+            new Pose2d(1.90,3.90,Rotation2d.fromDegrees(180)), //3.85
+            new Pose2d(1.90,4.50,Rotation2d.fromDegrees(180)), //4.45
+            new Pose2d(1.90,4.94,Rotation2d.fromDegrees(180)) //4.89
         };
 
         public static final Pose2d[][] SCORES_GRID = new Pose2d[][] {
@@ -509,11 +509,11 @@ public class Constants {
         public static final int ROLLER_MOTOR_ID = 31;
         public static final double ROLLER_POWER = 0.9;
         public static final double STALL_POWER_CONE = 0.05;
-        public static final double STALL_POWER_CUBE = 0;
+        public static final double STALL_POWER_CUBE = 0.1;
 
 
         public static final double CURRENT_THRESHOLD_CONE = 25;
-        public static final double CURRENT_THRESHOLD_CUBE = 15;
+        public static final double CURRENT_THRESHOLD_CUBE = 20;
     }
 
     public static class ElevatorConstants {

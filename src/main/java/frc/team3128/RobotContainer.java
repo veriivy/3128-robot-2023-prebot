@@ -22,6 +22,7 @@ import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
 import frc.team3128.common.utility.Log;
 import frc.team3128.subsystems.Elevator;
 import frc.team3128.subsystems.Leds;
+import frc.team3128.subsystems.Manipulator;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 import frc.team3128.subsystems.Swerve;
 import frc.team3128.subsystems.Vision;
@@ -145,7 +146,7 @@ public class RobotContainer {
 
         buttonPad.getButton(13).onTrue(runOnce(()-> SINGLE_STATION = !SINGLE_STATION));
 
-        buttonPad.getButton(14).onTrue(retract(Position.NEUTRAL));
+        buttonPad.getButton(14).onTrue(retract(Position.NEUTRAL).beforeStarting(stopManip()));
 
         buttonPad.getButton(16).onTrue(
             HPpickup(Position.CHUTE_CONE, Position.SHELF_CONE)
