@@ -156,4 +156,11 @@ public class CmdManager {
     public static CommandBase resetSwerve() {
         return runOnce(()-> swerve.zeroGyro());
     }
+
+    public static CommandBase resetAll() {
+        return sequence(
+            resetWrist(),
+            resetElevator()
+        );
+    }
 }

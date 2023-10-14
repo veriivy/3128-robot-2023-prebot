@@ -4,8 +4,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import static edu.wpi.first.wpilibj2.command.Commands.*;
+import frc.team3128.PositionConstants.Position;
 import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
 import frc.team3128.subsystems.Swerve;
+import static frc.team3128.commands.CmdManager.*;
 
 /**
  * Class to store information about autonomous routines.
@@ -50,10 +54,17 @@ public class AutoPrograms {
         String selectedAutoName = "b_cable_1Cone+2Cube+Climb"; //uncomment and change this for testing without opening Narwhal Dashboard
         SmartDashboard.putString(selectedAutoName, selectedAutoName);
         if (selectedAutoName == null) {
-            return null;
+            return score(Position.HIGH_CONE, true).beforeStarting(resetAuto());
         }
 
-        return Trajectories.get(selectedAutoName,selectedAutoName.contains("Climb"));
+        return Trajectories.get(selectedAutoName,selectedAutoName.contains("Climb")).beforeStarting(resetAuto());
+    }
+
+    public CommandBase resetAuto() {
+        return sequence(
+            resetAll(),
+            retract(Position.NEUTRAL)
+        );
     }
     
     // /** 

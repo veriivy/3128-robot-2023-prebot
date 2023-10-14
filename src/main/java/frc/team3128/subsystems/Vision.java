@@ -37,6 +37,7 @@ public class Vision extends SubsystemBase{
         cameras = new HashMap<String,NAR_Camera>();
         cameras.put(FRONT_LEFT.hostname, new NAR_Camera(FRONT_LEFT));
         cameras.put(FRONT_RIGHT.hostname, new NAR_Camera(FRONT_RIGHT));
+        cameras.put(BACK_RIGHT.hostname, new NAR_Camera(BACK_RIGHT));
     }
 
     public Pose2d targetPos(String name, Pose2d robotPos) {

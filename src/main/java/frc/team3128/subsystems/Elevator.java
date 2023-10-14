@@ -28,6 +28,7 @@ public class Elevator extends NAR_PIDSubsystem {
         configMotors();
         initShuffleboard(kS, kV, kG);
         m_controller.setTolerance(ELV_TOLERANCE);
+        resetEncoder();
     }
 
     public void startPID(Position position) {

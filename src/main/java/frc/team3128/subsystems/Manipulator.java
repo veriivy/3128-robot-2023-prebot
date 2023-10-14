@@ -31,7 +31,7 @@ public class Manipulator extends SubsystemBase {
 
     private void configMotor(){
         m_roller = new NAR_TalonSRX(ROLLER_MOTOR_ID);
-        m_roller.setInverted(true);
+        m_roller.setInverted(false);
         m_roller.setNeutralMode(NeutralMode.Brake);
     }
 

@@ -288,6 +288,11 @@ public class Constants {
                                                             new Translation2d(Units.inchesToMeters(5.43), Units.inchesToMeters(11.7)), 
                                                                 Rotation2d.fromDegrees(0)));
 
+        public static final Camera BACK_RIGHT = new Camera("BACK_RIGHT", true, 0, 0, 0, 
+                                                        new Transform2d(
+                                                            new Translation2d(Units.inchesToMeters(6.57), Units.inchesToMeters(-11.7)), 
+                                                                Rotation2d.fromDegrees(180)));
+
         public static final PIDController xController = new PIDController(1, 0, 0);
         public static final PIDController yController = new PIDController(1, 0, 0);
         public static final PIDController rController = new PIDController(1, 0, 0);
@@ -512,8 +517,8 @@ public class Constants {
         public static final double STALL_POWER_CUBE = 0.1;
 
 
-        public static final double CURRENT_THRESHOLD_CONE = 25;
-        public static final double CURRENT_THRESHOLD_CUBE = 20;
+        public static final double CURRENT_THRESHOLD_CONE = 30;
+        public static final double CURRENT_THRESHOLD_CUBE = 25;
     }
 
     public static class ElevatorConstants {
