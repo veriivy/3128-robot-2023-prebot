@@ -22,6 +22,7 @@ import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
 import frc.team3128.common.utility.Log;
 import frc.team3128.subsystems.Elevator;
 import frc.team3128.subsystems.Leds;
+import frc.team3128.subsystems.Manipulator;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 import frc.team3128.subsystems.Swerve;
 import frc.team3128.subsystems.Vision;
@@ -94,25 +95,25 @@ public class RobotContainer {
         controller.getButton("B").onTrue(new InstantCommand(()-> swerve.resetEncoders()));
         controller.getButton("Y").onTrue(runOnce(()-> swerve.throttle = 1)).onFalse(runOnce(()-> swerve.throttle = 0.8));
         controller.getButton("Start").onTrue(resetSwerve());
-        controller.getButton("RightBumper").onTrue(pickup(Position.GROUND_CUBE, true));
-        controller.getButton("LeftBumper").onTrue(pickup(Position.GROUND_CONE, true));
+        controller.getButton("RightBumper").onTrue(pickup(Position.GROUND_CUBE, true)).onFalse(retract(Position.NEUTRAL).andThen(stopManip()));
+        controller.getButton("LeftBumper").onTrue(pickup(Position.GROUND_CONE, true)).onFalse(retract(Position.NEUTRAL).andThen(stopManip()));
 
         controller.getUpPOVButton().onTrue(runOnce(()-> {
-            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 0 : 180;
+            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 180 : 0;
             CmdSwerveDrive.enabled = true;
         }));
         controller.getDownPOVButton().onTrue(runOnce(()-> {
-            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 180 : 0;
+            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 0 : 180;
             CmdSwerveDrive.enabled = true;
         }));
 
         controller.getRightPOVButton().onTrue(runOnce(()-> {
-            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 270 : 90;
+            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 90 : 270;
             CmdSwerveDrive.enabled = true;
         }));
 
         controller.getLeftPOVButton().onTrue(runOnce(()-> {
-            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 90 : 270;
+            CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 270 : 90;
             CmdSwerveDrive.enabled = true;
         }));
         
@@ -145,7 +146,7 @@ public class RobotContainer {
 
         buttonPad.getButton(13).onTrue(runOnce(()-> SINGLE_STATION = !SINGLE_STATION));
 
-        buttonPad.getButton(14).onTrue(retract(Position.NEUTRAL));
+        buttonPad.getButton(14).onTrue(retract(Position.NEUTRAL).beforeStarting(stopManip()));
 
         buttonPad.getButton(16).onTrue(
             HPpickup(Position.CHUTE_CONE, Position.SHELF_CONE)

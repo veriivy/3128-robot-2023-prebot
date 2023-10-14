@@ -53,15 +53,15 @@ public class Constants {
         public static final double CONDITION_3 = 2.5;
 
         public static final Pose2d[] END_POINTS = new Pose2d[]{
-            new Pose2d(1.75,0.5,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,0.95,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,1.55,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,2.05,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,2.65,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,3.2,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,3.75,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,4.35,Rotation2d.fromDegrees(0)),
-            new Pose2d(1.75,4.79,Rotation2d.fromDegrees(0))
+            new Pose2d(1.75,0.5,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,0.95,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,1.55,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,2.05,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,2.65,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,3.2,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,3.75,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,4.35,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,4.79,Rotation2d.fromDegrees(180))
         };
     }
 
@@ -185,13 +185,11 @@ public class Constants {
         public static final double rotationKP = 2;
         public static final double rotationKI = 0;
         public static final double rotationKD = 0;
-        public static final double rotationKS = 0;
 
         /* Turning PID Values */
-        public static final double turnKP = 0.1;
+        public static final double turnKP = 5;
         public static final double turnKI = 0;
         public static final double turnKD = 0;
-        public static final double turnKF = 0.1;
 
         /* Angle Motor PID Values */
         // switched 364 pid values to SDS pid values
@@ -218,7 +216,7 @@ public class Constants {
         // For safety, use less than theoretical and real values
         public static final double maxSpeed = 4.5; //meters per second - 16.3 ft/sec
         public static final double bumpSpeed = 2.5;
-        public static final double maxAcceleration = 2.3;
+        public static final double maxAcceleration = 2.5;
         public static final double maxAngularVelocity = 5; //3; //11.5; // citrus: 10
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(maxSpeed, maxAcceleration);
 
@@ -290,6 +288,11 @@ public class Constants {
                                                             new Translation2d(Units.inchesToMeters(5.43), Units.inchesToMeters(11.7)), 
                                                                 Rotation2d.fromDegrees(0)));
 
+        public static final Camera BACK_RIGHT = new Camera("BACK_RIGHT", true, 0, 0, 0, 
+                                                        new Transform2d(
+                                                            new Translation2d(Units.inchesToMeters(6.57), Units.inchesToMeters(-11.7)), 
+                                                                Rotation2d.fromDegrees(180)));
+
         public static final PIDController xController = new PIDController(1, 0, 0);
         public static final PIDController yController = new PIDController(1, 0, 0);
         public static final PIDController rController = new PIDController(1, 0, 0);
@@ -315,15 +318,15 @@ public class Constants {
         public static final Matrix<N3,N1> SVR_VISION_MEASUREMENT_STD = VecBuilder.fill(1,1,Units.degreesToRadians(10));
 
         public static final Pose2d[] SCORES = new Pose2d[]{
-            new Pose2d(1.90,0.5,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.05,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.65,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.15,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.75,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.3,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.85,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.45,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.89,Rotation2d.fromDegrees(180))
+            new Pose2d(1.90,0.55,Rotation2d.fromDegrees(180)), //0.5
+            new Pose2d(1.90,1.1,Rotation2d.fromDegrees(180)), //1.05
+            new Pose2d(1.90,1.7,Rotation2d.fromDegrees(180)), //1.65
+            new Pose2d(1.90,2.2,Rotation2d.fromDegrees(180)), //2.15
+            new Pose2d(1.90,2.8,Rotation2d.fromDegrees(180)), //2.75
+            new Pose2d(1.90,3.35,Rotation2d.fromDegrees(180)), //3.3
+            new Pose2d(1.90,3.90,Rotation2d.fromDegrees(180)), //3.85
+            new Pose2d(1.90,4.50,Rotation2d.fromDegrees(180)), //4.45
+            new Pose2d(1.90,4.94,Rotation2d.fromDegrees(180)) //4.89
         };
 
         public static final Pose2d[][] SCORES_GRID = new Pose2d[][] {
@@ -511,29 +514,29 @@ public class Constants {
         public static final int ROLLER_MOTOR_ID = 31;
         public static final double ROLLER_POWER = 0.9;
         public static final double STALL_POWER_CONE = 0.05;
-        public static final double STALL_POWER_CUBE = 0;
+        public static final double STALL_POWER_CUBE = 0.1;
 
 
-        public static final double CURRENT_THRESHOLD_CONE = 25;
-        public static final double CURRENT_THRESHOLD_CUBE = 15;
+        public static final double CURRENT_THRESHOLD_CONE = 30;
+        public static final double CURRENT_THRESHOLD_CUBE = 25;
     }
 
     public static class ElevatorConstants {
         public static final int ELV1_ID = 11;
         public static final int ELV2_ID = 12;
 
-        public static final double kP = 3;
+        public static final double kP = 1;
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.475;
+        public static final double kS = 0.975;
         public static final double kV = 0;
-        public static final double kG = 0.625;
+        public static final double kG = 1.05;
 
         public static final double MIN_DIST = 2; //Ask Charlie
         public static final double MAX_DIST = 55; //Ask Charlie
 
-        public static final double GEAR_RATIO = 12.5;
+        public static final double GEAR_RATIO = 10;
         public static final double SPOOL_CIRCUMFERENCE = 3 * Math.PI;
         public static final double FRAME_LENGTH = 15;
 
@@ -552,12 +555,12 @@ public class Constants {
     }
 
     public static class LedConstants{
-        public static final int CANDLE_ID = 37;
+        public static final int CANDLE_ID = 52;
         
         public static final int WHITE_VALUE = 0; //leds used don't have a white value
         
         public static final int STARTING_ID = 8;
-        public static final int PIVOT_COUNT = 100;
+        public static final int PIVOT_COUNT = 200;
         public static final int PIVOT_COUNT_FRONT = 50; //change
         public static final int PIVOT_COUNT_BACK = 50; //change
 

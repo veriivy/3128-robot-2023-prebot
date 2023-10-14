@@ -28,7 +28,6 @@ public class Manipulator extends SubsystemBase {
         configMotor();
         initShuffleboard();
     }
-
     private void configMotor(){
         m_roller = new NAR_TalonSRX(ROLLER_MOTOR_ID);
         m_roller.setInverted(true);
