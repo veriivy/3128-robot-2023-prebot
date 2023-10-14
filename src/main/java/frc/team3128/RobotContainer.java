@@ -95,8 +95,8 @@ public class RobotContainer {
         controller.getButton("B").onTrue(new InstantCommand(()-> swerve.resetEncoders()));
         controller.getButton("Y").onTrue(runOnce(()-> swerve.throttle = 1)).onFalse(runOnce(()-> swerve.throttle = 0.8));
         controller.getButton("Start").onTrue(resetSwerve());
-        controller.getButton("RightBumper").onTrue(pickup(Position.GROUND_CUBE, true)).onFalse(retract(Position.NEUTRAL));
-        controller.getButton("LeftBumper").onTrue(pickup(Position.GROUND_CONE, true)).onFalse(retract(Position.NEUTRAL));
+        controller.getButton("RightBumper").onTrue(pickup(Position.GROUND_CUBE, true)).onFalse(retract(Position.NEUTRAL).andThen(stopManip()));
+        controller.getButton("LeftBumper").onTrue(pickup(Position.GROUND_CONE, true)).onFalse(retract(Position.NEUTRAL).andThen(stopManip()));
 
         controller.getUpPOVButton().onTrue(runOnce(()-> {
             CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 180 : 0;

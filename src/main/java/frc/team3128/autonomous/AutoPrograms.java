@@ -50,8 +50,8 @@ public class AutoPrograms {
     }
 
     public Command getAutonomousCommand() {
-       //String selectedAutoName = NarwhalDashboard.getSelectedAutoName();
-        String selectedAutoName = "b_cable_1Cone+2Cube+Climb"; //uncomment and change this for testing without opening Narwhal Dashboard
+       String selectedAutoName = NarwhalDashboard.getSelectedAutoName();
+        // String selectedAutoName = "b_cable_1Cone+2Cube+Climb"; //uncomment and change this for testing without opening Narwhal Dashboard
         SmartDashboard.putString(selectedAutoName, selectedAutoName);
         if (selectedAutoName == null) {
             return score(Position.HIGH_CONE, true).beforeStarting(resetAuto());

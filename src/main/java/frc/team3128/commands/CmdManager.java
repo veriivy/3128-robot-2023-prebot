@@ -34,8 +34,9 @@ public class CmdManager {
         return sequence(
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
-            either(none(), new CmdTrajectory(xPos), ()-> runImmediately),
-            waitUntil(()-> ENABLE),
+            
+            //either(none(), new CmdTrajectory(xPos), ()-> runImmediately),
+            //waitUntil(()-> ENABLE),
             extend(position),
             waitUntil(()-> !ENABLE),
             outtake(),
@@ -106,7 +107,7 @@ public class CmdManager {
             runOnce(()-> manipulator.intake(cone), manipulator),
             waitSeconds(0.4),
             waitUntil(()-> manipulator.hasObjectPresent()),
-            waitSeconds(cone ? 0.15 : 0.15),
+            waitSeconds(cone ? 0.15 : 0),
             runOnce(()-> manipulator.stallPower(), manipulator)
         );
     }
