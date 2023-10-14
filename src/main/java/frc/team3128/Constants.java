@@ -39,47 +39,29 @@ public class Constants {
     }
 
     public static class TrajectoryConstants {
-        public static final Rotation2d HEADING_0 = Rotation2d.fromDegrees(180);
+        public static final Rotation2d HEADING = Rotation2d.fromDegrees(180);
         
         public static final Translation2d POINT_1 = new Translation2d(12.7, 6.75);
-        public static final Rotation2d HEADING_1 = Rotation2d.fromDegrees(180);
         public static final double CONDITION_1 = 12.7;
 
-        public static final List<Translation2d>POINT_2 = new ArrayList<Translation2d>() { 
-            {
-                add(POINT_2A);
-                add(POINT_2B);
-            }
-        };
-        public static final Translation2d POINT_2A = new Translation2d(5.6, 4.6);
-        public static final Translation2d POINT_2B = new Translation2d(5.6, 0.8);
-        public static final Rotation2d HEADING_2 = Rotation2d.fromDegrees(180);
-        public static final double CONDITION_2 = 5.6;
+        public static final Translation2d POINT_2A = new Translation2d(4.85, 0.8);
+        public static final Translation2d POINT_2B = new Translation2d(4.85, 4.7);
+        public static final double CONDITION_2 = 4.85;
 
-        public static final List<Translation2d>POINT_3 = new ArrayList<Translation2d>() { 
-            {
-                add(POINT_3A);
-                add(POINT_3B);
-            }
-        };
-        public static final Translation2d POINT_3A = new Translation2d(2.8, 0.8);
-        public static final Translation2d POINT_3B = new Translation2d(2.8, 4.6);
-        public static final Rotation2d HEADING_3 = Rotation2d.fromDegrees(180);
-        public static final double CONDITION_3 = 2.25;
-
-        public static final Rotation2d HEADING_4A = Rotation2d.fromDegrees(135);
-        public static final Rotation2d HEADING_4B = Rotation2d.fromDegrees(-135);
+        public static final Translation2d POINT_3A = new Translation2d(2.5, 0.8);
+        public static final Translation2d POINT_3B = new Translation2d(2.5, 4.7);
+        public static final double CONDITION_3 = 2.5;
 
         public static final Pose2d[] END_POINTS = new Pose2d[]{
-            new Pose2d(1.90,0.5,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.05,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.65,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.15,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.75,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.3,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.85,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.45,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.89,Rotation2d.fromDegrees(180))
+            new Pose2d(1.75,0.5,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,0.95,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,1.55,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,2.05,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,2.65,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,3.2,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,3.75,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,4.35,Rotation2d.fromDegrees(180)),
+            new Pose2d(1.75,4.79,Rotation2d.fromDegrees(180))
         };
     }
 
@@ -98,10 +80,13 @@ public class Constants {
         public static final Pose2d ClimbSetupOutsideBot = new Pose2d(5.6, 2.9, Rotation2d.fromDegrees(180));
         public static final Pose2d ClimbSetupOutsideTop = new Pose2d(5.6, 3.3, Rotation2d.fromDegrees(180));
 
-        public static final double ANGLE_THRESHOLD = 3;
-        public static final double VELOCITY_THRESHOLD = 8;
-        public static final double RAMP_THRESHOLD = 8;
-        public static final double DRIVE_SPEED = Units.inchesToMeters(15);
+        public static final double ANGLE_THRESHOLD = 9; //7, 9
+        public static final double VELOCITY_THRESHOLD = 3; //6, 3
+        public static final double RAMP_THRESHOLD = 10; //8, 10
+        public static final double DRIVE_SPEED = Units.inchesToMeters(40); //30, 40
+        public static final double kP = 0.000000001;
+        public static final double kI = 0.0;
+        public static final double kD = 0;
 
         public static final Pose2d[] STARTING_POINTS = new Pose2d[] {
             new Pose2d(1.85 ,0.5, Rotation2d.fromDegrees(180)),
@@ -134,6 +119,9 @@ public class Constants {
         };
 
         public static final double BALANCE_FF = 0.3;
+
+        public static final double slowSpeed = 1.5;
+        public static final double slowAcceleration = 2;
     }
 
     public static class SwerveConstants {
@@ -199,10 +187,9 @@ public class Constants {
         public static final double rotationKD = 0;
 
         /* Turning PID Values */
-        public static final double turnKP = 0.1;
+        public static final double turnKP = 5;
         public static final double turnKI = 0;
         public static final double turnKD = 0;
-        public static final double turnKF = 0.1;
 
         /* Angle Motor PID Values */
         // switched 364 pid values to SDS pid values
@@ -229,7 +216,7 @@ public class Constants {
         // For safety, use less than theoretical and real values
         public static final double maxSpeed = 4.5; //meters per second - 16.3 ft/sec
         public static final double bumpSpeed = 2.5;
-        public static final double maxAcceleration = 2.3;
+        public static final double maxAcceleration = 2.5;
         public static final double maxAngularVelocity = 5; //3; //11.5; // citrus: 10
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(maxSpeed, maxAcceleration);
 
@@ -291,12 +278,20 @@ public class Constants {
 
     public static class VisionConstants {
 
-        public static final Camera FRONT = new Camera("Frog", true, 0, 0, 0, 
-                                                        new Transform2d(new Translation2d(Units.inchesToMeters(-5.75), 
-                                                        Units.inchesToMeters(-11.5)), Rotation2d.fromDegrees(0)));
-        public static final Camera BACK = new Camera("Blog", true, 0, 0, 0, 
-                                                        new Transform2d(new Translation2d(Units.inchesToMeters(-5.75), 
-                                                        Units.inchesToMeters(11.5)), Rotation2d.fromDegrees(180)));
+        public static final Camera FRONT_LEFT = new Camera("FRONT_LEFT", true, 0, 0, 0, 
+                                                        new Transform2d(
+                                                            new Translation2d(Units.inchesToMeters(5.43), Units.inchesToMeters(-11.9)), 
+                                                                Rotation2d.fromDegrees(0)));
+
+        public static final Camera FRONT_RIGHT = new Camera("FRONT_RIGHT", true, 0, 0, 0, 
+                                                        new Transform2d(
+                                                            new Translation2d(Units.inchesToMeters(5.43), Units.inchesToMeters(11.7)), 
+                                                                Rotation2d.fromDegrees(0)));
+
+        public static final Camera BACK_RIGHT = new Camera("BACK_RIGHT", true, 0, 0, 0, 
+                                                        new Transform2d(
+                                                            new Translation2d(Units.inchesToMeters(6.57), Units.inchesToMeters(-11.7)), 
+                                                                Rotation2d.fromDegrees(180)));
 
         public static final PIDController xController = new PIDController(1, 0, 0);
         public static final PIDController yController = new PIDController(1, 0, 0);
@@ -323,15 +318,15 @@ public class Constants {
         public static final Matrix<N3,N1> SVR_VISION_MEASUREMENT_STD = VecBuilder.fill(1,1,Units.degreesToRadians(10));
 
         public static final Pose2d[] SCORES = new Pose2d[]{
-            new Pose2d(1.90,0.5,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.05,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.65,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.15,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.75,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.3,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.85,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.45,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.89,Rotation2d.fromDegrees(180))
+            new Pose2d(1.90,0.55,Rotation2d.fromDegrees(180)), //0.5
+            new Pose2d(1.90,1.1,Rotation2d.fromDegrees(180)), //1.05
+            new Pose2d(1.90,1.7,Rotation2d.fromDegrees(180)), //1.65
+            new Pose2d(1.90,2.2,Rotation2d.fromDegrees(180)), //2.15
+            new Pose2d(1.90,2.8,Rotation2d.fromDegrees(180)), //2.75
+            new Pose2d(1.90,3.35,Rotation2d.fromDegrees(180)), //3.3
+            new Pose2d(1.90,3.90,Rotation2d.fromDegrees(180)), //3.85
+            new Pose2d(1.90,4.50,Rotation2d.fromDegrees(180)), //4.45
+            new Pose2d(1.90,4.94,Rotation2d.fromDegrees(180)) //4.89
         };
 
         public static final Pose2d[][] SCORES_GRID = new Pose2d[][] {
@@ -519,29 +514,29 @@ public class Constants {
         public static final int ROLLER_MOTOR_ID = 31;
         public static final double ROLLER_POWER = 0.9;
         public static final double STALL_POWER_CONE = 0.05;
-        public static final double STALL_POWER_CUBE = 0;
+        public static final double STALL_POWER_CUBE = 0.1;
 
 
-        public static final double CURRENT_THRESHOLD_CONE = 25;
-        public static final double CURRENT_THRESHOLD_CUBE = 15;
+        public static final double CURRENT_THRESHOLD_CONE = 30;
+        public static final double CURRENT_THRESHOLD_CUBE = 25;
     }
 
     public static class ElevatorConstants {
         public static final int ELV1_ID = 11;
         public static final int ELV2_ID = 12;
 
-        public static final double kP = 3;
+        public static final double kP = 1;
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.475;
+        public static final double kS = 0.975;
         public static final double kV = 0;
-        public static final double kG = 0.625;
+        public static final double kG = 1.05;
 
         public static final double MIN_DIST = 2; //Ask Charlie
         public static final double MAX_DIST = 55; //Ask Charlie
 
-        public static final double GEAR_RATIO = 12.5;
+        public static final double GEAR_RATIO = 10;
         public static final double SPOOL_CIRCUMFERENCE = 3 * Math.PI;
         public static final double FRAME_LENGTH = 15;
 
@@ -560,44 +555,45 @@ public class Constants {
     }
 
     public static class LedConstants{
-        public static class Green{
-            public static final int HUE = 60;
-            public static final int SATURATION = 255;
-            public static final int VALUE = 255;
+        public static final int CANDLE_ID = 52;
+        
+        public static final int WHITE_VALUE = 0; //leds used don't have a white value
+        
+        public static final int STARTING_ID = 8;
+        public static final int PIVOT_COUNT = 200;
+        public static final int PIVOT_COUNT_FRONT = 50; //change
+        public static final int PIVOT_COUNT_BACK = 50; //change
+
+        public static final double HOLDING_SPEED = 2;
+
+        public static class RainbowAnimation {
+            public static final double BRIGHTNESS = 1;
+            public static final double SPEED = 1;
+
         }
 
-        public static class Blue{
-            public static final int HUE = 120;
-            public static final int SATURATION = 255;
-            public static final int VALUE = 255;
+        public enum Colors {
+            OFF(0,0,0,false),
+            CONE(255,255,0,false),
+            CUBE(255,0,255,false),
+            HOLDING(255,0,0,false),
+    
+            AUTO(0,0,0,true),
+            DEFAULT(0,0,225,false);
+    
+            public final int r;
+            public final int b;
+            public final int g;
+            public final boolean animation;
+    
+            Colors(int r, int g, int b,boolean animation) {
+                this.r = r;
+                this.g = g;
+                this.b = b;
+                this.animation = animation;
+            }
+    
         }
-
-        public static class Red{
-            public static final int HUE = 0;
-            public static final int SATURATION = 255;
-            public static final int VALUE = 255;
-        }
-
-        public static class Yellow{
-            public static final int HUE = 30;
-            public static final int SATURATION = 255;
-            public static final int VALUE = 255;
-        }
-
-        public static class Purple{
-            public static final int HUE = 130;
-            public static final int SATURATION = 255;
-            public static final int VALUE = 50;
-        }
-
-        public static class Off{
-            public static final int HUE = 0;
-            public static final int SATURATION = 0;
-            public static final int VALUE = 0;
-        }
-
-        public static final int PORT = 0; 
-        public static final int LENGTH = 288;
     }
 
 

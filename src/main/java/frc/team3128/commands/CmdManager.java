@@ -6,17 +6,19 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.team3128.RobotContainer;
+import frc.team3128.Constants.LedConstants.Colors;
 import frc.team3128.PositionConstants.Position;
 import frc.team3128.common.hardware.input.NAR_XboxController;
 
-import frc.team3128.subsystems.Led;
+import frc.team3128.subsystems.Leds;
 import frc.team3128.subsystems.Wrist;
 import frc.team3128.subsystems.Manipulator;
 import frc.team3128.subsystems.Swerve;
+import frc.team3128.subsystems.Vision;
 import frc.team3128.subsystems.Elevator;
 
 public class CmdManager {
-    private static Led led = Led.getInstance();
+    private static Leds leds = Leds.getInstance();
     private static Wrist wrist = Wrist.getInstance();
     private static Manipulator manipulator = Manipulator.getInstance();
     private static Swerve swerve = Swerve.getInstance();
@@ -28,10 +30,13 @@ public class CmdManager {
 
     private CmdManager() {}
 
-    public static CommandBase score(Position position, int xPos, boolean runImmediately) {
+    private static CommandBase score(Position position, int xPos, boolean runImmediately) {
         return sequence(
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
+            
+            //either(none(), new CmdTrajectory(xPos), ()-> runImmediately),
+            //waitUntil(()-> ENABLE),
             extend(position),
             waitUntil(()-> !ENABLE),
             outtake(),
@@ -39,6 +44,10 @@ public class CmdManager {
             stopManip(),
             retract(Position.NEUTRAL)
         );
+    }
+
+    public static CommandBase score(Position position, boolean runImmediately) {
+        return score(position, 0, runImmediately);
     }
 
     public static CommandBase score(Position position, int xPos) {
@@ -51,6 +60,7 @@ public class CmdManager {
 
     public static CommandBase pickup(Position position, boolean runImmediately) {
         return sequence(
+            runOnce(()->leds.setElevatorLeds(position.cone ? Colors.CONE : Colors.CUBE)),
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
             extend(position),
@@ -146,5 +156,12 @@ public class CmdManager {
 
     public static CommandBase resetSwerve() {
         return runOnce(()-> swerve.zeroGyro());
+    }
+
+    public static CommandBase resetAll() {
+        return sequence(
+            resetWrist(),
+            resetElevator()
+        );
     }
 }

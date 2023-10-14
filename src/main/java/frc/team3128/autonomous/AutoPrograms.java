@@ -1,18 +1,15 @@
 package frc.team3128.autonomous;
 
-import java.util.HashMap;
-
-import com.pathplanner.lib.auto.PIDConstants;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.team3128.Constants.SwerveConstants;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import static edu.wpi.first.wpilibj2.command.Commands.*;
+import frc.team3128.PositionConstants.Position;
 import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
-import frc.team3128.common.utility.Log;
 import frc.team3128.subsystems.Swerve;
+import static frc.team3128.commands.CmdManager.*;
 
 /**
  * Class to store information about autonomous routines.
@@ -31,19 +28,43 @@ public class AutoPrograms {
     }
 
     private void initAutoSelector() {
-        String[] autoStrings = new String[] {"TestAuto1", "b_bottom_1Cone+1Cube","b_bottom_1Cone"};
+        String[] autoStrings = new String[] {
+                                            //Blue Autos
+                                                //Cable
+                                                "b_cable_1Cone+1Cube","b_cable_1Cone+2Cube", //"b_cable_1Cone+2Cube+Climb",
+                                                //Mid
+                                                "b_mid_1Cone+Climb","b_mid_1Cone+1Cube+Climb",
+                                                //Hp
+                                                "b_hp_1Cone+1Cube",//"b_cable_1Cone+2Cube",
+                                            
+                                            //Red Autos
+                                                //Cable
+                                                "r_cable_1Cone+1Cube","r_cable_1Cone+2Cube",
+                                                //Mid
+                                                "r_mid_1Cone+Climb","r_mid_1Cone+1Cube+Climb",
+                                                //Hp
+                                                "r_hp_1Cone+1Cube"//"r_cable_1Cone+2Cube",
+
+                                            };
         NarwhalDashboard.addAutos(autoStrings);
     }
 
     public Command getAutonomousCommand() {
-       //String selectedAutoName = NarwhalDashboard.getSelectedAutoName();
-        String selectedAutoName = "b_bottom_1Cone"; //uncomment and change this for testing without opening Narwhal Dashboard
-
+       String selectedAutoName = NarwhalDashboard.getSelectedAutoName();
+        // String selectedAutoName = "b_cable_1Cone+2Cube+Climb"; //uncomment and change this for testing without opening Narwhal Dashboard
+        SmartDashboard.putString(selectedAutoName, selectedAutoName);
         if (selectedAutoName == null) {
-            return null;
+            return score(Position.HIGH_CONE, true).beforeStarting(resetAuto());
         }
 
-        return Trajectories.get(selectedAutoName);
+        return Trajectories.get(selectedAutoName,selectedAutoName.contains("Climb")).beforeStarting(resetAuto());
+    }
+
+    public CommandBase resetAuto() {
+        return sequence(
+            resetAll(),
+            retract(Position.NEUTRAL)
+        );
     }
     
     // /** 
