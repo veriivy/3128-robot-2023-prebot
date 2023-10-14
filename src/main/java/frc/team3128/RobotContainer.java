@@ -83,8 +83,7 @@ public class RobotContainer {
         initDashboard();
         configureButtonBindings();
         
-        if(RobotBase.isSimulation())
-            DriverStation.silenceJoystickConnectionWarning(true);
+        DriverStation.silenceJoystickConnectionWarning(true);
     }   
 
     private void configureButtonBindings() {
