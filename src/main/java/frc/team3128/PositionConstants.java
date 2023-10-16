@@ -4,7 +4,7 @@ public class PositionConstants {
     public static enum Position {
         HIGH_CONE(47, 0, true),
         HIGH_CUBE(48.5, 20, false),
-        MID_CONE(25.5, 28, true),
+        MID_CONE(41, -31, true),
         MID_CUBE(25, 30, false),
         LOW(3, 0, true),
 

@@ -2,12 +2,15 @@ package frc.team3128.autonomous;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 import frc.team3128.PositionConstants.Position;
 import frc.team3128.common.narwhaldashboard.NarwhalDashboard;
+import frc.team3128.subsystems.Manipulator;
 import frc.team3128.subsystems.Swerve;
 import static frc.team3128.commands.CmdManager.*;
 
@@ -51,8 +54,9 @@ public class AutoPrograms {
 
     public Command getAutonomousCommand() {
        String selectedAutoName = NarwhalDashboard.getSelectedAutoName();
+    //    String selectedAutoName = "r_cable_1Cone+1Cube";
         // String selectedAutoName = "b_cable_1Cone+2Cube+Climb"; //uncomment and change this for testing without opening Narwhal Dashboard
-        SmartDashboard.putString(selectedAutoName, selectedAutoName);
+        // SmartDashboard.putString(selectedAutoName, selectedAutoName);
         if (selectedAutoName == null) {
             return score(Position.HIGH_CONE, true).beforeStarting(resetAuto());
         }
@@ -62,6 +66,8 @@ public class AutoPrograms {
 
     public CommandBase resetAuto() {
         return sequence(
+            resetSwerve(DriverStation.getAlliance() == Alliance.Red ? 0 : 180),
+            runOnce(()-> Manipulator.getInstance().set(-0.4), Manipulator.getInstance()),
             resetAll(),
             retract(Position.NEUTRAL)
         );

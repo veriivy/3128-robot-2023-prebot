@@ -143,7 +143,7 @@ public class RobotContainer {
             score(Position.HIGH_CUBE, 1)
         );
 
-        buttonPad.getButton(13).onTrue(runOnce(()-> SINGLE_STATION = !SINGLE_STATION));
+        buttonPad.getButton(13).onTrue(runOnce(()-> SINGLE_STATION = true));
 
         buttonPad.getButton(14).onTrue(retract(Position.NEUTRAL).beforeStarting(stopManip()));
 

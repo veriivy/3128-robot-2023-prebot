@@ -2,6 +2,8 @@ package frc.team3128.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -34,11 +36,12 @@ public class CmdManager {
         return sequence(
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
-            
+            runOnce(()-> ENABLE = !runImmediately),
             //either(none(), new CmdTrajectory(xPos), ()-> runImmediately),
             //waitUntil(()-> ENABLE),
             extend(position),
             waitUntil(()-> !ENABLE),
+            waitSeconds(DriverStation.isAutonomous() ? 0.5 : 0),
             outtake(),
             waitSeconds(0.5),
             stopManip(),
@@ -63,9 +66,10 @@ public class CmdManager {
             runOnce(()->leds.setElevatorLeds(position.cone ? Colors.CONE : Colors.CUBE)),
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
-            extend(position),
-            waitSeconds(0.2),
-            intake(position.cone),
+            parallel(
+                extend(position),
+                intake(position.cone)
+            ),
             retract(Position.NEUTRAL)
         );
     }
@@ -105,7 +109,7 @@ public class CmdManager {
     public static CommandBase intake(Boolean cone) {
         return sequence(
             runOnce(()-> manipulator.intake(cone), manipulator),
-            waitSeconds(0.4),
+            waitSeconds(0.2),
             waitUntil(()-> manipulator.hasObjectPresent()),
             waitSeconds(cone ? 0.15 : 0),
             runOnce(()-> manipulator.stallPower(), manipulator)
@@ -152,6 +156,10 @@ public class CmdManager {
 
     public static CommandBase resetWrist() {
         return runOnce(()-> wrist.resetEncoder());
+    }
+
+    public static CommandBase resetSwerve(double angle) {
+        return runOnce(()-> swerve.zeroGyro(angle));
     }
 
     public static CommandBase resetSwerve() {
