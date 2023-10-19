@@ -70,7 +70,8 @@ public class CmdManager {
                 extend(position),
                 intake(position.cone)
             ),
-            retract(Position.NEUTRAL)
+            retract(Position.NEUTRAL),
+            runOnce(()-> leds.setElevatorLeds(Colors.DEFAULT))
         );
     }
 
@@ -112,7 +113,8 @@ public class CmdManager {
             waitSeconds(0.2),
             waitUntil(()-> manipulator.hasObjectPresent()),
             waitSeconds(cone ? 0.15 : 0),
-            runOnce(()-> manipulator.stallPower(), manipulator)
+            runOnce(()-> manipulator.stallPower(), manipulator),
+            runOnce(()-> leds.setElevatorLeds(Colors.HOLDING))
         );
     }
 
