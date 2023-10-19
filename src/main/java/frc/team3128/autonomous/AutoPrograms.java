@@ -54,7 +54,7 @@ public class AutoPrograms {
 
     public Command getAutonomousCommand() {
        String selectedAutoName = NarwhalDashboard.getSelectedAutoName();
-    //    String selectedAutoName = "r_cable_1Cone+1Cube";
+    //    String selectedAutoName = "b_cable_1Cone+1Cube";
         // String selectedAutoName = "b_cable_1Cone+2Cube+Climb"; //uncomment and change this for testing without opening Narwhal Dashboard
         // SmartDashboard.putString(selectedAutoName, selectedAutoName);
         if (selectedAutoName == null) {
@@ -67,7 +67,7 @@ public class AutoPrograms {
     public CommandBase resetAuto() {
         return sequence(
             resetSwerve(DriverStation.getAlliance() == Alliance.Red ? 0 : 180),
-            runOnce(()-> Manipulator.getInstance().set(-0.4), Manipulator.getInstance()),
+            runOnce(()-> Manipulator.getInstance().set(-0.35), Manipulator.getInstance()),
             resetAll(),
             retract(Position.NEUTRAL)
         );
