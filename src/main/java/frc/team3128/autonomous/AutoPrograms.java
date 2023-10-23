@@ -67,7 +67,7 @@ public class AutoPrograms {
     public CommandBase resetAuto() {
         return sequence(
             resetSwerve(DriverStation.getAlliance() == Alliance.Red ? 0 : 180),
-            runOnce(()-> Manipulator.getInstance().set(-0.35), Manipulator.getInstance()),
+            runOnce(()-> Manipulator.getInstance().set(-0.4), Manipulator.getInstance()),
             resetAll(),
             retract(Position.NEUTRAL)
         );

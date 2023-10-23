@@ -39,7 +39,7 @@ public class Swerve extends SubsystemBase {
     private Field2d field;
 
     public boolean fieldRelative;
-    public double throttle = 0.8;
+    public double throttle = 1;
     public double speed = 0;
     private Translation2d prevTrans = new Translation2d();
     public double acceleration = 0;

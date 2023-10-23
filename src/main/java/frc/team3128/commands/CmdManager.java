@@ -1,5 +1,6 @@
 package frc.team3128.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 
@@ -37,11 +38,13 @@ public class CmdManager {
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
             runOnce(()-> ENABLE = !runImmediately),
+            runOnce(()-> Swerve.getInstance().throttle = 0.6),
             //either(none(), new CmdTrajectory(xPos), ()-> runImmediately),
             //waitUntil(()-> ENABLE),
             extend(position),
             waitUntil(()-> !ENABLE),
             waitSeconds(DriverStation.isAutonomous() ? 0.5 : 0),
+            runOnce(()-> Swerve.getInstance().throttle = 1),
             outtake(),
             waitSeconds(0.5),
             stopManip(),
@@ -112,9 +115,9 @@ public class CmdManager {
             runOnce(()-> manipulator.intake(cone), manipulator),
             waitSeconds(0.2),
             waitUntil(()-> manipulator.hasObjectPresent()),
+            runOnce(()-> leds.setElevatorLeds(Colors.HOLDING)),
             waitSeconds(cone ? 0.15 : 0),
-            runOnce(()-> manipulator.stallPower(), manipulator),
-            runOnce(()-> leds.setElevatorLeds(Colors.HOLDING))
+            runOnce(()-> manipulator.stallPower(), manipulator)
         );
     }
 
@@ -124,6 +127,10 @@ public class CmdManager {
 
     public static CommandBase stopManip() {
         return runOnce(()-> manipulator.stopRoller(), manipulator);
+    }
+
+    public static CommandBase stallPower() {
+        return runOnce(()-> manipulator.stallPower(), manipulator);
     }
 
     public static CommandBase vibrateController() {
@@ -166,6 +173,10 @@ public class CmdManager {
 
     public static CommandBase resetSwerve() {
         return runOnce(()-> swerve.zeroGyro());
+    }
+
+    public static CommandBase setLeds(Colors color) {
+        return runOnce(()-> leds.setElevatorLeds(color));
     }
 
     public static CommandBase resetAll() {

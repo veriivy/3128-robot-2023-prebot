@@ -513,7 +513,7 @@ public class Constants {
     public static class ManipulatorConstants{
         public static final int ROLLER_MOTOR_ID = 31;
         public static final double ROLLER_POWER = 0.9;
-        public static final double STALL_POWER_CONE = 0.05;
+        public static final double STALL_POWER_CONE = 0.15;
         public static final double STALL_POWER_CUBE = 0.1;
 
 

@@ -11,6 +11,7 @@ import static edu.wpi.first.wpilibj2.command.Commands.*;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.team3128.commands.CmdAutoBalance;
 import frc.team3128.commands.CmdSwerveDrive;
 import frc.team3128.Constants.LedConstants.Colors;
 import frc.team3128.PositionConstants.Position;
@@ -92,10 +93,9 @@ public class RobotContainer {
         controller.getButton("LeftTrigger").onTrue(runOnce(()-> ENABLE = true)).onFalse(runOnce(()-> ENABLE = false));
         controller.getButton("X").onTrue(new RunCommand(()-> swerve.xlock(), swerve)).onFalse(new InstantCommand(()-> swerve.stop(),swerve));
         controller.getButton("B").onTrue(new InstantCommand(()-> swerve.resetEncoders()));
-        controller.getButton("Y").onTrue(runOnce(()-> swerve.throttle = 1)).onFalse(runOnce(()-> swerve.throttle = 0.8));
         controller.getButton("Start").onTrue(resetSwerve());
-        controller.getButton("RightBumper").onTrue(pickup(Position.GROUND_CUBE, true)).onFalse(retract(Position.NEUTRAL).andThen(stopManip()));
-        controller.getButton("LeftBumper").onTrue(pickup(Position.GROUND_CONE, true)).onFalse(retract(Position.NEUTRAL).andThen(stopManip()));
+        controller.getButton("RightBumper").onTrue(pickup(Position.GROUND_CUBE, true)).onFalse(retract(Position.NEUTRAL).andThen(stallPower()).andThen(setLeds(Colors.DEFAULT)));
+        controller.getButton("LeftBumper").onTrue(pickup(Position.GROUND_CONE, true)).onFalse(retract(Position.NEUTRAL).andThen(stallPower()).andThen(setLeds(Colors.DEFAULT)));
 
         controller.getUpPOVButton().onTrue(runOnce(()-> {
             CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 180 : 0;
@@ -131,6 +131,7 @@ public class RobotContainer {
         rightStick.getButton(11).onTrue(intake(false));
         rightStick.getButton(12).onTrue(outtake());
         rightStick.getButton(13).onTrue(stopManip());
+        rightStick.getButton(14).onTrue(new CmdAutoBalance());
 
 
         buttonPad.getButton(5).onTrue(
@@ -146,6 +147,7 @@ public class RobotContainer {
         buttonPad.getButton(13).onTrue(runOnce(()-> SINGLE_STATION = true));
 
         buttonPad.getButton(14).onTrue(retract(Position.NEUTRAL).beforeStarting(stopManip()));
+
 
         buttonPad.getButton(16).onTrue(
             HPpickup(Position.CHUTE_CONE, Position.SHELF_CONE)

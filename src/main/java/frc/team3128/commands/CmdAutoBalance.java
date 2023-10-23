@@ -69,7 +69,7 @@ public class CmdAutoBalance extends CommandBase{
             return;
         }
 
-        swerve.drive(new Translation2d(onRamp ? DRIVE_SPEED * (advAngle > 0.0 ? 1.0 : -1.0) : DRIVE_SPEED * 1.5, 0), 0, false);
+        swerve.drive(new Translation2d(onRamp ? DRIVE_SPEED * (advAngle > 0.0 ? 1.0 : -1.0) : DRIVE_SPEED * 2, 0), 0, false);
     }
 
     @Override
