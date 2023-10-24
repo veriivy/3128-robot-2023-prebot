@@ -3,21 +3,21 @@ package frc.team3128.autonomous;
 import java.util.HashMap;
 import java.util.List;
 
-import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
-import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
+
 import static edu.wpi.first.wpilibj2.command.Commands.*;
+import static frc.team3128.Constants.AutoConstants.*;
 import static frc.team3128.Constants.SwerveConstants.*;
 
-import frc.team3128.Constants.AutoConstants;
-import frc.team3128.Constants.SwerveConstants;
 import frc.team3128.PositionConstants.Position;
 import static frc.team3128.commands.CmdManager.*;
 
@@ -31,18 +31,13 @@ import frc.team3128.subsystems.Swerve;
  */
 public class Trajectories {
 
-    private static HashMap<String, List<PathPlannerTrajectory>> trajectories = new HashMap<String, List<PathPlannerTrajectory>>();
+    private static final HashMap<String, List<PathPlannerTrajectory>> trajectories = new HashMap<String, List<PathPlannerTrajectory>>();
+
+    private static final HashMap<String, Command> CommandEventMap = new HashMap<String, Command>();
+
+    private static final Swerve swerve = Swerve.getInstance();
 
     private static SwerveAutoBuilder builder;
-
-    private static HashMap<String, Command> CommandEventMap = new HashMap<String, Command>();
-
-    private static Manipulator manipulator = Manipulator.getInstance();
-
-    private static Swerve swerve = Swerve.getInstance();
-
-    public static double autoSpeed = SwerveConstants.maxSpeed;
-
 
     public static void initTrajectories() {
         final String[] trajectoryNames = {
@@ -72,26 +67,28 @@ public class Trajectories {
         CommandEventMap.put("PickupCube", pickup(Position.GROUND_CUBE, true));
 
         CommandEventMap.put("Neutral", retract(Position.NEUTRAL));
+        
+        CommandEventMap.put("Balance", new ScheduleCommand(new CmdAutoBalance(true)));
 
-        for (String trajectoryName : trajectoryNames) {
-            // Path path = Filesystem.getDeployDirectory().toPath().resolve("paths").resolve(trajectoryName + ".wpilib.json");
+        for (final String trajectoryName : trajectoryNames) {
+
             if (trajectoryName.contains("mid")) {
-                trajectories.put(trajectoryName, PathPlanner.loadPathGroup(trajectoryName, new PathConstraints(AutoConstants.slowSpeed, AutoConstants.slowAcceleration)));
+                trajectories.put(trajectoryName, PathPlanner.loadPathGroup(trajectoryName, slow));
             } 
             else {
-                trajectories.put(trajectoryName, PathPlanner.loadPathGroup(trajectoryName, new PathConstraints(maxSpeed, maxAcceleration)));
+                trajectories.put(trajectoryName, PathPlanner.loadPathGroup(trajectoryName, fast));
             }
         }
 
         builder = new SwerveAutoBuilder(
-            Swerve.getInstance()::getPose,
-            Swerve.getInstance()::resetOdometry,
+            swerve::getPose,
+            swerve::resetOdometry,
             swerveKinematics,
-            new PIDConstants(translationKP,translationKI,translationKD),
-            new PIDConstants(rotationKP,rotationKI,rotationKD),
-            Swerve.getInstance()::setModuleStates,
+            new PIDConstants(translationKP, translationKI, translationKD),
+            new PIDConstants(rotationKP, rotationKI, rotationKD),
+            swerve::setModuleStates,
             CommandEventMap,
-            Swerve.getInstance()
+            swerve
         );
     }
 
@@ -99,26 +96,17 @@ public class Trajectories {
         return builder.fullAuto(trajectory);
     }
 
-    public static CommandBase get(String name, boolean balance) {
-        if (balance) {
-            return sequence(
-                builder.fullAuto(trajectories.get(name)),
-                new CmdAutoBalance(true)
-            );
-        }
-        return builder.fullAuto(trajectories.get(name));
+    public static CommandBase get(String name) {
+        return builder.fullAuto(trajectories.get(name)).beforeStarting(resetAuto());
     }
 
-    public static PathPlannerTrajectory line(Pose2d start, Pose2d end) {
-        return PathPlanner.generatePath(
-            new PathConstraints(maxSpeed, 4),
-            new PathPoint(start.getTranslation(), start.getRotation()), 
-            new PathPoint(end.getTranslation(), end.getRotation())
-            );
-    }
-
-    public static CommandBase lineCmd(Pose2d start, Pose2d end) {
-        return builder.fullAuto(line(start, end));
+    public static CommandBase resetAuto() {
+        return sequence(
+            resetGyro(DriverStation.getAlliance() == Alliance.Red ? 0 : 180),
+            runOnce(()-> Manipulator.getInstance().set(-0.4), Manipulator.getInstance()),
+            resetAll(),
+            retract(Position.NEUTRAL)
+        );
     }
     
 }

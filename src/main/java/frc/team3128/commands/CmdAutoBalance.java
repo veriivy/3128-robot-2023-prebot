@@ -1,32 +1,25 @@
 package frc.team3128.commands;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.team3128.Constants.AutoConstants.*;
 
+import frc.team3128.Constants.SwerveConstants;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 import frc.team3128.subsystems.Manipulator;
 import frc.team3128.subsystems.Swerve;
 
 public class CmdAutoBalance extends CommandBase{
     private final Swerve swerve;
+    private final int direction;
     private double prevAngle;
     private double angleVelocity;
     private int plateauCount;
     private boolean onRamp;
-    private boolean shoot;
 
-    public CmdAutoBalance() {
+    public CmdAutoBalance(boolean isForward) {
         swerve = Swerve.getInstance();
-        addRequirements(Swerve.getInstance());
-    }
-
-    public CmdAutoBalance(boolean shoot) {
-        this.shoot = shoot;
-        swerve = Swerve.getInstance();
+        this.direction = isForward ? 1 : -1;
         addRequirements(Swerve.getInstance());
     }
     
@@ -59,6 +52,7 @@ public class CmdAutoBalance extends CommandBase{
         if (advAngle > RAMP_THRESHOLD) onRamp = true;
 
         if (Math.abs(advAngle) < ANGLE_THRESHOLD && onRamp) {
+            Manipulator.getInstance().outtake();
             swerve.xlock();
             return;
         }
@@ -69,7 +63,7 @@ public class CmdAutoBalance extends CommandBase{
             return;
         }
 
-        swerve.drive(new Translation2d(onRamp ? DRIVE_SPEED * (advAngle > 0.0 ? 1.0 : -1.0) : DRIVE_SPEED * 2, 0), 0, false);
+        swerve.drive(new Translation2d(onRamp ? DRIVE_SPEED * direction * (advAngle > 0.0 ? 1.0 : -1.0) : SwerveConstants.maxSpeed * direction, 0), 0, false);
     }
 
     @Override

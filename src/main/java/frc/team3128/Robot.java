@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.team3128.Constants.LedConstants.Colors;
 import frc.team3128.autonomous.AutoPrograms;
+import frc.team3128.subsystems.Leds;
 import frc.team3128.subsystems.Swerve;
 
 /**
@@ -37,7 +39,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit(){
         LiveWindow.disableAllTelemetry();
-        // Pivot.getInstance().offset = Pivot.getInstance().getAngle();
     }
 
     @Override
@@ -50,6 +51,7 @@ public class Robot extends TimedRobot {
         m_robotContainer.init();
         timer = new Timer();
         m_autonomousCommand = autoPrograms.getAutonomousCommand();
+        Leds.getInstance().defaultColor = Colors.AUTO;
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
             timer.start();
@@ -66,6 +68,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        Leds.getInstance().defaultColor = Colors.CHUTE;
         m_robotContainer.init();
         xlockTimer = new Timer();
         xlockTimer.start();
@@ -76,7 +79,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         CommandScheduler.getInstance().run();
         if (xlockTimer.hasElapsed(134.75)) {
-            //new RunCommand(()->Swerve.getInstance().xlock(), Swerve.getInstance()).schedule();
+            new RunCommand(()-> Swerve.getInstance().xlock(), Swerve.getInstance()).schedule();
         }
     }
 

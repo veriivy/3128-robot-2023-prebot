@@ -1,10 +1,8 @@
 package frc.team3128.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -17,7 +15,6 @@ import frc.team3128.subsystems.Leds;
 import frc.team3128.subsystems.Wrist;
 import frc.team3128.subsystems.Manipulator;
 import frc.team3128.subsystems.Swerve;
-import frc.team3128.subsystems.Vision;
 import frc.team3128.subsystems.Elevator;
 
 public class CmdManager {
@@ -43,7 +40,6 @@ public class CmdManager {
             //waitUntil(()-> ENABLE),
             extend(position),
             waitUntil(()-> !ENABLE),
-            waitSeconds(DriverStation.isAutonomous() ? 0.5 : 0),
             runOnce(()-> Swerve.getInstance().throttle = 1),
             outtake(),
             waitSeconds(0.5),
@@ -66,7 +62,7 @@ public class CmdManager {
 
     public static CommandBase pickup(Position position, boolean runImmediately) {
         return sequence(
-            runOnce(()->leds.setElevatorLeds(position.cone ? Colors.CONE : Colors.CUBE)),
+            setLeds(position.cone ? Colors.CONE : Colors.CUBE),
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
             parallel(
@@ -74,7 +70,7 @@ public class CmdManager {
                 intake(position.cone)
             ),
             retract(Position.NEUTRAL),
-            runOnce(()-> leds.setElevatorLeds(Colors.DEFAULT))
+            resetLeds()
         );
     }
 
@@ -115,7 +111,7 @@ public class CmdManager {
             runOnce(()-> manipulator.intake(cone), manipulator),
             waitSeconds(0.2),
             waitUntil(()-> manipulator.hasObjectPresent()),
-            runOnce(()-> leds.setElevatorLeds(Colors.HOLDING)),
+            setLeds(Colors.HOLDING),
             waitSeconds(cone ? 0.15 : 0),
             runOnce(()-> manipulator.stallPower(), manipulator)
         );
@@ -159,6 +155,30 @@ public class CmdManager {
         return runOnce(()-> wrist.set(speed), wrist);
     }
 
+    public static CommandBase xLock() {
+        return run(()-> swerve.xlock(), swerve);
+    }
+
+    public static CommandBase stop() {
+        return runOnce(()-> swerve.stop(), swerve);
+    }
+
+    public static CommandBase resetLeds() {
+        return runOnce(()-> leds.resetLeds());
+    }
+
+    public static CommandBase setLeds(Colors color) {
+        return runOnce(()-> leds.setElevatorLeds(color));
+    }
+
+    public static CommandBase toggleLeds() {
+        return sequence( 
+            runOnce(()-> SINGLE_STATION = !SINGLE_STATION),
+            runOnce(()-> leds.defaultColor = (leds.defaultColor == Colors.CHUTE) ? Colors.SHELF : Colors.CHUTE),
+            resetLeds()
+        );
+    }
+
     public static CommandBase resetElevator() {
         return runOnce(()-> elevator.resetEncoder());
     }
@@ -167,16 +187,16 @@ public class CmdManager {
         return runOnce(()-> wrist.resetEncoder());
     }
 
-    public static CommandBase resetSwerve(double angle) {
+    public static CommandBase resetGyro(double angle) {
         return runOnce(()-> swerve.zeroGyro(angle));
     }
 
-    public static CommandBase resetSwerve() {
+    public static CommandBase resetGyro() {
         return runOnce(()-> swerve.zeroGyro());
     }
 
-    public static CommandBase setLeds(Colors color) {
-        return runOnce(()-> leds.setElevatorLeds(color));
+    public static CommandBase resetSwerve() {
+        return runOnce(()-> swerve.resetEncoders());
     }
 
     public static CommandBase resetAll() {
