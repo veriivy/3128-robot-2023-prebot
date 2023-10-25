@@ -2,6 +2,7 @@ package frc.team3128.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -61,7 +62,7 @@ public class CmdSwerveDrive extends CommandBase {
         
         rotation = -zAxis.getAsDouble() * maxAngularVelocity * swerve.throttle; 
 
-        if (Math.abs(rotation) > 0.25) {
+        if (Math.abs(rotation) > maxAngularVelocity * swerve.throttle / 2.0) {
             enabled = false;
         }
         if (enabled) {
@@ -80,6 +81,26 @@ public class CmdSwerveDrive extends CommandBase {
         SmartDashboard.putNumber("xAXIS",xAxis.getAsDouble());
         swerve.drive(translation, rotation, swerve.fieldRelative);
 
+    }
+
+    public static void setTurnSetpoint() {
+        final double currentRotation = MathUtil.inputModulus(Swerve.getInstance().getYaw(), 0, 360);
+        if (currentRotation <= 45) {
+            rSetpoint = 0;
+        }
+        else if (currentRotation <= 135) {
+            rSetpoint = 90;
+        }
+        else if (currentRotation <= 225) {
+            rSetpoint = 180;
+        }
+        else if (currentRotation <= 315) {
+            rSetpoint = 270;
+        }
+        else {
+            rSetpoint = 360;
+        }
+        enabled = true;
     }
 
     @Override

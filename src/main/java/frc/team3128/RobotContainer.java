@@ -58,6 +58,7 @@ public class RobotContainer {
         controller.getButton("Start").onTrue(resetGyro());
         controller.getButton("RightBumper").onTrue(pickup(Position.GROUND_CUBE, true)).onFalse(retract(Position.NEUTRAL).andThen(stallPower()).andThen(resetLeds()));
         controller.getButton("LeftBumper").onTrue(pickup(Position.GROUND_CONE, true)).onFalse(retract(Position.NEUTRAL).andThen(stallPower()).andThen(resetLeds()));
+        controller.getButton("RightStick").onTrue(runOnce(()-> CmdSwerveDrive.setTurnSetpoint()));
 
         controller.getUpPOVButton().onTrue(runOnce(()-> {
             CmdSwerveDrive.rSetpoint = DriverStation.getAlliance() == Alliance.Red ? 180 : 0;
@@ -78,7 +79,7 @@ public class RobotContainer {
             CmdSwerveDrive.enabled = true;
         }));
         
-        rightStick.getButton(1).onTrue(resetSwerve());
+        rightStick.getButton(1).onTrue(resetGyro());
         rightStick.getButton(2).onTrue(moveElv(0.4)).onFalse(moveElv(0));
         rightStick.getButton(3).onTrue(moveElv(-0.4)).onFalse(moveElv(0));
         rightStick.getButton(4).onTrue(moveElevator(30));
