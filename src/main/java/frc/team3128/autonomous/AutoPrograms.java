@@ -23,7 +23,7 @@ public class AutoPrograms {
     }
 
     private void initAutoSelector() {
-        String[] autoStrings = new String[] {
+        final String[] autoStrings = new String[] {
                                             //Blue Autos
                                                 //Cable
                                                 "cable_1Cone+1Cube","cable_1Cone+2Cube",
@@ -39,20 +39,24 @@ public class AutoPrograms {
 
     public Command getAutonomousCommand() {
         String selectedAutoName = NarwhalDashboard.getSelectedAutoName();
+        final Command autoCommand;
 
         if (selectedAutoName == null) {
-            return score(Position.HIGH_CONE, true).beforeStarting(Trajectories.resetAuto());
+            autoCommand = score(Position.HIGH_CONE, true).beforeStarting(Trajectories.resetAuto());
         }
 
-        if (selectedAutoName == "scuffedClimb") {
-            return sequence(
+        else if (selectedAutoName == "scuffedClimb") {
+            autoCommand = sequence(
                 score(Position.HIGH_CONE, true).beforeStarting(Trajectories.resetAuto()),
                 new CmdAutoBalance(false)
             );
         }
 
-        selectedAutoName = (DriverStation.getAlliance() == Alliance.Red) ? "r_" : "b_" + selectedAutoName;
+        else {
+            selectedAutoName = (DriverStation.getAlliance() == Alliance.Red) ? "r_" : "b_" + selectedAutoName;
+            autoCommand = Trajectories.get(selectedAutoName);
+        }
 
-        return Trajectories.get(selectedAutoName);
+        return autoCommand.beforeStarting(Trajectories.resetAuto());
     }
 }

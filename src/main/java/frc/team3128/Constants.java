@@ -363,7 +363,7 @@ public class Constants {
         public static final double STALL_POWER_CUBE = 0.1;
 
 
-        public static final double CURRENT_THRESHOLD_CONE = 30;
+        public static final double CURRENT_THRESHOLD_CONE = 35;
         public static final double CURRENT_THRESHOLD_CUBE = 25;
     }
 

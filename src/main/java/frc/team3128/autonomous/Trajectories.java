@@ -18,10 +18,12 @@ import static edu.wpi.first.wpilibj2.command.Commands.*;
 import static frc.team3128.Constants.AutoConstants.*;
 import static frc.team3128.Constants.SwerveConstants.*;
 
+import frc.team3128.Constants.LedConstants.Colors;
 import frc.team3128.PositionConstants.Position;
 import static frc.team3128.commands.CmdManager.*;
 
 import frc.team3128.commands.CmdAutoBalance;
+import frc.team3128.subsystems.Leds;
 import frc.team3128.subsystems.Manipulator;
 import frc.team3128.subsystems.Swerve;
 
@@ -102,6 +104,8 @@ public class Trajectories {
 
     public static CommandBase resetAuto() {
         return sequence(
+            runOnce(()-> Leds.getInstance().defaultColor = Colors.AUTO),
+            resetLeds(),
             resetGyro(DriverStation.getAlliance() == Alliance.Red ? 0 : 180),
             runOnce(()-> Manipulator.getInstance().set(-0.4), Manipulator.getInstance()),
             resetAll(),
