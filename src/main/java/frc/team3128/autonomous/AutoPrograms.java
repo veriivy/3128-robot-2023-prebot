@@ -26,9 +26,9 @@ public class AutoPrograms {
         final String[] autoStrings = new String[] {
                                             //Blue Autos
                                                 //Cable
-                                                "cable_1Cone+1Cube","cable_1Cone+2Cube",
+                                                "cable_1Cone+1Cube","cable_1Cone+2Cube", "cable_1Cone+1.5Cube+Climb",
                                                 //Mid
-                                                "mid_1Cone+Climb","mid_1Cone+1Cube+Climb",
+                                                "mid_1Cone+Climb","mid_1Cone+0.5Cube+Climb", "mid_1Cone+1Cube+Climb",
                                                 //Hp
                                                 "hp_1Cone+1Cube",
 
@@ -42,12 +42,12 @@ public class AutoPrograms {
         final Command autoCommand;
 
         if (selectedAutoName == null) {
-            autoCommand = score(Position.HIGH_CONE, true).beforeStarting(Trajectories.resetAuto());
+            autoCommand = score(Position.HIGH_CONE, true);
         }
 
         else if (selectedAutoName == "scuffedClimb") {
             autoCommand = sequence(
-                score(Position.HIGH_CONE, true).beforeStarting(Trajectories.resetAuto()),
+                score(Position.HIGH_CONE, true),
                 new CmdAutoBalance(false)
             );
         }

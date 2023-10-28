@@ -71,6 +71,8 @@ public class Trajectories {
         CommandEventMap.put("Neutral", retract(Position.NEUTRAL));
         
         CommandEventMap.put("Balance", new ScheduleCommand(new CmdAutoBalance(true)));
+        
+        CommandEventMap.put("Balance2", new ScheduleCommand(new CmdAutoBalance(false)));
 
         for (final String trajectoryName : trajectoryNames) {
 
@@ -99,7 +101,7 @@ public class Trajectories {
     }
 
     public static CommandBase get(String name) {
-        return builder.fullAuto(trajectories.get(name)).beforeStarting(resetAuto());
+        return builder.fullAuto(trajectories.get(name));
     }
 
     public static CommandBase resetAuto() {
