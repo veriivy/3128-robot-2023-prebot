@@ -45,19 +45,19 @@ public class Trajectories {
         final String[] trajectoryNames = {
                                         //Blue Autos
                                             //Cable
-                                            "b_cable_1Cone+1Cube", "b_cable_1Cone+1Cube_V2","b_cable_1Cone+2Cube", "b_cable_1Cone+2Cube+Climb",
+                                            "b_cable_1Cone+1Cube", "b_cable_1Cone+1.5Cube","b_cable_1Cone+2Cube", "b_cable_1Cone+1.5Cube+Climb",
                                             //Mid
                                             "b_mid_1Cone+Climb","b_mid_1Cone+0.5Cube+Climb", "b_mid_1Cone+1Cube+Climb",
                                             //Hp
-                                            "b_hp_1Cone+1Cube","b_cable_1Cone+2Cube",
+                                            "b_hp_1Cone+1Cube",
                                             
                                         //Red Autos
                                             //Cable
-                                            "r_cable_1Cone+1Cube","r_cable_1Cone+2Cube",
+                                            "r_cable_1Cone+1Cube", "r_cable_1Cone+1.5Cube","r_cable_1Cone+2Cube", "r_cable_1Cone+1.5Cube+Climb",
                                             //Mid
                                             "r_mid_1Cone+Climb","r_mid_1Cone+0.5Cube+Climb","r_mid_1Cone+1Cube+Climb",
                                             //Hp
-                                            "r_hp_1Cone+1Cube","r_cable_1Cone+2Cube",
+                                            "r_hp_1Cone+1Cube"
                                         };
 
         CommandEventMap.put("ScoreConeHigh", sequence(score(Position.HIGH_CONE, true)));

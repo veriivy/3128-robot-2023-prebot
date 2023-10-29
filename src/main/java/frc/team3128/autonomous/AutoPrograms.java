@@ -26,7 +26,7 @@ public class AutoPrograms {
         final String[] autoStrings = new String[] {
                                             //Blue Autos
                                                 //Cable
-                                                "cable_1Cone+1Cube","cable_1Cone+2Cube", "cable_1Cone+1Cube_V2", "cable_1Cone+1.5Cube+Climb",
+                                                "cable_1Cone+1Cube","cable_1Cone+1.5Cube", "cable_1Cone+2Cube", "cable_1Cone+1.5Cube+Climb",
                                                 //Mid
                                                 "mid_1Cone+Climb","mid_1Cone+0.5Cube+Climb", "mid_1Cone+1Cube+Climb",
                                                 //Hp
