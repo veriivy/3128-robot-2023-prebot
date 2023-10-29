@@ -45,9 +45,9 @@ public class Trajectories {
         final String[] trajectoryNames = {
                                         //Blue Autos
                                             //Cable
-                                            "b_cable_1Cone+1Cube","b_cable_1Cone+2Cube", "b_cable_1Cone+2Cube+Climb",
+                                            "b_cable_1Cone+1Cube", "b_cable_1Cone+1Cube_V2","b_cable_1Cone+2Cube", "b_cable_1Cone+2Cube+Climb",
                                             //Mid
-                                            "b_mid_1Cone+Climb","b_mid_1Cone+1Cube+Climb",
+                                            "b_mid_1Cone+Climb","b_mid_1Cone+0.5Cube+Climb", "b_mid_1Cone+1Cube+Climb",
                                             //Hp
                                             "b_hp_1Cone+1Cube","b_cable_1Cone+2Cube",
                                             
@@ -55,12 +55,12 @@ public class Trajectories {
                                             //Cable
                                             "r_cable_1Cone+1Cube","r_cable_1Cone+2Cube",
                                             //Mid
-                                            "r_mid_1Cone+Climb","r_mid_1Cone+1Cube+Climb",
+                                            "r_mid_1Cone+Climb","r_mid_1Cone+0.5Cube+Climb","r_mid_1Cone+1Cube+Climb",
                                             //Hp
                                             "r_hp_1Cone+1Cube","r_cable_1Cone+2Cube",
                                         };
 
-        CommandEventMap.put("ScoreConeHigh", score(Position.HIGH_CONE, true));
+        CommandEventMap.put("ScoreConeHigh", sequence(score(Position.HIGH_CONE, true)));
 
         CommandEventMap.put("ScoreCubeHigh", score(Position.HIGH_CUBE, true));
 
@@ -68,7 +68,7 @@ public class Trajectories {
         
         CommandEventMap.put("PickupCube", pickup(Position.GROUND_CUBE, true));
 
-        CommandEventMap.put("Neutral", retract(Position.NEUTRAL));
+        CommandEventMap.put("Neutral", sequence(retract(Position.NEUTRAL)));
         
         CommandEventMap.put("Balance", new ScheduleCommand(new CmdAutoBalance(true)));
         
@@ -110,6 +110,7 @@ public class Trajectories {
             resetLeds(),
             resetGyro(DriverStation.getAlliance() == Alliance.Red ? 0 : 180),
             runOnce(()-> Manipulator.getInstance().set(-0.4), Manipulator.getInstance()),
+            runOnce(()-> Manipulator.getInstance().isCone = true),
             resetAll(),
             retract(Position.NEUTRAL)
         );

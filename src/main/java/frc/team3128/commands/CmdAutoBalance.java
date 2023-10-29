@@ -49,12 +49,12 @@ public class CmdAutoBalance extends CommandBase{
         // final double angleVelocity = (advAngle - prevAngle) / 0.02;
         final double angleVelocity = getAngleVelocity(advAngle);
 
-        if (advAngle > RAMP_THRESHOLD) onRamp = true;
+        if (Math.abs(advAngle) > RAMP_THRESHOLD) onRamp = true;
 
         if (Math.abs(advAngle) < ANGLE_THRESHOLD && onRamp) {
             swerve.xlock();
             if (direction == 1) {
-                Manipulator.getInstance().set(-1);
+                // Manipulator.getInstance().set(-1);
             }
             return;
         }

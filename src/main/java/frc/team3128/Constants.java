@@ -73,7 +73,7 @@ public class Constants {
         public static final double ANGLE_THRESHOLD = 8; //7, 9
         public static final double VELOCITY_THRESHOLD = 4; //6, 3
         public static final double RAMP_THRESHOLD = 9; //8, 10
-        public static final double DRIVE_SPEED = Units.inchesToMeters(40); //30, 40
+        public static final double DRIVE_SPEED = Units.inchesToMeters(20); //30, 40
 
     }
 
@@ -213,6 +213,12 @@ public class Constants {
                                                         new Transform2d(
                                                             new Translation2d(Units.inchesToMeters(6.57), Units.inchesToMeters(-11.7)), 
                                                                 Rotation2d.fromDegrees(180)));
+
+        public static final Camera BACK_LEFT = new Camera("BACK_LEFT", true, 0, 0, 0, 
+                                                        new Transform2d(
+                                                            new Translation2d(Units.inchesToMeters(6.57), Units.inchesToMeters(18.89)), 
+                                                                Rotation2d.fromDegrees(180)));
+
         public static final double POSE_THRESH = 100;
 
         public static final Matrix<N3,N1> SVR_STATE_STD = VecBuilder.fill(0.1,0.1,Units.degreesToRadians(3));

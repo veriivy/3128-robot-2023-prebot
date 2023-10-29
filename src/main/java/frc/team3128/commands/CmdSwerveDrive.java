@@ -62,7 +62,7 @@ public class CmdSwerveDrive extends CommandBase {
         
         rotation = -zAxis.getAsDouble() * maxAngularVelocity * swerve.throttle; 
 
-        if (Math.abs(rotation) > maxAngularVelocity * swerve.throttle / 2.0) {
+        if (Math.abs(rotation) > maxAngularVelocity * swerve.throttle / 4.0) {
             enabled = false;
         }
         if (enabled) {
