@@ -76,7 +76,7 @@ public class CmdTrajectory extends CommandBase {
 
     private CommandBase generateAuto() {
         index = Vision.SELECTED_GRID * 3 + xPos;
-        final PathPlannerTrajectory trajectory = PathPlanner.generatePath(pathConstraints, generatePoses());
+        final PathPlannerTrajectory trajectory = PathPlanner.generatePath(fast, generatePoses());
         return Commands.sequence(
             Trajectories.generateAuto(trajectory),
             Commands.run(()-> swerve.drive(new Translation2d(DriverStation.getAlliance() == Alliance.Blue ? -0.5 : 0.5, 0), 0, true)).withTimeout(0.5),

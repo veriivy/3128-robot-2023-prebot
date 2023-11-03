@@ -75,7 +75,4 @@ public class Elevator extends NAR_PIDSubsystem {
         return m_elv2.getSelectedSensorPosition() / GEAR_RATIO * SPOOL_CIRCUMFERENCE;
     }
 
-    public boolean pastFramePerimiter() {
-        return getMeasurement() >= FRAME_LENGTH;
-    }
 }

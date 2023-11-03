@@ -14,8 +14,6 @@ public class Manipulator extends SubsystemBase {
 
     public static boolean isCone = true;
 
-    public boolean isOuttaking = false;
-
     public static synchronized Manipulator getInstance() {
         if (instance == null){
             instance = new Manipulator();  
@@ -35,14 +33,12 @@ public class Manipulator extends SubsystemBase {
     }
 
     public void intake(boolean cone) {
-        isOuttaking = false;
         isCone = cone;
         if (isCone) reverse();
         else forward();
     }    
 
     public void outtake(){
-        isOuttaking = true;
         if (!isCone) reverse();
         else forward();
     }
@@ -51,20 +47,20 @@ public class Manipulator extends SubsystemBase {
         set(isCone ? -STALL_POWER_CONE : STALL_POWER_CUBE);
     }
 
-    public void set(double power){
-        m_roller.set(power);
+    private void forward(){
+        set(ROLLER_POWER);
     }
 
-    public void forward(){
-        m_roller.set(ROLLER_POWER);
-    }
-
-    public void reverse(){
-        m_roller.set(-ROLLER_POWER);
+    private void reverse(){
+        set(-ROLLER_POWER);
     }
 
     public void stopRoller(){
-        m_roller.set(0);
+        set(0);
+    }
+
+    public void set(double power){
+        m_roller.set(power);
     }
 
     public boolean hasObjectPresent(){

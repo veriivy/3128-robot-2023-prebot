@@ -1,11 +1,6 @@
 package frc.team3128;
 
-import static frc.team3128.common.hardware.motorcontroller.MotorControllerConstants.FALCON_ENCODER_RESOLUTION;
-import static frc.team3128.common.hardware.motorcontroller.MotorControllerConstants.SPARKMAX_ENCODER_RESOLUTION;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.pathplanner.lib.PathConstraints;
 
@@ -23,20 +18,12 @@ import frc.team3128.common.swerveNeo.SwerveModuleConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 
 
 public class Constants {
-
-    public static class ConversionConstants {
-
-        public static final double SPARK_VELOCITY_FACTOR = SPARKMAX_ENCODER_RESOLUTION / 60; // RPM to nu/s
-        public static final double FALCON_NUp100MS_TO_RPM = 10 * 60 / FALCON_ENCODER_RESOLUTION; // sensor units per 100 ms to rpm
-        public static final double FALCON_NUpS_TO_RPM = 60 / FALCON_ENCODER_RESOLUTION; // sensor units per second to rpm
-    }
 
     public static class TrajectoryConstants {
         public static final Rotation2d HEADING = Rotation2d.fromDegrees(180);
@@ -66,67 +53,32 @@ public class Constants {
     }
 
     public static class AutoConstants {
-        public static final PathConstraints pathConstraints = new PathConstraints(SwerveConstants.maxSpeed, SwerveConstants.maxAcceleration); 
-
-        public static final Pose2d PICKUP_1 = new Pose2d(5.9, 0.95, Rotation2d.fromDegrees(0));
-        public static final Pose2d PICKUP_2 = new Pose2d(7.1, 2.28, Rotation2d.fromDegrees(45));
-        public static final Pose2d PICKUP_3 = new Pose2d(7.1, 3.3, Rotation2d.fromDegrees(-45));
-        public static final Pose2d PICKUP_4 = new Pose2d(5.9, 4.55, Rotation2d.fromDegrees(0));
-
-        public static final Pose2d MOBILITY_BOTTOM = new Pose2d(5.5, 0.95, Rotation2d.fromDegrees(0));
-        public static final Pose2d MOBILITY_TOP = new Pose2d(5.5, 4.5, Rotation2d.fromDegrees(0));
-
-        public static final Pose2d ClimbSetupInside = new Pose2d(2.2, 2.7, Rotation2d.fromDegrees(0));
-        public static final Pose2d ClimbSetupOutsideBot = new Pose2d(5.6, 2.9, Rotation2d.fromDegrees(180));
-        public static final Pose2d ClimbSetupOutsideTop = new Pose2d(5.6, 3.3, Rotation2d.fromDegrees(180));
-
-        public static final double ANGLE_THRESHOLD = 9; //7, 9
-        public static final double VELOCITY_THRESHOLD = 3; //6, 3
-        public static final double RAMP_THRESHOLD = 10; //8, 10
-        public static final double DRIVE_SPEED = Units.inchesToMeters(40); //30, 40
-        public static final double kP = 0.000000001;
-        public static final double kI = 0.0;
-        public static final double kD = 0;
-
-        public static final Pose2d[] STARTING_POINTS = new Pose2d[] {
-            new Pose2d(1.85 ,0.5, Rotation2d.fromDegrees(180)),
-            new Pose2d(1.85 ,1.05, Rotation2d.fromDegrees(180)),
-            new Pose2d(1.85 ,1.65, Rotation2d.fromDegrees(180)),
-            new Pose2d(1.85 ,2.15, Rotation2d.fromDegrees(180)),
-            new Pose2d(1.85 ,2.75, Rotation2d.fromDegrees(0)),
-            new Pose2d(1.85 ,3.3, Rotation2d.fromDegrees(180)),
-            new Pose2d(1.85 ,3.85, Rotation2d.fromDegrees(180)),
-            new Pose2d(1.85 ,4.45, Rotation2d.fromDegrees(180)),
-            new Pose2d(1.85 ,5, Rotation2d.fromDegrees(180))
-        };
-
-        public static final Pose2d[] SCORES = new Pose2d[]{
-            new Pose2d(1.90,0.5,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.05,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,1.65,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.15,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,2.75,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.3,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,3.85,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.45,Rotation2d.fromDegrees(180)),
-            new Pose2d(1.90,4.89,Rotation2d.fromDegrees(180))
-        };
-
-        public static final Pose2d[][] SCORES_GRID = new Pose2d[][] {
-            new Pose2d[] {SCORES[0], SCORES[3], SCORES[6]},
-            new Pose2d[] {SCORES[1], SCORES[4], SCORES[7]},
-            new Pose2d[] {SCORES[2], SCORES[5], SCORES[8]}
-        };
-
-        public static final double BALANCE_FF = 0.3;
 
         public static final double slowSpeed = 1.5;
         public static final double slowAcceleration = 2;
+
+        public static final PathConstraints fast = new PathConstraints(SwerveConstants.maxSpeed, SwerveConstants.maxAcceleration); 
+        public static final PathConstraints slow = new PathConstraints(slowSpeed, slowAcceleration);
+
+        /* Translation PID Values */
+        public static final double translationKP = 3;
+        public static final double translationKI = 0;
+        public static final double translationKD = 0;
+      
+        /* Rotation PID Values */
+        public static final double rotationKP = 2;
+        public static final double rotationKI = 0;
+        public static final double rotationKD = 0;
+
+        public static final double ANGLE_THRESHOLD = 8; //7, 9
+        public static final double VELOCITY_THRESHOLD = 4; //6, 3
+        public static final double RAMP_THRESHOLD = 9; //8, 10
+        public static final double DRIVE_SPEED = Units.inchesToMeters(20); //30, 40
+
     }
 
     public static class SwerveConstants {
         public static final int pigeonID = 30; 
-        public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
         /* Drivetrain Constants */
         public static final double bumperLength = Units.inchesToMeters(5);
@@ -161,31 +113,6 @@ public class Constants {
         public static final double drivePeakCurrentDuration = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
 
-
-        public static final double TURN_TOLERANCE = 5;
-
-        public static final double DRIVE_TOLERANCE = 0.04;
-
-        /* Translation PID Values */
-        public static final double translationKP = 3;
-        public static final double translationKI = 0;
-        public static final double translationKD = 0;
-
-        /* Translation PID Values */
-        public static final double distanceKP = 3;
-        public static final double distanceKI = 0;
-        public static final double distanceKD = 0;
-
-        /* Rotation PID Values */
-        public static final double alignKP = 0.05;
-        public static final double alignKI = 0;
-        public static final double alignKD = 0;
-      
-        /* Rotation PID Values */
-        public static final double rotationKP = 2;
-        public static final double rotationKI = 0;
-        public static final double rotationKD = 0;
-
         /* Turning PID Values */
         public static final double turnKP = 5;
         public static final double turnKI = 0;
@@ -208,16 +135,14 @@ public class Constants {
         public static final double driveKS = 0.19255;//0.60094; // 0.19225;
         public static final double driveKV = 2.4366;//1.1559;  // 2.4366
         public static final double driveKA = 0.34415; //0.12348; // 0.34415
-        public static final double turnTolerance = 2;
 
         /* Swerve Profiling Values */
         // Theoretical: v = 4.96824, omega = 11.5
         // Real: v = 4.5, omega = 10
         // For safety, use less than theoretical and real values
-        public static final double maxSpeed = 4.5; //meters per second - 16.3 ft/sec
-        public static final double bumpSpeed = 2.5;
-        public static final double maxAcceleration = 2.5;
-        public static final double maxAngularVelocity = 5; //3; //11.5; // citrus: 10
+        public static final double maxSpeed = 4.4; //meters per second - 16.3 ft/sec
+        public static final double maxAcceleration = 3;
+        public static final double maxAngularVelocity = 8; //3; //11.5; // citrus: 10 - Mason look at this later wtf
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(maxSpeed, maxAcceleration);
 
         /* Motor Inverts */
@@ -226,10 +151,6 @@ public class Constants {
 
         /* Angle Encoder Invert */
         public static final boolean canCoderInvert = false;
-
-        /* Auto-Balance Constants */
-        public static final double BEAM_BALANCED_GOAL_DEGREES = 0;
-        public static final double BEAM_BALANACED_DRIVE_KP = 0.015; // P (Proportional) constant of a PID loop
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
@@ -293,80 +214,18 @@ public class Constants {
                                                             new Translation2d(Units.inchesToMeters(6.57), Units.inchesToMeters(-11.7)), 
                                                                 Rotation2d.fromDegrees(180)));
 
-        public static final PIDController xController = new PIDController(1, 0, 0);
-        public static final PIDController yController = new PIDController(1, 0, 0);
-        public static final PIDController rController = new PIDController(1, 0, 0);
+        public static final Camera BACK_LEFT = new Camera("BACK_LEFT", true, 0, 0, 0, 
+                                                        new Transform2d(
+                                                            new Translation2d(Units.inchesToMeters(6.57), Units.inchesToMeters(18.89)), 
+                                                                Rotation2d.fromDegrees(180)));
 
-        public static final double SCREEN_WIDTH = 320;
-        public static final double SCREEN_HEIGHT = 240;
-    
-        public static final double HORIZONTAL_FOV = 59.6; //degrees
-        public static final double VERTICAL_FOV = 45.7; //degrees
-
-        public static final double TX_THRESHOLD = 3; // degrees
-
-        public static final double POSE_THRESH = 5;
-
-        public static final double AUTO_FF = 0.1;
-
-        public static final double ANGLE_THRESHOLD = 10; // degrees
-
-        public static final double TARGET_AREA = 6.25 * 6.25; //inches
+        public static final double POSE_THRESH = 100;
 
         public static final Matrix<N3,N1> SVR_STATE_STD = VecBuilder.fill(0.1,0.1,Units.degreesToRadians(3));
  
         public static final Matrix<N3,N1> SVR_VISION_MEASUREMENT_STD = VecBuilder.fill(1,1,Units.degreesToRadians(10));
 
-        public static final Pose2d[] SCORES = new Pose2d[]{
-            new Pose2d(1.90,0.55,Rotation2d.fromDegrees(180)), //0.5
-            new Pose2d(1.90,1.1,Rotation2d.fromDegrees(180)), //1.05
-            new Pose2d(1.90,1.7,Rotation2d.fromDegrees(180)), //1.65
-            new Pose2d(1.90,2.2,Rotation2d.fromDegrees(180)), //2.15
-            new Pose2d(1.90,2.8,Rotation2d.fromDegrees(180)), //2.75
-            new Pose2d(1.90,3.35,Rotation2d.fromDegrees(180)), //3.3
-            new Pose2d(1.90,3.90,Rotation2d.fromDegrees(180)), //3.85
-            new Pose2d(1.90,4.50,Rotation2d.fromDegrees(180)), //4.45
-            new Pose2d(1.90,4.94,Rotation2d.fromDegrees(180)) //4.89
-        };
-
-        public static final Pose2d[][] SCORES_GRID = new Pose2d[][] {
-            new Pose2d[] {SCORES[0], SCORES[3], SCORES[6]},
-            new Pose2d[] {SCORES[1], SCORES[4], SCORES[7]},
-            new Pose2d[] {SCORES[2], SCORES[5], SCORES[8]}
-        };
-
-        public static final boolean[][] RAMP_OVERRIDE = new boolean[][] {
-            new boolean[] {true, true, true}, //false, true, true
-            new boolean[] {true, true, true}, //false, true, false
-            new boolean[] {true, true, true} //true, true, false
-        };
-
-        public static final ArrayList<Pose2d> RAMP_AVOID_SCORE = new ArrayList<Pose2d>();
-
-        public static final Pose2d[] SCORE_SETUP = new Pose2d[]{
-            new Pose2d(5.3,0.75,Rotation2d.fromDegrees(180)),
-            new Pose2d(5.3,2.75,Rotation2d.fromDegrees(180)),
-            new Pose2d(5.3,4.6,Rotation2d.fromDegrees(180)),
-        };
-
-        public static final Pose2d[] LOADING_ZONE = new Pose2d[] {
-            new Pose2d(15.1,6,Rotation2d.fromDegrees(0)),
-            new Pose2d(Units.inchesToMeters(636.96-76.925),Units.inchesToMeters(265.74+54.5-26), Rotation2d.fromDegrees(90)),
-            new Pose2d(15.1,7.3, Rotation2d.fromDegrees(0))
-        };
-
-        public static final Pose2d[] RAMP_AVOID_LOADING = new Pose2d[] {
-            new Pose2d(10, 0.95, new Rotation2d()),
-            new Pose2d(10, 4.5, new Rotation2d())
-        };
-
-        public static final Pose2d HPWall_Loading = new Pose2d(12.4, 7.5, new Rotation2d());
-
-        public static final double WALL_PASS = 5.8 + SwerveConstants.robotLength/2.0;
-
         public static final HashMap<Integer,Pose2d> APRIL_TAG_POS = new HashMap<Integer,Pose2d>();
-
-        public static final HashMap<Integer,Pose2d> TestTags = new HashMap<Integer, Pose2d>();
 
         static {
             APRIL_TAG_POS.put(1, new Pose2d(
@@ -401,13 +260,6 @@ public class Constants {
                 new Translation2d(Units.inchesToMeters(40.45), Units.inchesToMeters(42.19)),
                 Rotation2d.fromDegrees(0))
             );
-
-            TestTags.put(8, APRIL_TAG_POS.get(3));
-            TestTags.put(7, APRIL_TAG_POS.get(2));
-            TestTags.put(6,APRIL_TAG_POS.get(1));
-
-            RAMP_AVOID_SCORE.add(new Pose2d(2.1,4.87, Rotation2d.fromDegrees(180)));
-            RAMP_AVOID_SCORE.add(new Pose2d(2.1, 0.4, Rotation2d.fromDegrees(180)));
         } 
     }
     
@@ -513,11 +365,11 @@ public class Constants {
     public static class ManipulatorConstants{
         public static final int ROLLER_MOTOR_ID = 31;
         public static final double ROLLER_POWER = 0.9;
-        public static final double STALL_POWER_CONE = 0.05;
+        public static final double STALL_POWER_CONE = 0.15;
         public static final double STALL_POWER_CUBE = 0.1;
 
 
-        public static final double CURRENT_THRESHOLD_CONE = 30;
+        public static final double CURRENT_THRESHOLD_CONE = 35;
         public static final double CURRENT_THRESHOLD_CUBE = 25;
     }
 
@@ -529,9 +381,9 @@ public class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.975;
+        public static final double kS = 0.2375; //0.975; //1.05;
         public static final double kV = 0;
-        public static final double kG = 1.05;
+        public static final double kG = 0.4125;//0.975;
 
         public static final double MIN_DIST = 2; //Ask Charlie
         public static final double MAX_DIST = 55; //Ask Charlie
@@ -543,15 +395,6 @@ public class Constants {
         public static final double ELV_TOLERANCE = 0.25;
         
         public static final int CURRENT_LIMIT = 80;
-    }
-
-    public static class BalanceConstants{
-        public static final double turnKP = 6;
-        public static final double turnKI = 0;
-        public static final double turnKD = .005;
-        public static final double TURN_TOLERANCE = 1.5;
-        public static final double CHARGE_STATION_X = 5;
-        public static final double CHARGE_STATION_Y = 5;
     }
 
     public static class LedConstants{
@@ -579,7 +422,8 @@ public class Constants {
             HOLDING(255,0,0,false),
     
             AUTO(0,0,0,true),
-            DEFAULT(0,0,225,false);
+            SHELF(255, 105, 180, false),
+            CHUTE(0,0,225,false);
     
             public final int r;
             public final int b;

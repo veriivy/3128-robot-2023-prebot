@@ -25,6 +25,8 @@ import frc.team3128.Constants.LedConstants.Colors;;
 public class Leds extends SubsystemBase {
     private final CANdle m_candle = new CANdle(LedConstants.CANDLE_ID);
 
+    public Colors defaultColor = Colors.CHUTE;
+
     private static Leds instance;
 
     public static Leds getInstance() {
@@ -36,6 +38,8 @@ public class Leds extends SubsystemBase {
 
     public Leds() {
         configCandle();
+
+        resetLeds();
     }
 
     private void configCandle() {
@@ -43,6 +47,10 @@ public class Leds extends SubsystemBase {
         config.stripType = LEDStripType.RGB;
         config.brightnessScalar = 1;
         m_candle.configAllSettings(config);
+    }
+
+    public void resetLeds() {
+        setElevatorLeds(defaultColor);
     }
 
     //Set Elevator Leds
@@ -64,13 +72,13 @@ public class Leds extends SubsystemBase {
         }
     }
 
-    public void resetAnimationSlot(int slots) {
+    private void resetAnimationSlot(int slots) {
         for (int i = 0; i < slots; i++) {
          m_candle.animate(null,i);
         }
      }
 
-    public void resetAnimationSlot(int slots, int offset) {
+    private void resetAnimationSlot(int slots, int offset) {
        for (int i = 0; i < slots; i++) {
         m_candle.animate(null,i+offset);
        }

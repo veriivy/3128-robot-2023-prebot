@@ -39,7 +39,7 @@ public class Swerve extends SubsystemBase {
     private Field2d field;
 
     public boolean fieldRelative;
-    public double throttle = 0.8;
+    public double throttle = 1;
     public double speed = 0;
     private Translation2d prevTrans = new Translation2d();
     public double acceleration = 0;
@@ -95,12 +95,17 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public void setBrakeMode(boolean isBrake) {
+        for (final SwerveModule module : modules) {
+            module.setBrakeMode(isBrake);
+        }
+    }
+
     public void initShuffleboard() {
         // General Tab
         NAR_Shuffleboard.addComplex("General","Gyro",gyro,7,2,2,2);//.withWidget("Gyro");
         NAR_Shuffleboard.addData("General","Heading",this::getHeading,1,2);
         // // Drivetrain Tab
-        NAR_Shuffleboard.addComplex("Field","field",field,0,0,13,7);//.withWidget("Field");
         NAR_Shuffleboard.addData("Drivetrain","Pose",() -> (getPose().toString()),2,0,4,1);
         NAR_Shuffleboard.addComplex("Drivetrain","Gyro",gyro,3,1,2,2);//.withWidget("Gyro");
         NAR_Shuffleboard.addData("Drivetrain","Yaw",this::getYaw,4,1);
@@ -119,7 +124,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void addVisionMeasurement(Pose2d pose, double timeStamp) {
-        if (Math.abs(pose.getX() - getPose().getX()) > VisionConstants.POSE_THRESH && 
+        if (Math.abs(pose.getX() - getPose().getX()) > VisionConstants.POSE_THRESH || 
             Math.abs(pose.getY() - getPose().getY()) > VisionConstants.POSE_THRESH) return;
         odometry.addVisionMeasurement(pose, timeStamp);
     }
@@ -130,9 +135,8 @@ public class Swerve extends SubsystemBase {
         }
     }
 
-    public void resetOdometry(Pose2d pose) { // TODO: Call this!!!!
+    public void resetOdometry(Pose2d pose) {
         zeroGyro(pose.getRotation().getDegrees());
-        //System.out.println(pose.toString());
         odometry.resetPosition(getGyroRotation2d(), getPositions(), pose);
     }
 
@@ -217,11 +221,11 @@ public class Swerve extends SubsystemBase {
     }
 
     public double getPitch() {
-        return gyro.getRoll() - initialRoll;
+        return gyro.getPitch() - initialPitch;
     }
 
     public double getRoll() {
-        return gyro.getPitch() - initialPitch;
+        return gyro.getRoll() - initialRoll;
     }
 
     public void zeroGyro() {

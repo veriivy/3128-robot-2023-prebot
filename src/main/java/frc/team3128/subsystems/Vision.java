@@ -12,10 +12,8 @@ import frc.team3128.common.hardware.camera.Camera;
 import frc.team3128.common.hardware.camera.NAR_Camera;
 import frc.team3128.common.utility.NAR_Shuffleboard;
 
-public class Vision extends SubsystemBase{
+public class Vision extends SubsystemBase {
     public static int SELECTED_GRID = 0;
-    public static boolean AUTO_ENABLED = true;
-    public static boolean MANUAL = false;
 
     private HashMap<String,NAR_Camera> cameras;
   
@@ -35,9 +33,10 @@ public class Vision extends SubsystemBase{
         NAR_Camera.setAprilTags(APRIL_TAG_POS);
         NAR_Camera.multipleTargets = false;
         cameras = new HashMap<String,NAR_Camera>();
-        cameras.put(FRONT_LEFT.hostname, new NAR_Camera(FRONT_LEFT));
-        cameras.put(FRONT_RIGHT.hostname, new NAR_Camera(FRONT_RIGHT));
+        // cameras.put(FRONT_LEFT.hostname, new NAR_Camera(FRONT_LEFT));
+        // cameras.put(FRONT_RIGHT.hostname, new NAR_Camera(FRONT_RIGHT));
         cameras.put(BACK_RIGHT.hostname, new NAR_Camera(BACK_RIGHT));
+        cameras.put(BACK_LEFT.hostname, new NAR_Camera(BACK_LEFT));
     }
 
     public Pose2d targetPos(String name, Pose2d robotPos) {
@@ -124,8 +123,8 @@ public class Vision extends SubsystemBase{
     }
     
     public void initShuffleboard() {
-        NAR_Camera cam = cameras.get(FRONT_LEFT.hostname);
-        NAR_Camera cam2 = cameras.get(FRONT_RIGHT.hostname);
+        NAR_Camera cam = cameras.get(BACK_LEFT.hostname);
+        NAR_Camera cam2 = cameras.get(BACK_RIGHT.hostname);
         NAR_Shuffleboard.addData("VisionComp", "HasTarget", ()->cam.hasValidTarget() || cam2.hasValidTarget(), 0, 0);
 
         NAR_Shuffleboard.addData("Vision","HasTarget", ()->cam.hasValidTarget(), 0, 0);
@@ -143,9 +142,6 @@ public class Vision extends SubsystemBase{
         NAR_Shuffleboard.addData("Vision2", "Processed Target",()->cam2.getProcessedTarget().toString(),0,2,4,1);
         NAR_Shuffleboard.addData("Vision2","EstimatedPose", ()-> cam2.getPos().toString(),0,3,4,1);
         NAR_Shuffleboard.addData("Test", "TESTING", ()->cam2.getTest().toString(),0,2,3,1);
-
-        NAR_Shuffleboard.addData("Togglables", "AUTO_ENABLED", ()-> AUTO_ENABLED, 0, 0);
-        NAR_Shuffleboard.addData("Togglables", "MANUAL", ()-> MANUAL, 1, 0);
     }
 
     public void logCameraAll() {
