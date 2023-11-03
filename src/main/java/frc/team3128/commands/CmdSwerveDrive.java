@@ -59,8 +59,10 @@ public class CmdSwerveDrive extends CommandBase {
         else {
             translation = translation.rotateBy(Rotation2d.fromDegrees(-90));
         }
+
+        final double zValue = -zAxis.getAsDouble();
         
-        rotation = -zAxis.getAsDouble() * maxAngularVelocity * swerve.throttle; 
+        rotation = Math.copySign(Math.pow(zValue, 3/2), zValue) * maxAngularVelocity * swerve.throttle; 
 
         if (Math.abs(rotation) > maxAngularVelocity * swerve.throttle / 4.0) {
             enabled = false;

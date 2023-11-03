@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team3128.Constants.LedConstants.Colors;
 import frc.team3128.autonomous.AutoPrograms;
 import frc.team3128.commands.CmdManager;
@@ -37,6 +39,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit(){
+        new Trigger(this::isEnabled).negate().debounce(2).onTrue(new InstantCommand(()-> Swerve.getInstance().setBrakeMode(false)).ignoringDisable(true));
         m_robotContainer.init();
         LiveWindow.disableAllTelemetry();
     }
@@ -87,6 +90,11 @@ public class Robot extends TimedRobot {
     @Override
     public void simulationPeriodic() {
         CommandScheduler.getInstance().run();
+    }
+
+    @Override
+    public void disabledInit() {
+        Swerve.getInstance().setBrakeMode(true);
     }
     
     @Override

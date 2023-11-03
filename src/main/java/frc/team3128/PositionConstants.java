@@ -8,12 +8,12 @@ public class PositionConstants {
         MID_CUBE(25, 30, false),
         LOW(3, 45, true),
 
-        SHELF_CONE(26, 45, true),
+        SHELF_CONE(25, 45, true),
         SHELF_CUBE(37, 22, false),
         CHUTE_CONE(10, 55, true),
         CHUTE_CUBE(10, 45, false),
 
-        GROUND_CONE(8, -18, true),
+        GROUND_CONE(10.5, -18, true),
         GROUND_CUBE(2.5, 0, false),
 
         NEUTRAL(3, 80, false);

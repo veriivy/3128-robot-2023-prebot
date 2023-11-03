@@ -35,7 +35,7 @@ public class CmdManager {
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
             runOnce(()-> ENABLE = !runImmediately),
-            runOnce(()-> Swerve.getInstance().throttle = 0.6),
+            runOnce(()-> Swerve.getInstance().throttle = 0.4),
             //either(none(), new CmdTrajectory(xPos), ()-> runImmediately),
             //waitUntil(()-> ENABLE),
             extend(position),

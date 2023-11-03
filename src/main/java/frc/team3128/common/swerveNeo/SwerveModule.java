@@ -171,6 +171,10 @@ public class SwerveModule {
         angleMotor.set(0);
     }
 
+    public void setBrakeMode(boolean isBrake) {
+        driveMotor.setIdleMode(isBrake ? IdleMode.kBrake : IdleMode.kCoast);
+    }
+
     /**
      * Configures the CANCoder
      */

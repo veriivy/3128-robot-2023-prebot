@@ -142,7 +142,7 @@ public class Constants {
         // For safety, use less than theoretical and real values
         public static final double maxSpeed = 4.4; //meters per second - 16.3 ft/sec
         public static final double maxAcceleration = 3;
-        public static final double maxAngularVelocity = 5; //3; //11.5; // citrus: 10 - Mason look at this later wtf
+        public static final double maxAngularVelocity = 8; //3; //11.5; // citrus: 10 - Mason look at this later wtf
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(maxSpeed, maxAcceleration);
 
         /* Motor Inverts */
@@ -381,9 +381,9 @@ public class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 1.05;
+        public static final double kS = 0.2375; //0.975; //1.05;
         public static final double kV = 0;
-        public static final double kG = 0.975;
+        public static final double kG = 0.4125;//0.975;
 
         public static final double MIN_DIST = 2; //Ask Charlie
         public static final double MAX_DIST = 55; //Ask Charlie
@@ -422,7 +422,7 @@ public class Constants {
             HOLDING(255,0,0,false),
     
             AUTO(0,0,0,true),
-            SHELF(0, 255, 0, false),
+            SHELF(255, 105, 180, false),
             CHUTE(0,0,225,false);
     
             public final int r;

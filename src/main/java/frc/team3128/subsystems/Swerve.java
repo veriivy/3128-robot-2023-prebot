@@ -95,6 +95,12 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public void setBrakeMode(boolean isBrake) {
+        for (final SwerveModule module : modules) {
+            module.setBrakeMode(isBrake);
+        }
+    }
+
     public void initShuffleboard() {
         // General Tab
         NAR_Shuffleboard.addComplex("General","Gyro",gyro,7,2,2,2);//.withWidget("Gyro");

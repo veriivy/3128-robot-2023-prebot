@@ -53,7 +53,7 @@ public class AutoPrograms {
         }
 
         else {
-            selectedAutoName = (DriverStation.getAlliance() == Alliance.Red) ? "r_" : "b_" + selectedAutoName;
+            selectedAutoName = ((DriverStation.getAlliance() == Alliance.Red) ? "r_" : "b_") + selectedAutoName;
             autoCommand = Trajectories.get(selectedAutoName);
         }
 
