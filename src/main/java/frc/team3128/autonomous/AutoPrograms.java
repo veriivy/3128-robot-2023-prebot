@@ -42,13 +42,13 @@ public class AutoPrograms {
         final Command autoCommand;
 
         if (selectedAutoName == null) {
-            autoCommand = score(Position.HIGH_CONE, true);
-            // autoCommand = none();
+            // autoCommand = score(Position.HIGH_CONE_AUTO, true);
+            autoCommand = none();
         }
 
         else if (selectedAutoName.equals("scuffedClimb")) {
             autoCommand = sequence(
-                score(Position.HIGH_CONE, true),
+                score(Position.HIGH_CONE_AUTO, true),
                 new CmdAutoBalance(false)
             );
         }

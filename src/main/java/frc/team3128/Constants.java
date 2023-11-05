@@ -377,13 +377,13 @@ public class Constants {
         public static final int ELV1_ID = 11;
         public static final int ELV2_ID = 12;
 
-        public static final double kP = 1;
+        public static final double kP = 1.5;
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.975;//0.2375; //0.975; //1.05;
+        public static final double kS = 0.575;//0.2375; //0.975; //1.05;
         public static final double kV = 0;
-        public static final double kG = 0.975;//0.4125;//0.975;
+        public static final double kG = 0.725;//0.4125;//0.975; 1.35;
 
         public static final double MIN_DIST = 2; //Ask Charlie
         public static final double MAX_DIST = 55; //Ask Charlie

@@ -60,7 +60,7 @@ public class Trajectories {
                                             "r_hp_1Cone+1Cube", "r_hp_1Cone+1.5Cube"
                                         };
 
-        CommandEventMap.put("ScoreConeHigh", sequence(score(Position.HIGH_CONE, true)));
+        CommandEventMap.put("ScoreConeHigh", sequence(score(Position.HIGH_CONE_AUTO, true)));
 
         CommandEventMap.put("ScoreCubeHigh", score(Position.HIGH_CUBE, true));
 
@@ -68,7 +68,7 @@ public class Trajectories {
         
         CommandEventMap.put("PickupCube", pickup(Position.GROUND_CUBE, true));
 
-        CommandEventMap.put("Neutral", sequence(retract(Position.NEUTRAL)));
+        CommandEventMap.put("Neutral", sequence(stopManip(), retract(Position.NEUTRAL)));
         
         CommandEventMap.put("Balance", new ScheduleCommand(new CmdAutoBalance(true)));
         

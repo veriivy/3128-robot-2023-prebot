@@ -2,7 +2,8 @@ package frc.team3128;
 
 public class PositionConstants {
     public static enum Position {
-        HIGH_CONE(47, 0, true),
+        HIGH_CONE_AUTO(46.5, 0, true),
+        HIGH_CONE(48, -10, true),
         HIGH_CUBE(48.5, 35, false),
         MID_CONE(41, -31, true),
         MID_CUBE(25, 30, false),
@@ -13,8 +14,8 @@ public class PositionConstants {
         CHUTE_CONE(10, 55, true),
         CHUTE_CUBE(10, 45, false),
 
-        GROUND_CONE(11.5, -18, true),
-        GROUND_CUBE(1, 5, false),
+        GROUND_CONE(10.5, -18, true),
+        GROUND_CUBE(1, 10, false),
 
         NEUTRAL(3, 80, false);
 

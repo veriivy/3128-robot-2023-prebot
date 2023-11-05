@@ -66,9 +66,9 @@ public class CmdManager {
             setLeds(position.cone ? Colors.CONE : Colors.CUBE),
             runOnce(()-> ENABLE = runImmediately),
             waitUntil(()-> ENABLE),
-            parallel(
+            either(sequence(extend(position), intake(position.cone)), parallel(
                 extend(position),
-                intake(position.cone)
+                intake(position.cone)), ()-> DriverStation.isAutonomous()
             ),
             retract(Position.NEUTRAL),
             resetLeds()
