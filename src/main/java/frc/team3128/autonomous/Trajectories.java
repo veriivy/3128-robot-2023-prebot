@@ -49,7 +49,7 @@ public class Trajectories {
                                             //Mid
                                             "b_mid_1Cone+Climb","b_mid_1Cone+0.5Cube+Climb", "b_mid_1Cone+1Cube+Climb",
                                             //Hp
-                                            "b_hp_1Cone+1Cube",
+                                            "b_hp_1Cone+1Cube", "b_hp_1Cone+1.5Cube",
                                             
                                         //Red Autos
                                             //Cable
@@ -57,7 +57,7 @@ public class Trajectories {
                                             //Mid
                                             "r_mid_1Cone+Climb","r_mid_1Cone+0.5Cube+Climb","r_mid_1Cone+1Cube+Climb",
                                             //Hp
-                                            "r_hp_1Cone+1Cube"
+                                            "r_hp_1Cone+1Cube", "r_hp_1Cone+1.5Cube"
                                         };
 
         CommandEventMap.put("ScoreConeHigh", sequence(score(Position.HIGH_CONE, true)));
@@ -109,7 +109,7 @@ public class Trajectories {
             runOnce(()-> Leds.getInstance().defaultColor = Colors.AUTO),
             resetLeds(),
             resetGyro(DriverStation.getAlliance() == Alliance.Red ? 0 : 180),
-            runOnce(()-> Manipulator.getInstance().set(-0.4), Manipulator.getInstance()),
+            runOnce(()-> Manipulator.getInstance().set(-0.5), Manipulator.getInstance()),
             runOnce(()-> Manipulator.getInstance().isCone = true),
             resetAll(),
             retract(Position.NEUTRAL)

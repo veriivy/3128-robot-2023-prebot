@@ -13,8 +13,8 @@ public class PositionConstants {
         CHUTE_CONE(10, 55, true),
         CHUTE_CUBE(10, 45, false),
 
-        GROUND_CONE(10.5, -18, true),
-        GROUND_CUBE(2.5, 0, false),
+        GROUND_CONE(11.5, -18, true),
+        GROUND_CUBE(1, 5, false),
 
         NEUTRAL(3, 80, false);
 

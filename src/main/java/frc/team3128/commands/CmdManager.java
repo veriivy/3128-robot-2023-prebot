@@ -3,6 +3,7 @@ package frc.team3128.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -81,6 +82,11 @@ public class CmdManager {
     public static CommandBase extend(Position position) {
         return sequence (
             moveElevator(position),
+            runOnce(()-> {
+                if (DriverStation.isAutonomous()) {
+                    manipulator.stopRoller();
+                }
+            }),
             moveWrist(position)
         );
     }

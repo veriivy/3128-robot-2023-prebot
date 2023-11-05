@@ -35,7 +35,7 @@ public class Vision extends SubsystemBase {
         cameras = new HashMap<String,NAR_Camera>();
         // cameras.put(FRONT_LEFT.hostname, new NAR_Camera(FRONT_LEFT));
         // cameras.put(FRONT_RIGHT.hostname, new NAR_Camera(FRONT_RIGHT));
-        cameras.put(BACK_RIGHT.hostname, new NAR_Camera(BACK_RIGHT));
+        // cameras.put(BACK_RIGHT.hostname, new NAR_Camera(BACK_RIGHT));
         cameras.put(BACK_LEFT.hostname, new NAR_Camera(BACK_LEFT));
     }
 
@@ -124,8 +124,8 @@ public class Vision extends SubsystemBase {
     
     public void initShuffleboard() {
         NAR_Camera cam = cameras.get(BACK_LEFT.hostname);
-        NAR_Camera cam2 = cameras.get(BACK_RIGHT.hostname);
-        NAR_Shuffleboard.addData("VisionComp", "HasTarget", ()->cam.hasValidTarget() || cam2.hasValidTarget(), 0, 0);
+        // NAR_Camera cam2 = cameras.get(BACK_RIGHT.hostname);
+        // NAR_Shuffleboard.addData("VisionComp", "HasTarget", ()->cam.hasValidTarget() || cam2.hasValidTarget(), 0, 0);
 
         NAR_Shuffleboard.addData("Vision","HasTarget", ()->cam.hasValidTarget(), 0, 0);
         NAR_Shuffleboard.addData("Vision","Distance",()->cam.getDistance(),1,0);
@@ -136,12 +136,12 @@ public class Vision extends SubsystemBase {
         NAR_Shuffleboard.addData("Test", "Test", ()->SELECTED_GRID,0,0);
         NAR_Shuffleboard.addData("Test", "TESTING", ()->cam.getTest().toString(),0,1,3,1);
 
-        NAR_Shuffleboard.addData("Vision2","HasTarget", ()->cam2.hasValidTarget(), 0, 0);
-        NAR_Shuffleboard.addData("Vision2","Distance",()->cam2.getDistance(),1,0);
-        NAR_Shuffleboard.addData("Vision2","RawTarget",()->cam2.getTarget().toString(),0,1,4,1);
-        NAR_Shuffleboard.addData("Vision2", "Processed Target",()->cam2.getProcessedTarget().toString(),0,2,4,1);
-        NAR_Shuffleboard.addData("Vision2","EstimatedPose", ()-> cam2.getPos().toString(),0,3,4,1);
-        NAR_Shuffleboard.addData("Test", "TESTING", ()->cam2.getTest().toString(),0,2,3,1);
+        // NAR_Shuffleboard.addData("Vision2","HasTarget", ()->cam2.hasValidTarget(), 0, 0);
+        // NAR_Shuffleboard.addData("Vision2","Distance",()->cam2.getDistance(),1,0);
+        // NAR_Shuffleboard.addData("Vision2","RawTarget",()->cam2.getTarget().toString(),0,1,4,1);
+        // NAR_Shuffleboard.addData("Vision2", "Processed Target",()->cam2.getProcessedTarget().toString(),0,2,4,1);
+        // NAR_Shuffleboard.addData("Vision2","EstimatedPose", ()-> cam2.getPos().toString(),0,3,4,1);
+        // NAR_Shuffleboard.addData("Test", "TESTING", ()->cam2.getTest().toString(),0,2,3,1);
     }
 
     public void logCameraAll() {

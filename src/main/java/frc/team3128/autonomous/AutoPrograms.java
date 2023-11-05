@@ -30,7 +30,7 @@ public class AutoPrograms {
                                                 //Mid
                                                 "mid_1Cone+Climb","mid_1Cone+0.5Cube+Climb", "mid_1Cone+1Cube+Climb",
                                                 //Hp
-                                                "hp_1Cone+1Cube",
+                                                "hp_1Cone+1Cube", "hp_1Cone+1.5Cube",
 
                                                 "scuffedClimb"
                                             };
@@ -43,9 +43,10 @@ public class AutoPrograms {
 
         if (selectedAutoName == null) {
             autoCommand = score(Position.HIGH_CONE, true);
+            // autoCommand = none();
         }
 
-        else if (selectedAutoName == "scuffedClimb") {
+        else if (selectedAutoName.equals("scuffedClimb")) {
             autoCommand = sequence(
                 score(Position.HIGH_CONE, true),
                 new CmdAutoBalance(false)
