@@ -46,7 +46,7 @@ public class RobotContainer {
         buttonPad = new NAR_ButtonBoard(3);
         
         //uncomment line below to enable driving
-        CommandScheduler.getInstance().setDefaultCommand(swerve, new CmdSwerveDrive(controller::getLeftX,controller::getLeftY, controller::getRightX, true));
+        CommandScheduler.getInstance().setDefaultCommand(swerve, new CmdSwerveDrive(controller::getLeftX,controller::getLeftY, controller::getRightX, controller::getRightY, true));
         initDashboard();
         configureButtonBindings();
         

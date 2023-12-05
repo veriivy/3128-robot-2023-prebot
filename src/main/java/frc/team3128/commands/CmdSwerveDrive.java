@@ -25,6 +25,7 @@ public class CmdSwerveDrive extends CommandBase {
     private final DoubleSupplier xAxis;
     private final DoubleSupplier yAxis;
     private final DoubleSupplier zAxis;
+    private final DoubleSupplier rAxis;
 
     private final SlewRateLimiter accelLimiter;
 
@@ -32,13 +33,14 @@ public class CmdSwerveDrive extends CommandBase {
     public static boolean enabled = false;
     public static double rSetpoint;
     
-    public CmdSwerveDrive(DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier zAxis, boolean fieldRelative) {
+    public CmdSwerveDrive(DoubleSupplier xAxis, DoubleSupplier yAxis, DoubleSupplier zAxis, DoubleSupplier rAxis, boolean fieldRelative) {
         this.swerve = Swerve.getInstance();
         addRequirements(swerve);
 
         this.xAxis = xAxis;
         this.yAxis = yAxis;
         this.zAxis = zAxis;
+        this.rAxis = rAxis;
 
         accelLimiter = new SlewRateLimiter(maxAcceleration);
         rController = new PIDController(turnKP, 0, 0);
@@ -61,17 +63,26 @@ public class CmdSwerveDrive extends CommandBase {
         }
 
         final double zValue = -zAxis.getAsDouble();
-        
-        rotation = Math.copySign(Math.pow(zValue, 3/2), zValue) * maxAngularVelocity * swerve.throttle; 
+        final double rValue = rAxis.getAsDouble();
+        double angle = Units.radiansToDegrees(Math.atan2(zValue, rValue));
 
-        if (Math.abs(rotation) > maxAngularVelocity * swerve.throttle / 4.0) {
-            enabled = false;
-        }
+
+        // rotation = Math.copySign(Math.pow(zValue, 3/2), zValue) * maxAngularVelocity * swerve.throttle; 
+
+        // if (Math.abs(rotation) > maxAngularVelocity * swerve.throttle / 4.0) {
+        //     enabled = false;
+        // }
+        enabled = Math.pow(zValue, 2) + Math.pow(rValue, 2) <= .95;
         if (enabled) {
+            rSetpoint = (DriverStation.getAlliance() == Alliance.Red) ? angle + 90 : angle - 90;
+
             rotation = Units.degreesToRadians(rController.calculate(swerve.getGyroRotation2d().getDegrees(), rSetpoint));
             if (rController.atSetpoint()) {
                 rotation = 0;
             }
+        }
+        else {
+            rotation = 0;
         }
 
         Rotation2d driveAngle = translation.getAngle();
@@ -83,6 +94,9 @@ public class CmdSwerveDrive extends CommandBase {
         SmartDashboard.putNumber("xAXIS",xAxis.getAsDouble());
         swerve.drive(translation, rotation, swerve.fieldRelative);
 
+        NAR_Shuffleboard.addData("CmdSwerveDrive", "zValue", zValue, 0, 1);
+        NAR_Shuffleboard.addData("CmdSwerveDrive", "rValue", rValue, 0, 3);
+        NAR_Shuffleboard.addData("CmdSwerveDrive", "ObjectPresent", enabled, 1, 1);
     }
 
     public static void setTurnSetpoint() {
