@@ -381,9 +381,9 @@ public class Constants {
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.2375; //0.975; //1.05;
+        public static final double kS = 0.975; //0.975; //1.05;
         public static final double kV = 0;
-        public static final double kG = 0.4125;//0.975;
+        public static final double kG = 0.975;//0.975;
 
         public static final double MIN_DIST = 2; //Ask Charlie
         public static final double MAX_DIST = 55; //Ask Charlie
