@@ -66,8 +66,10 @@ public class Leds extends SubsystemBase {
                 m_candle.animate(new SingleFadeAnimation(color.r, color.g, color.b,LedConstants.WHITE_VALUE,LedConstants.HOLDING_SPEED,LedConstants.PIVOT_COUNT),0);
                 break;
             default :
-                resetAnimationSlot(2);
-                m_candle.setLEDs(color.r,color.g,color.b,LedConstants.WHITE_VALUE,LedConstants.STARTING_ID,LedConstants.PIVOT_COUNT);
+                m_candle.animate(new RainbowAnimation(LedConstants.RainbowAnimation.BRIGHTNESS,LedConstants.RainbowAnimation.SPEED,LedConstants.PIVOT_COUNT_FRONT,false,LedConstants.STARTING_ID),0);
+                m_candle.animate(new RainbowAnimation(LedConstants.RainbowAnimation.BRIGHTNESS,LedConstants.RainbowAnimation.SPEED,LedConstants.PIVOT_COUNT_BACK,true,LedConstants.STARTING_ID+LedConstants.PIVOT_COUNT_FRONT),1);
+                // resetAnimationSlot(2);
+                // m_candle.setLEDs(color.r,color.g,color.b,LedConstants.WHITE_VALUE,LedConstants.STARTING_ID,LedConstants.PIVOT_COUNT);
                 break;
         }
     }

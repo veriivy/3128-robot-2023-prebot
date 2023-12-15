@@ -339,13 +339,13 @@ public class Constants {
 
     public static class WristConstants {
 
-        public static final double kP = 0.4;
+        public static final double kP = 0.6;//0.4;
         public static final double kI = 0;
         public static final double kD = 0;
 
-        public static final double kS = 0.19;
+        public static final double kS = 0.21;//0.19;
         public static final double kV = 0;
-        public static final double kG = 0.2;
+        public static final double kG = 0.33;//0.2;
 
         public static final double GEAR_RATIO = 76.235; //72,3
 
@@ -377,7 +377,7 @@ public class Constants {
         public static final int ELV1_ID = 11;
         public static final int ELV2_ID = 12;
 
-        public static final double kP = 1;
+        public static final double kP = 2.4;
         public static final double kI = 0;
         public static final double kD = 0;
 
